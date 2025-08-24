@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Investra offers funding solutions and a learning application to empower clients with stock and share investment knowledge.">
+  <meta name="keywords" content="Investra, legal team, stock investment, funding solutions">
+  <meta name="author" content="Investra">
+  <link rel="stylesheet" href="style.css">
+  <title>Investra</title>
+  <style>
+    
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-content {
+      background: #1a1a1a;
+      max-width: 500px;
+      width: 90%;
+      padding: 2rem;
+      border-radius: 12px;
+      border: 2px solid #3EB489;
+      position: relative;
+      font-family: 'Montserrat', Arial, sans-serif;
+      color: white;
+      text-align: center;
+    }
+    .modal-content h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #00ff99;
+      margin: 0 0 1rem;
+    }
+    .modal-content p {
+      font-size: 0.9rem;
+      font-weight: 400;
+      opacity: 0.7;
+      line-height: 1.6;
+      margin: 0 0 1.5rem;
+    }
+    .modal-content .modal-btn {
+      background-color: transparent;
+      color: #d3d8d4;
+      border: 1px solid #d3d8d4;
+      padding: 0.5rem 1rem;
+      border-radius: 15px;
+      cursor: pointer;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .modal-content .modal-btn:hover, .modal-content .modal-btn:focus {
+      background-color: #3EB489;
+      color: white;
+    }
+    .modal-content .close-btn {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      background: none;
+      border: none;
+      color: #d3d8d4;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+    @media (max-width: 600px) {
+      .modal-content {
+        padding: 1.5rem;
+      }
+      .modal-content h2 {
+        font-size: 1.2rem;
+      }
+      .modal-content p {
+        font-size: 0.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="stars"></canvas>
+
+  <div class="header">
+    <div class="logo">Investra</div>
+    <div class="nav">
+      <a href="team.html">Team</a>
+      <a href="misson.html">Our Mission</a>
+      <a href="faq1.html">FAQ</a>
+    </div>
+    <div class="actions">
+      <button class="btn"><a href="login.html">User Login</a></button>
+      <button class="btn" id="learn-more-btn">Learn More</button>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <h1>Funding Your<br>Powering the Future</h1>
+    <p>Meta Capital offers flexible funding solutions, helping contractors scale projects without capital concerns</p>
+    <button class="demo-btn"><a href="register.html" style="text-decoration: none;">Get Started</a></button>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal" id="learn-more-modal">
+    <div class="modal-content">
+      <button class="close-btn" aria-label="Close modal">&times;</button>
+      <h2>Join Investra’s Learning Journey</h2>
+      <p>Unlock the world of wealth creation with Investra’s cutting-edge learning application! Register today to master the art of investing in stocks and shares. Our expert-led courses guide you through market strategies, risk management, and portfolio building, empowering you to make confident financial decisions. Whether you’re a beginner or a seasoned investor, our tailored lessons offer practical insights to grow your wealth. Sign up now and start your journey to financial freedom with Investra!</p>
+      <button class="modal-btn"><a href="register.html" style="text-decoration: none; color: inherit;">Register Now</a></button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    const learnMoreBtn = document.getElementById('learn-more-btn');
+    const modal = document.getElementById('learn-more-modal');
+    const closeBtn = document.querySelector('.close-btn');
+
+    learnMoreBtn.addEventListener('click', () => {
+      modal.style.display = 'flex';
+    });
+
+    closeBtn.addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+
+    // Close modal when clicking outside
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <title>Investra</title>
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+    body {
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(20, 20, 20, 0.9)), url('images/pexels-therato-9941418.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      padding: 3rem 2rem;
+      opacity: 0;
+      animation: fadeIn 1.5s ease forwards;
+    }
+      nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 40px;
+      }
+      .logo {
+        font-size: 29px;
+        margin-left: 100px;
+        color: #3EB489;
+        display: flex;
+        align-items: center;
+        font-weight: 600;
+        animation: logoFade 1.5s ease-in-out infinite alternate;
+      }
+      @keyframes logoFade {
+        from {
+          opacity: 0.8;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      .logo::before {
+        content: "⚮";
+        margin-right: 5px;
+        animation: spin 4s infinite linear;
+      }
+        @keyframes spin {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+      nav ul {
+          display: flex;
+          align-items: center;
+          list-style: none;
+          border: solid 1px #3EB489;
+          padding: 12px;
+          border-radius: 75px;
+        }
+        nav ul li a {
+          margin: 0 13px;
+          color: #d1d9d6;
+          text-decoration: none;
+          font-size: 15px;
+          opacity: 0.7;
+          transition: all 0.3s ease;
+          animation: navFadeIn 1s ease-out;
+        }
+        @keyframes navFadeIn {
+          from {
+            opacity: 0;
+            transform: translateX(-20px);
+          }
+          to {
+            opacity: 0.7;
+            transform: translateX(0);
+          }
+        }
+        nav ul li a:hover {
+          opacity: 1;
+          color: #3EB489;
+          transform: translateY(-2px);
+        }
+        .actions {
+          display: flex;
+          align-items: center;
+        }
+        .actions .btn {
+          padding: 8px 15px;
+          margin-left: 15px;
+          border: 1px solid #3EB489;
+          border-radius: 75px;
+          background-color: transparent;
+          color: #3EB489;
+          cursor: pointer;
+          font-size: 14px;
+          transition: all 0.3s ease;
+          animation: btnAppear 1s ease-out 0.5s backwards;
+        }
+        @keyframes btnAppear {
+          from {
+            opacity: 0;
+            transform: scale(0.8);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+        .actions .btn:hover {
+          background-color: rgba(0, 255, 153, 0.2);
+          border-radius: 75px;
+        }
+    .main {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      justify-content: center;
+      align-items: center;
+      padding-top: 3rem;
+    }
+    .content {
+ 
+ 
+      border-radius: 8px;
+      padding: 2rem;
+      max-width: 1200px;
+      width: 90%;
+      margin: 20px auto;
+    }
+    .content h1 {
+      color: #3EB489;
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    .content p {
+      color: #ccc;
+      margin-bottom: 1rem;
+      line-height: 1.6;
+      text-align: center;
+    }
+    .faq-section {
+      margin-top: 2rem;
+    }
+    .faq-section h2 {
+      color: #3EB489;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    .faq-item {
+      background: rgba(62, 180, 137, 0.1);
+      border: 1px solid #3EB489;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      padding: 15px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .faq-item:hover {
+      background: rgba(62, 180, 137, 0.2);
+    }
+    .faq-item h3 {
+      color: #3EB489;
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+    .faq-answer {
+      display: none;
+      color: #ccc;
+      line-height: 1.5;
+    }
+    .faq-item.active .faq-answer {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @media (max-width: 900px) {
+      .logo {
+        margin-left: 0;
+      }
+      nav {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      nav ul {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      .actions .btn {
+        margin-left: 0;
+      }
+      .content {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+   <nav>
+    <div class="logo">Investra</div>
+    <ul>
+      <li><a href="home.html">Home</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="Learning.html">Learning</a></li>
+      <li><a href="portfolio2.html">Virtual Stocks</a></li>
+      <li><a href="research.html">Services</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+      <li><a href="contact.html">Contact</a></li>
+       
+   
+    </ul>
+    <div class="actions">
+          <button class="btn"><a href="help.html" style="color: #3EB489;text-decoration: none;">Help Center</a></button>
+      <button class="btn"><a href="index.html" style="color: #3EB489;text-decoration: none;">Sign Out</a></button>
+   
+    </div>
+  </nav>
+  <div class="main">
+    <div class="content">
+      <h1>Frequently Asked Questions</h1>
+      <p>Find answers to common questions about using Investra and starting your stock market journey. Click on a question to view the answer.</p>
+      
+      <div class="faq-section">
+        <h2>FAQs</h2>
+        <div class="faq-item">
+          <h3>How do I sign up for Investra?</h3>
+          <div class="faq-answer">
+            <p>Click the "Sign Up" button on the homepage, enter your email and password, and follow the prompts to create a free account.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <h3>Are Investra courses free?</h3>
+          <div class="faq-answer">
+            <p>Yes, all courses are free and accessible after signing in. They cover topics like stock analysis, dividends, and market myths.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <h3>What is the Virtual Stocks feature?</h3>
+          <div class="faq-answer">
+            <p>Virtual Stocks lets you simulate trading with fake money. You can build a portfolio and practice investing without financial risk.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <h3>Do I need prior knowledge to use Investra?</h3>
+          <div class="faq-answer">
+            <p>No, Investra is designed for beginners. Our courses and glossary provide clear explanations to help you start learning.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <h3>How can I report a bug or issue?</h3>
+          <div class="faq-answer">
+            <p>Visit the Help Center and use the Feedback & Suggestions form to report bugs or contact support for assistance.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <h3>What are stocks?</h3>
+          <div class="faq-answer">
+            <p>Stocks are shares of ownership in a company. Buying stocks allows you to benefit from the company’s growth and profits.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <h3>How often are new courses added?</h3>
+          <div class="faq-answer">
+            <p>New courses are added periodically. Check the Announcements section in the Help Center for updates on new content.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <h3>Can I interact with other users on Investra?</h3>
+          <div class="faq-answer">
+            <p>Yes, the Community Forum in the Help Center allows you to ask questions, share tips, and discuss investing with others.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const faqItems = document.querySelectorAll('.faq-item');
+      faqItems.forEach(item => {
+        item.addEventListener('click', () => {
+          item.classList.toggle('active');
+        });
+      });
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.2 });
+
+      document.querySelectorAll('.content, .faq-item').forEach(element => {
+        observer.observe(element);
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How Stock Markets Work - Investra</title>
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+    body {
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(20, 20, 20, 0.9)), url('images/pexels-therato-9941418.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      padding: 3rem 2rem;
+      opacity: 0;
+      animation: fadeIn 1.5s ease forwards;
+    }
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 40px;
+    }
+    .logo {
+      font-size: 29px;
+      margin-left: 100px;
+      color: #3EB489;
+      display: flex;
+      align-items: center;
+      font-weight: 600;
+      animation: logoFade 1.5s ease-in-out infinite alternate;
+    }
+    @keyframes logoFade {
+      from { opacity: 0.8; }
+      to { opacity: 1; }
+    }
+    .logo::before {
+      content: "⚮";
+      margin-right: 5px;
+      animation: spin 4s infinite linear;
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    nav ul {
+      display: flex;
+      align-items: center;
+      list-style: none;
+      border: solid 1px #3EB489;
+      padding: 12px;
+      border-radius: 75px;
+    }
+    nav ul li a {
+      margin: 0 13px;
+      color: #d1d9d6;
+      text-decoration: none;
+      font-size: 15px;
+      opacity: 0.7;
+      transition: all 0.3s ease;
+      animation: navFadeIn 1s ease-out;
+    }
+    @keyframes navFadeIn {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 0.7; transform: translateX(0); }
+    }
+    nav ul li a:hover {
+      opacity: 1;
+      color: #3EB489;
+      transform: translateY(-2px);
+    }
+    .actions {
+      display: flex;
+      align-items: center;
+    }
+    .actions .btn {
+      padding: 8px 15px;
+      margin-left: 15px;
+      border: 1px solid #3EB489;
+      border-radius: 75px;
+      background-color: transparent;
+      color: #3EB489;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      animation: btnAppear 1s ease-out 0.5s backwards;
+    }
+    @keyframes btnAppear {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .actions .btn:hover {
+      background-color: rgba(0, 255, 153, 0.2);
+      border-radius: 75px;
+    }
+    .main {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      justify-content: center;
+      align-items: center;
+      padding-top: 3rem;
+    }
+    .course-container {
+      display: flex;
+      max-width: 1200px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.09);
+      backdrop-filter: blur(3px);
+      border: 1px solid #3EB489;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .course-image {
+      flex: 1;
+      max-width: 50%;
+    }
+    .course-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .course-details {
+      flex: 1;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .course-details h1 {
+      font-size: 2.5rem;
+      color: #3EB489;
+      margin-bottom: 1rem;
+    }
+    .course-info {
+      margin-bottom: 1rem;
+    }
+    .course-info p {
+      font-size: 1rem;
+      color: #ccc;
+      margin: 0.5rem 0;
+    }
+    .course-price {
+      background: #3EB489;
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
+    .course-btn {
+      padding: 0.8rem 1.5rem;
+      border: none;
+      background-color: #3EB489;
+      color: #000;
+      border-radius: 75px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .course-btn:hover {
+      background-color: #2e8b67;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .modal-content {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid #3EB489;
+      border-radius: 8px;
+      padding: 2rem;
+      text-align: center;
+      max-width: 800px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      color: #fff;
+    }
+    .modal-content h3 {
+      color: #3EB489;
+      margin-bottom: 1.5rem;
+      font-size: 2rem;
+    }
+    .modal-content p {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+      text-align: left;
+    }
+    .close-modal {
+      padding: 0.8rem 1.8rem;
+      border: none;
+      background-color: #3EB489;
+      color: #000;
+      border-radius: 75px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1.1rem;
+      margin-top: 1.5rem;
+    }
+    .close-modal:hover {
+      background-color: #2e8b67;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @media (max-width: 900px) {
+      .course-container {
+        flex-direction: column;
+      }
+      .course-image {
+        max-width: 100%;
+      }
+      nav {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      nav ul {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      .actions .btn {
+        margin-left: 0;
+      }
+      .whiteboard {
+        width: 100%;
+      }
+    }
+
+
+    .navbar {
+   background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 15px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      border-radius: 8px;
+      margin: 20px auto;
+      max-width: 800px;
+    }
+
+    .navbar button {
+      background-color: rgba(45, 91, 57, 0.7);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .navbar button:hover {
+      background-color: rgba(19, 54, 29, 0.8);
+      transform: translateY(-2px);
+    }
+
+    .content {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid #3EB489;
+      border-radius: 8px;
+      padding: 2rem;
+      max-width: 1200px;
+      width: 90%;
+      margin: 20px auto;
+      min-height: 300px;
+    }
+
+    .content h2 {
+      color: #3EB489;
+      margin-bottom: 1rem;
+    }
+
+    .content p {
+      color: #ccc;
+      margin-bottom: 1rem;
+    }
+
+    .quiz-options {
+      list-style: none;
+      padding: 0;
+    }
+
+    .quiz-options li {
+      margin-bottom: 10px;
+    }
+
+    .quiz-options button {
+      background-color: rgba(62, 180, 137, 0.3);
+      color: white;
+      border: 1px solid #3EB489;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s;
+      width: 100%;
+      text-align: left;
+    }
+
+    .quiz-options button:hover {
+      background-color: rgba(62, 180, 137, 0.5);
+    }
+
+    #result {
+      margin-top: 20px;
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    .correct {
+      background-color: rgba(0, 255, 0, 0.1);
+      color: #3EB489;
+    }
+
+    .incorrect {
+      background-color: rgba(255, 0, 0, 0.1);
+      color: #ff6b6b;
+    }
+    
+    .lesson-questions {
+      margin: 20px 0;
+      padding: 15px;
+      background: rgba(62, 180, 137, 0.1);
+      border-left: 3px solid #3EB489;
+    }
+    
+    .lesson-questions h3 {
+      color: #3EB489;
+      margin-bottom: 10px;
+    }
+    
+    .lesson-questions ol {
+      padding-left: 20px;
+    }
+    
+    .lesson-questions li {
+      margin-bottom: 8px;
+      color: #ccc;
+    }
+    
+    .lesson-quiz {
+      margin-top: 30px;
+      padding: 20px;
+      background: rgba(62, 180, 137, 0.15);
+      border-radius: 8px;
+    }
+    
+    .lesson-quiz h3 {
+      color: #3EB489;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+    
+    .question-answer {
+      margin-top: 15px;
+      padding: 15px;
+      background: rgba(62, 180, 137, 0.1);
+      border-radius: 5px;
+    }
+    
+    .question-answer h4 {
+      color: #3EB489;
+      margin-bottom: 8px;
+    }
+    
+    .question-answer p {
+      color: #ccc;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+   <nav>
+    <div class="logo">Investra</div>
+    <ul>
+      <li><a href="home.html">Home</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="Learning.html">Learning</a></li>
+      <li><a href="portfolio2.html">Virtual Stocks</a></li>
+      <li><a href="research.html">Services</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+      <li><a href="contact.html">Contact</a></li>
+       
+   
+    </ul>
+    <div class="actions">
+          <button class="btn"><a href="help.html" style="color: #3EB489;text-decoration: none;">Help Center</a></button>
+      <button class="btn"><a href="index.html" style="color: #3EB489;text-decoration: none;">Sign Out</a></button>
+   
+    </div>
+  </nav>
+
+  <div class="main">
+    <div class="course-container">
+      <div class="course-image">
+        <img src="images/ishant-mishra-osWDvhPlGLU-unsplash.jpg" alt="How Stock Markets Work" />
+      </div>
+      <div class="course-details">
+        <div>
+          <h1>How Stock Markets Work</h1>
+          <div class="course-info">
+            <p><strong>Time Spent:</strong> 2 Hours</p>
+            <p><strong>Lessons:</strong> 5</p>
+            <p><strong>Level:</strong> Beginner to Intermediate</p>
+            <p><strong>Format:</strong> Lessons & Interactive Exercises</p>
+            <p><strong>Language:</strong> English</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="navbar">
+      <button onclick="showLesson('basics')">Market Basics</button>
+      <button onclick="showLesson('exchanges')">Stock Exchanges</button>
+      <button onclick="showLesson('trading')">Trading Mechanisms</button>
+      <button onclick="showLesson('indicators')">Market Indicators</button>
+      <button onclick="showLesson('regulation')">Regulation</button>
+    </div>
+    
+    <div id="content" class="content">
+      <h2>Welcome to "How Stock Markets Work" Course!</h2>
+      <p>Please select a lesson from the buttons above to begin your learning journey about stock market mechanics.</p>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.2 });
+
+      document.querySelectorAll('.course-container, .faq-item, .whiteboard').forEach(element => {
+        observer.observe(element);
+      });
+
+      const faqItems = document.querySelectorAll('.faq-item');
+      faqItems.forEach(item => {
+        item.addEventListener('click', () => {
+          item.classList.toggle('active');
+        });
+      });
+    });
+
+    function showLesson(key) {
+      const lesson = lessons[key];
+      const contentDiv = document.getElementById('content');
+
+      let optionsHtml = lesson.quiz.options.map(opt => 
+        `<li><button onclick="checkAnswer('${opt.replace(/'/g, "\\'")}', '${lesson.quiz.answer.replace(/'/g, "\\'")}')">${opt}</button></li>`
+      ).join('');
+
+      let answersHtml = lesson.questions.map((q, i) => `
+        <div class="question-answer">
+          <h4>${q}</h4>
+          <p>${lesson.answers[i]}</p>
+        </div>
+      `).join('');
+
+      contentDiv.innerHTML = `
+        <h2>${lesson.title}</h2>
+        <p>${lesson.content}</p>
+        
+        <div class="lesson-questions">
+          <h3>Key Questions and Answers:</h3>
+          ${answersHtml}
+        </div>
+        
+        <button onclick="openModal('${lesson.notes.replace(/'/g, "\\'")}')" class="course-btn">Show Detailed Notes</button>
+        
+        <div class="lesson-quiz">
+          <h3>Quick Check</h3>
+          <p>${lesson.quiz.question}</p>
+          <ul class="quiz-options">${optionsHtml}</ul>
+          <div id="result"></div>
+        </div>
+      `;
+    }
+
+    function checkAnswer(selected, correct) {
+      const resultDiv = document.getElementById('result');
+      if (selected === correct) {
+        resultDiv.innerHTML = `<p class="correct">Correct! Well done.</p>`;
+      } else {
+        resultDiv.innerHTML = `<p class="incorrect">Incorrect. The correct answer is: ${correct}</p>`;
+      }
+    }
+
+    function openModal(notes) {
+      const modal = document.getElementById('notesModal');
+      document.getElementById('notesContent').innerHTML = `
+        <h3>Detailed Lesson Notes</h3>
+        <p>${notes}</p>
+      `;
+      modal.style.display = "flex";
+    }
+
+    function closeModal() {
+      document.getElementById('notesModal').style.display = "none";
+    }
+
+    const lessons = {
+      basics: {
+        title: "Lesson 1: Stock Market Basics",
+        content: "This lesson covers the fundamental concepts of how stock markets function as the backbone of modern economies.",
+        notes: "Stock markets are platforms where buyers and sellers trade shares of publicly listed companies. They serve two primary functions: 1) Provide companies access to capital through public offerings, and 2) Provide investors with liquidity - the ability to quickly buy or sell their investments. The market operates on the principles of supply and demand - when more investors want to buy a stock than sell it, the price rises, and vice versa. Market participants include retail investors, institutional investors (like mutual funds and pension funds), market makers (who provide liquidity), and speculators. The stock market is often considered a leading economic indicator because stock prices tend to rise when the economy is expected to grow and fall when economic contraction is anticipated.",
+        questions: [
+          "What are the two primary functions of stock markets?",
+          "How does supply and demand affect stock prices?",
+          "Who are the main participants in stock markets?",
+          "Why is the stock market considered an economic indicator?",
+          "What is the difference between primary and secondary markets?"
+        ],
+        answers: [
+          "The two primary functions are: 1) Providing companies access to capital through public offerings, and 2) Providing investors with liquidity to buy and sell investments.",
+          "When demand (buyers) exceeds supply (sellers), prices rise. When supply exceeds demand, prices fall. This constant balancing act determines stock prices moment to moment.",
+          "Main participants include retail investors, institutional investors (mutual funds, pension funds), market makers, speculators, and the companies themselves through IPOs and stock buybacks.",
+          "Stock markets are forward-looking - prices reflect investors' collective expectations about future economic conditions. Rising markets often predict economic growth, while falling markets may predict downturns.",
+          "The primary market is where companies first sell shares to the public (IPOs). The secondary market is where investors trade these shares among themselves on exchanges like NYSE or NASDAQ."
+        ],
+        quiz: {
+          question: "Where do companies first sell their shares to the public?",
+          options: ["Secondary market", "Primary market", "Over-the-counter market"],
+          answer: "Primary market"
+        }
+      },
+      exchanges: {
+        title: "Lesson 2: Stock Exchanges and Trading Venues",
+        content: "Learn about different types of stock exchanges and how they facilitate trading.",
+        notes: "Major stock exchanges include the New York Stock Exchange (NYSE), NASDAQ, London Stock Exchange (LSE), and Tokyo Stock Exchange. The NYSE is an auction-based market with a physical trading floor, while NASDAQ is entirely electronic. Exchanges provide: 1) Liquidity - ensuring buyers and sellers can easily trade, 2) Price discovery - establishing fair market prices through open trading, and 3) Transparency - making trade information publicly available. Alternative trading systems (ATS) like dark pools allow institutional investors to trade large blocks of shares anonymously to avoid market impact. Electronic Communication Networks (ECNs) are digital systems that match buy and sell orders automatically. The Over-the-Counter (OTC) market trades stocks not listed on major exchanges, often smaller or riskier companies.",
+        questions: [
+          "What are the key differences between NYSE and NASDAQ?",
+          "What three main functions do exchanges provide?",
+          "Why do institutional investors sometimes use dark pools?",
+          "How do Electronic Communication Networks (ECNs) work?",
+          "What types of stocks trade on OTC markets?"
+        ],
+        answers: [
+          "NYSE has a physical trading floor and uses a hybrid auction/electronic system with designated market makers. NASDAQ is fully electronic with multiple market makers competing.",
+          "Exchanges provide liquidity (easy trading), price discovery (fair pricing through open trading), and transparency (public trade information).",
+          "Institutional investors use dark pools to trade large blocks of shares anonymously, preventing market impact that could move prices against them.",
+          "ECNs are digital platforms that automatically match buy and sell orders without human intervention, often providing faster execution and lower costs.",
+          "OTC markets trade stocks not listed on major exchanges, including small companies, foreign stocks, and companies that don't meet exchange listing requirements."
+        ],
+        quiz: {
+          question: "Which exchange still maintains a physical trading floor?",
+          options: ["NASDAQ", "NYSE", "London Stock Exchange"],
+          answer: "NYSE"
+        }
+      },
+      trading: {
+        title: "Lesson 3: Trading Mechanisms and Order Types",
+        content: "Understand how trades are executed and the different types of orders you can place.",
+        notes: "Market orders execute immediately at the current market price, while limit orders only execute at a specified price or better. Stop orders become market orders when a specified price is reached, used to limit losses (stop-loss) or protect profits. The bid price is what buyers are willing to pay, the ask price is what sellers want, with the difference called the bid-ask spread (a cost to traders). Market makers profit from this spread while providing liquidity. Trading happens in microseconds today, with high-frequency trading (HFT) firms using algorithms to exploit tiny price differences. Settlement (the actual exchange of money for shares) typically occurs two business days after the trade (T+2). After-hours trading allows trading outside normal market hours but with less liquidity and wider spreads.",
+        questions: [
+          "What's the difference between market and limit orders?",
+          "How does a stop-loss order protect investors?",
+          "What is the bid-ask spread and who profits from it?",
+          "How has technology changed trading execution?",
+          "What does T+2 settlement mean?"
+        ],
+        answers: [
+          "Market orders execute immediately at current prices, while limit orders only execute at a specified price or better, giving price control but no execution guarantee.",
+          "A stop-loss automatically sells if the price falls to a specified level, limiting potential losses without requiring constant monitoring.",
+          "The bid-ask spread is the difference between what buyers will pay (bid) and sellers will accept (ask). Market makers profit from this spread as compensation for providing liquidity.",
+          "Technology enables microsecond executions, algorithmic trading, and electronic matching systems that have largely replaced human floor traders.",
+          "T+2 means trades settle (money and shares exchange hands) two business days after the trade date, down from T+3 historically."
+        ],
+        quiz: {
+          question: "Which order type guarantees execution but not price?",
+          options: ["Limit order", "Market order", "Stop order"],
+          answer: "Market order"
+        }
+      },
+      indicators: {
+        title: "Lesson 4: Market Indicators and Indexes",
+        content: "Learn how to interpret market indicators and what major indexes represent.",
+        notes: "Market indexes track the performance of groups of stocks to represent the overall market or specific sectors. The S&P 500 tracks 500 large U.S. companies and is considered the best representation of the U.S. market. The Dow Jones Industrial Average (DJIA) tracks 30 large companies but is price-weighted (less representative). NASDAQ Composite focuses on technology stocks. Other important indexes include the Russell 2000 (small-cap stocks) and MSCI indices (international markets). Index funds and ETFs allow investors to buy entire indexes. Market indicators include: 1) Advance-decline line (shows market breadth), 2) VIX (measures expected volatility), 3) Trading volume (shows activity level), and 4) Moving averages (show trends). Understanding these helps investors gauge market health and sentiment.",
+        questions: [
+          "Why is the S&P 500 considered more representative than the DJIA?",
+          "What types of companies does the NASDAQ Composite emphasize?",
+          "How do index funds relate to market indexes?",
+          "What does the VIX measure and why is it important?",
+          "How can moving averages help investors?"
+        ],
+        answers: [
+          "The S&P 500 includes 500 companies across all sectors weighted by market cap, while the DJIA only has 30 price-weighted stocks, making it less representative.",
+          "The NASDAQ Composite emphasizes technology and growth-oriented companies, though it includes all stocks listed on NASDAQ.",
+          "Index funds aim to replicate the performance of specific market indexes by holding all (or a representative sample) of the index's stocks in the same proportions.",
+          "The VIX (Volatility Index) measures expected 30-day volatility in the S&P 500. A high VIX suggests fear and uncertainty, while a low VIX suggests complacency.",
+          "Moving averages smooth price data to identify trends. Crossings of short-term and long-term averages can signal trend changes (e.g., 50-day crossing 200-day)."
+        ],
+        quiz: {
+          question: "Which index is most representative of the U.S. stock market?",
+          options: ["Dow Jones Industrial Average", "NASDAQ Composite", "S&P 500"],
+          answer: "S&P 500"
+        }
+      },
+      regulation: {
+        title: "Lesson 5: Market Regulation and Investor Protection",
+        content: "Understand the regulatory framework that keeps markets fair and protects investors.",
+        notes: "The Securities and Exchange Commission (SEC) is the primary U.S. regulator enforcing securities laws to protect investors and maintain fair markets. Key regulations include: 1) Disclosure requirements (companies must provide accurate financial information), 2) Insider trading prohibitions (trading on non-public information is illegal), 3) Market manipulation rules (preventing artificial price movements), and 4) Broker-dealer oversight (ensuring proper conduct). The Financial Industry Regulatory Authority (FINRA) regulates brokers. The Securities Investor Protection Corporation (SIPC) protects against broker failures (not market losses). Circuit breakers temporarily halt trading during extreme volatility to prevent panic selling. Recent regulations address high-frequency trading and dark pools. International markets have their own regulators like the FCA in the UK.",
+        questions: [
+          "What are the SEC's main responsibilities?",
+          "Why is insider trading prohibited?",
+          "How does SIPC protect investors?",
+          "What is the purpose of trading circuit breakers?",
+          "What recent trading practices have regulators focused on?"
+        ],
+        answers: [
+          "The SEC enforces securities laws, ensures proper disclosure, prevents fraud, oversees securities professionals, and maintains fair, orderly, and efficient markets.",
+          "Insider trading undermines market fairness by allowing those with non-public information to profit at the expense of other investors who lack that advantage.",
+          "SIPC protects against broker failures (up to $500,000 per account), but doesn't protect against market losses or fraud by the companies themselves.",
+          "Circuit breakers pause trading during extreme volatility to give investors time to assess information and prevent panic-driven market crashes.",
+          "Regulators have focused on high-frequency trading practices, dark pool transparency, and ensuring technology doesn't create unfair advantages."
+        ],
+        quiz: {
+          question: "Which organization protects against broker failures?",
+          options: ["SEC", "FINRA", "SIPC"],
+          answer: "SIPC"
+        }
+      }
+    };
+
+    // Show first lesson by default
+    showLesson('basics');
+  </script>
+
+  <!-- Notes Modal -->
+  <div id="notesModal" class="modal">
+    <div class="modal-content">
+      <div id="notesContent"></div>
+      <button class="close-modal" onclick="closeModal()">Close Notes</button>
+    </div>
+  </div>
+</body>
+</html>

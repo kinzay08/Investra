@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Investra</title>
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+    body {
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(20, 20, 20, 0.8)), url('images/pexels-therato-9941418.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      padding: 3rem 2rem;
+      opacity: 0;
+      animation: fadeIn 1.5s ease forwards;
+    }
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 40px;
+    }
+    .logo {
+      font-size: 29px;
+      margin-left: 100px;
+      color: #3EB489;
+      display: flex;
+      align-items: center;
+      font-weight: 600;
+      animation: logoFade 1.5s ease-in-out infinite alternate;
+    }
+    @keyframes logoFade {
+      from { opacity: 0.8; }
+      to { opacity: 1; }
+    }
+    .logo::before {
+      content: "⚮";
+      margin-right: 5px;
+      animation: spin 4s infinite linear;
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    nav ul {
+      display: flex;
+      align-items: center;
+      list-style: none;
+      border: solid 1px #3EB489;
+      padding: 12px;
+      border-radius: 75px;
+    }
+    nav ul li a {
+      margin: 0 13px;
+      color: #d1d9d6;
+      text-decoration: none;
+      font-size: 15px;
+      opacity: 0.7;
+      transition: all 0.3s ease;
+      animation: navFadeIn 1s ease-out;
+    }
+    @keyframes navFadeIn {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 0.7; transform: translateX(0); }
+    }
+    nav ul li a:hover {
+      opacity: 1;
+      color: #3EB489;
+      transform: translateY(-2px);
+    }
+    .actions {
+      display: flex;
+      align-items: center;
+    }
+    .actions .btn {
+      padding: 8px 15px;
+      margin-left: 15px;
+      border: 1px solid #3EB489;
+      border-radius: 75px;
+      background-color: transparent;
+      color: #3EB489;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      animation: btnAppear 1s ease-out 0.5s backwards;
+    }
+    @keyframes btnAppear {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .actions .btn:hover {
+      background-color: rgba(0, 255, 153, 0.2);
+      border-radius: 75px;
+    }
+    .main {
+      display: flex;
+      flex-direction: column;
+      gap: 4rem;
+      justify-content: center;
+      align-items: center;
+      padding-top: 3rem;
+    }
+    .main-content {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      max-width: 1200px;
+      padding: 0 20px;
+      position: relative;
+      z-index: 1;
+      animation: fadeIn 1s ease-out;
+    }
+    .main .left {
+      max-width: 80%;
+      opacity: 0;
+      animation: slideInLeft 1s ease forwards 0.5s;
+      text-align: center;
+    }
+    .main .left h1 {
+      font-size: 3rem;
+      line-height: 1.3;
+      background: linear-gradient(to right, #ccc, #fff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .main .left p {
+      margin: 1.2rem 0;
+      color: #bbb;
+      font-size: 1rem;
+    }
+    .main .left .btns {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+    }
+    .btns button {
+      padding: 0.8rem 1.5rem;
+      border-radius: 8px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .btns .get-started {
+      background-color: #3EB489;
+      border-radius: 75px;
+      color: #000;
+    }
+    .btns .get-started:hover {
+      background-color: #2e8b67;
+
+    }
+    .btns .our-services {
+      background-color: transparent;
+      color: #fff;
+      border: 2px solid #3EB489;
+    }
+    .btns .our-services:hover {
+      background-color: #3EB489;
+    }
+    #learning-cards {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.8rem;
+      color: #fff;
+      animation: fadeInUp 1s ease forwards 1s;
+    }
+    .learning-card {
+      background:rgba(255, 255, 255, 0.09);
+      backdrop-filter: blur(3px);
+      border-radius: 12px;
+      padding: 1.5rem;
+    border: 1px solid#3EB489;
+   
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+  
+    }
+
+    .learning-card img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      transition: transform 0.3s ease;
+    }
+  
+    .learning-card h3 {
+      margin-bottom: 0.8rem;
+      color: #3EB489;
+      font-size: 1.4rem;
+      text-align: center;
+    }
+    .learning-card p {
+      font-size: 1rem;
+      color: #ccc;
+      line-height: 1.5;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    .learning-card .star-rating {
+      font-size: 1rem;
+      color: #FFD700;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    .learning-card .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 1rem;
+      border: 2px solid #3EB489;
+    }
+    .learning-card .card-btn {
+      padding: 8px 15px;
+      border: 1px solid #3EB489;
+      border-radius: 75px;
+      background-color: transparent;
+      color: rgb(5, 59, 43);
+      font-weight: 600;
+      cursor: pointer;
+      background-color: #3EB489;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+    .learning-card .card-btn:hover {
+      background-color: rgba(21, 241, 153, 0.2);
+      color: #3EB489;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slideInLeft {
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    @media (max-width: 900px) {
+      .main-content {
+        flex-direction: column;
+        align-items: center;
+      }
+      .main .left {
+        max-width: 100%;
+      }
+      nav {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      nav ul {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      .actions .btn {
+        margin-left: 0;
+      }
+    }
+       footer {
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(20, 20, 20, 0.8));
+      color: #ccc;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+       width: 100%;
+      padding: 2rem 0;
+      size: cover;
+    }
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      flex-wrap: wrap;
+      gap: 2rem;
+      padding: 0 2rem;
+    }
+    .footer-column {
+      flex: 1;
+      min-width: 150px;
+    }
+    .footer-column h4 {
+      color: #fff;
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+    }
+    .footer-column ul {
+      list-style: none;
+    }
+    .footer-column ul li {
+      margin-bottom: 0.5rem;
+    }
+    .footer-column ul li a {
+      color: #ccc;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.3s ease;
+    }
+    .footer-column ul li a:hover {
+      color: #3EB489;
+    }
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 2rem auto 0;
+      padding: 1rem 2rem 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-bottom-links a {
+      color: #ccc;
+      text-decoration: none;
+      margin-right: 1rem;
+      font-size: 0.9rem;
+      transition: color 0.3s ease;
+    }
+    .footer-bottom-links a:hover {
+      color: #3EB489;
+    }
+    .social-icons a {
+      color: #ccc;
+      font-size: 1.2rem;
+      margin-left: 1rem;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .social-icons a:hover {
+      color: #3EB489;
+    }
+    @media (max-width: 900px) {
+      .footer-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+      }
+      .social-icons {
+        margin-top: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="logo">Investra</div>
+    <ul>
+      <li><a href="home.html">Home</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="Learning.html">Learning</a></li>
+      <li><a href="portfolio2.html">Virtual Stocks</a></li>
+      <li><a href="research.html">Services</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+      <li><a href="contact.html">Contact</a></li>
+       
+   
+    </ul>
+    <div class="actions">
+          <button class="btn"><a href="help.html" style="color: #3EB489;text-decoration: none;">Help Center</a></button>
+      <button class="btn"><a href="index.html" style="color: #3EB489;text-decoration: none;">Sign Out</a></button>
+   
+    </div>
+  </nav>
+
+  <div class="main">
+    <div class="main-content">
+      <div class="left">
+        <h1>Enhance Your Learning by Exploring</h1>
+        <p>Unlock your potential with every lesson. Whether you're mastering the basics or diving into advanced topics, consistent learning opens new doors. Stay curious, challenge yourself, and build skills that shape your future. Growth begins with the first step—start learning today.
+
+</p>
+
+      
+      </div>
+    </div>
+
+<section id="learning-cards" aria-label="Learning Cards">
+  <div class="learning-card">
+    <img src="images/sajad-nori-i09DzZkwnuY-unsplash.jpg" alt="Stocks and Shares" />
+    <h3>Stocks & Shares</h3>
+    <p>Learn how to invest in the stock market, evaluate company performance, and build a diversified portfolio.</p>
+    <div class="star-rating">⭐⭐⭐⭐⭐</div>
+    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=40&h=40&q=80" alt="User Avatar" class="avatar" />
+    <button class="card-btn"><a href="course1.html" style="color: rgb(18, 44, 27); text-decoration: none;">Learn More</a></button>
+  </div>
+
+  <div class="learning-card">
+    <img src="images/ishant-mishra-osWDvhPlGLU-unsplash.jpg" alt="Cryptocurrency Portfolio" />
+    <h3>How the Stock Market Works</h3>
+    <p>What is the stock market?
+   Stock exchanges (NYSE, NASDAQ, etc.)
+ How stock prices are determined (supply & demand).</p>
+    <div class="star-rating">⭐⭐⭐⭐</div>
+    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=40&h=40&q=80" alt="User Avatar" class="avatar" />
+    <button class="card-btn"><a href="course2.html" style="color: rgb(18, 44, 27); text-decoration: none;">Learn More</a></button>
+  </div>
+
+  <div class="learning-card">
+    <img src="images/jamie-street-VP4WmibxvcY-unsplash.jpg" alt="Mutual Funds" />
+    <h3>How to Invest in Stocks</h3>
+    <p>Opening a brokerage account
+        Market orders vs. limit orders
+        Long-term vs. short-term investing</p>
+    <div class="star-rating">⭐⭐⭐⭐⭐</div>
+    <img src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?auto=format&fit=crop&w=40&h=40&q=80" alt="User Avatar" class="avatar" />
+    <button class="card-btn"><a href="course3.html" style="color: rgb(18, 44, 27); text-decoration: none;">Learn More</a></button>
+  </div>
+
+  <div class="learning-card">
+    <img src="images/tyler-prahm-lmV3gJSAgbo-unsplash.jpg" alt="Bonds and Treasury Bills" />
+    <h3>Analyzing Stocks</h3>
+    <p>Fundamental analysis (P/E ratio, EPS, etc.)
+
+Technical analysis (charts, trends)
+
+Understanding company financials</p>
+    <div class="star-rating">⭐⭐⭐⭐⭐</div>
+    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=40&h=40&q=80" alt="User Avatar" class="avatar" />
+    <button class="card-btn"><a href="course4.html" style="color: rgb(18, 44, 27); text-decoration: none;">Learn More</a></button>
+  </div>
+
+  <div class="learning-card">
+    <img src="images/anne-nygard-tcJ6sJTtTWI-unsplash.jpg" alt="Credit Scores" />
+    <h3>Dividends and Earnings</h3>
+    <p>What are dividends?
+Dividend vs. growth stocks
+Earnings reports
+Dividend yield
+Reinvesting dividends</p>
+    <div class="star-rating">⭐⭐⭐⭐⭐</div>
+    <img src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?auto=format&fit=crop&w=40&h=40&q=80" alt="User Avatar" class="avatar" />
+    <button class="card-btn"><a href="course5.html" style="color: rgb(18, 44, 27); text-decoration: none;">Learn More</a></button>
+  </div>
+
+  <div class="learning-card">
+    <img src="images/adam-smigielski-K5mPtONmpHM-unsplash.jpg" alt="Real Estate Investments" />
+    <h3>IPOs and How Companies Get Liste</h3>
+    <p>What an IPO is
+Why companies go public
+Process of listing on a stock exchange</p>
+    <div class="star-rating">⭐⭐⭐⭐⭐</div>
+    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=40&h=40&q=80" alt="User Avatar" class="avatar" />
+    <button class="card-btn"><a href="course6.html" style="color: rgb(18, 44, 27);text-decoration: none;">Learn More</a></button>
+  </div>
+
+  <div class="learning-card">
+    <img src="images/totos-adam-3r8rcSy0Ffg-unsplash.jpg" alt="Fixed Deposits" />
+    <h3>Stock Market Indicators</h3>
+    <p>What are market indexes
+What do they represent
+How they affect investment mood</p>
+    <div class="star-rating">⭐⭐⭐⭐⭐</div>
+    <img src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?auto=format&fit=crop&w=40&h=40&q=80" alt="User Avatar" class="avatar" />
+    <button class="card-btn"><a href="course7.html" style="color: rgb(18, 44, 27); text-decoration: none;">Learn More</a></button>
+  </div>
+
+  <div class="learning-card">
+    <img src="images/asa-e-k-13EsoonqDkY-unsplash.jpg" alt="Retirement Plans" />
+    <h3>Risks and Rewards in Stock Market</h3>
+    <p>Risk vs reward principle,
+Market ups and downs , 
+Safe vs aggressive stocks</p>
+    <div class="star-rating">⭐⭐⭐⭐⭐</div>
+    <img src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?auto=format&fit=crop&w=40&h=40&q=80" alt="User Avatar" class="avatar" />
+      <button class="card-btn"><a href="course8.html" style="color: rgb(18, 44, 27); text-decoration: none;">Learn More</a></button>
+  </div>
+
+  <div class="learning-card">
+    <img src="images/maxim-hopman-fiXLQXAhCfk-unsplash.jpg" alt="Gold and Precious Metals" />
+    <h3> Stock Market Myths</h3>
+    <p>“You need to be rich to invest” 
+
+“The stock market is gambling” </p>
+    <div class="star-rating">⭐⭐⭐⭐⭐</div>
+    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=40&h=40&q=80" alt="User Avatar" class="avatar" />
+    <button class="card-btn"><a href="course9.html" style="color: rgb(18, 44, 27); text-decoration: none;">Learn More</a></button>
+  </div>
+</section>
+
+  </div>
+  <footer>
+    <div class="footer-content">
+      <div class="footer-column">
+        <h4>About us</h4>
+        <ul>
+          <li><a href="#">Team</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Socials</a></li>
+          <li><a href="#">Activity</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Platform</h4>
+        <ul>
+          <li><a href="#">Pricing</a></li>
+          <li><a href="#">Solutions</a></li>
+          <li><a href="#">Plans</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Blog</h4>
+        <ul>
+          <li><a href="#">Use Cases</a></li>
+          <li><a href="#">Testimonials</a></li>
+          <li><a href="#">Insights</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Careers</h4>
+        <ul>
+          <li><a href="#">Team</a></li>
+          <li><a href="#">Activity</a></li>
+          <li><a href="#">Socials</a></li>
+          <li><a href="#">About us</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Testimonials</h4>
+        <ul>
+          <li><a href="#">Use Cases</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Insights</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Terms & Conditions</h4>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Cookies</a></li>
+          <li><a href="#">Refunds</a></li>
+          <li><a href="#">License</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-bottom-links">
+        <a href="#">Terms & Conditions</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Cookies</a>
+        <a href="#">Refunds</a>
+        <a href="#">License</a>
+      </div>
+      <div class="social-icons">
+        <!-- <a href="#">📘</a>
+        <a href="#">📷</a>
+        <a href="#">🔗</a>
+        <a href="#">🐦</a>
+        <a href="#">📺</a> -->
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.2 });
+
+      document.querySelectorAll('.learning-card').forEach(element => {
+        observer.observe(element);
+      });
+    });
+  </script>
+</body>
+</html>

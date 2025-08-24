@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+ <title>Investra</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+<style>
+/* Reset and base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(20, 20, 20, 0.9)),
+    url("images/pexels-therato-9941418.jpg") no-repeat center center fixed;
+  background-size: cover;
+  color: #fff;
+  padding: 3rem 2rem;
+  min-height: 100vh;
+}
+
+/* Navbar */
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+
+.logo {
+  font-size: 29px;
+  margin-left: 100px;
+  color: #3EB489;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  animation: logoFade 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes logoFade {
+  from { opacity: 0.8; }
+  to { opacity: 1; }
+}
+
+.logo::before {
+  content: "⚮";
+  margin-right: 5px;
+  animation: spin 4s infinite linear;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+nav ul {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  flex-wrap: wrap;
+  border: solid 1px  #3EB489;
+  padding: 12px;
+  border-radius: 75px;
+}
+
+nav ul li a {
+  margin: 0 13px;
+  color: #d1d9d6;
+  text-decoration: none;
+  font-size: 15px;
+  opacity: 0.7;
+  transition: all 0.3s ease;
+  animation: navFadeIn 1s ease-out;
+}
+
+@keyframes navFadeIn {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 0.7; transform: translateX(0); }
+}
+
+nav ul li a:hover {
+  opacity: 1;
+  color: #3EB489;
+  transform: translateY(-2px);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.actions .btn {
+  padding: 8px 15px;
+  border: 1px solid #3EB489;
+  border-radius: 75px;
+  background-color: transparent;
+  color: #3EB489;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  animation: btnAppear 1s ease-out 0.5s backwards;
+}
+
+@keyframes btnAppear {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.actions .btn:hover {
+  background-color: rgba(0, 255, 153, 0.2);
+}
+
+@media (max-width: 768px) {
+  nav {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0 1rem;
+  }
+  .logo {
+    margin-left: 0;
+    margin-bottom: 10px;
+  }
+  nav ul {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .actions {
+    justify-content: center;
+  }
+}
+
+/* Container layout */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Align tops */
+  gap: 40px;
+  max-width: 1000px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+
+/* Form and left section styling */
+.form-section, 
+.left-section {
+  flex: 1;
+  min-width: 300px;
+  padding: 0px;
+  border-radius: 15px;
+  box-sizing: border-box;
+}
+
+/* Left section layout */
+.left-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+/* Headings */
+h1 {
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 2rem;
+  color:#3EB489;
+}
+
+/* Form styles */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+input, textarea {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(4px);
+  border: 1.5px solid #3EB48988;
+  border-radius: 12px;
+  padding: 12px 15px;
+  font-size: 16px;
+  color: #e0e0e0;
+  outline: none;
+  transition: border-color 0.3s ease, background 0.3s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+input::placeholder, textarea::placeholder {
+  color: #b0d6c3cc;
+  font-style: italic;
+}
+
+input:focus, textarea:focus {
+  background: rgba(62, 180, 137, 0.3);
+  border-color: #3EB489;
+}
+
+textarea {
+  min-height: 180px;
+  resize: vertical;
+}
+
+/* Button */
+button {
+  background-color: transparent;
+  border: 1.5px solid #3EB489;
+  padding: 14px 25px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #3EB489;
+  border-radius: 75px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+button:hover {
+  background-color: #3EB489;
+  color: #121212;
+}
+
+/* Response message */
+#responseMessage {
+  text-align: center;
+  margin-top: 15px;
+  font-weight: 600;
+  color: #3EB489;
+}
+
+/* Support boxes container */
+.support-boxes {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  padding: 0;
+  height: 100%;
+}
+
+/* Individual support box */
+.support-box {
+  background: rgba(62, 180, 137, 0.15);
+  border: 1.5px solid #3EB489;
+  border-radius: 15px;
+  padding: 25px 20px;
+  color: #d1d9d6;
+  text-align: center;
+  box-shadow: 0 0 10px #3EB48955;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+
+.support-box i {
+  font-size: 36px;
+  color: #3EB489;
+  margin-bottom: 12px;
+}
+
+.support-box h3 {
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.support-box p {
+  font-size: 15px;
+  line-height: 1.4;
+  color: #c1cdc7;
+}
+
+.support-box a {
+  color: #76e5b3;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.support-box a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    padding: 0 1rem;
+  }
+  .form-section, 
+  .left-section {
+    padding: 20px 0;
+  }
+}
+
+/* Modal background */
+.modal {
+  display: none; /* hidden by default */
+  position: fixed;
+  z-index: 9999; /* top layer */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  animation: fadeInModal 0.4s ease forwards;
+}
+
+/* Modal content box */
+.modal-content {
+  background: #121212;
+  color: #3EB489;
+  margin: 15% auto;
+  padding: 20px 30px;
+  border-radius: 15px;
+  max-width: 400px;
+  text-align: center;
+  font-size: 18px;
+  box-shadow: 0 0 20px #3EB489aa;
+  position: relative;
+  font-weight: 600;
+}
+
+/* Close button */
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  color: #3EB489;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.modal-close:hover {
+  color: #6cf3bd;
+}
+
+@keyframes fadeInModal {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+</style>
+</head>
+<body>
+
+   <nav>
+    <div class="logo">Investra</div>
+    <ul>
+      <li><a href="home.html">Home</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="Learning.html">Learning</a></li>
+      <li><a href="portfolio2.html">Virtual Stocks</a></li>
+      <li><a href="research.html">Services</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+      <li><a href="contact.html">Contact</a></li>
+       
+   
+    </ul>
+    <div class="actions">
+          <button class="btn"><a href="help.html" style="color: #3EB489;text-decoration: none;">Help Center</a></button>
+      <button class="btn"><a href="index.html" style="color: #3EB489;text-decoration: none;">Sign Out</a></button>
+   
+    </div>
+  </nav>
+<div class="container">
+  <section class="form-section">
+    <h1>Contact Us</h1>
+    <form id="contactForm" onsubmit="submitForm(event)">
+      <input type="text" name="name" placeholder="Your Name" required />
+      <input type="email" name="email" placeholder="Your Email" required />
+      <input type="text" name="subject" placeholder="Subject" required />
+      <textarea name="message" placeholder="Message" required></textarea>
+      <button type="submit">Send Message</button>
+      <div id="responseMessage"></div>
+    </form>
+  </section>
+
+<div class="left-section">
+  <div class="support-boxes">
+    <div class="support-box">
+      <i class="fas fa-headset"></i>
+      <h3>User Support System</h3>
+      <p>We’re here to help you 24/7 with any issues.</p>
+    </div>
+    <div class="support-box">
+      <i class="fas fa-comments"></i>
+      <h3>Talk with Us</h3>
+      <p>Chat live or leave a message anytime.</p>
+    </div>
+    <div class="support-box">
+      <i class="fas fa-envelope"></i>
+      <h3>More Queries?</h3>
+      <p>Email us at <a href="mailto:support@investra.com">support@investra.com</a></p>
+    </div>
+  </div>
+</div>
+</div>
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span id="modal-close" class="modal-close">&times;</span>
+    <p id="modal-message"></p>
+  </div>
+</div>
+<script>
+function submitForm(event) {
+  event.preventDefault();
+  const form = event.target;
+  const modal = document.getElementById('modal');
+  const modalMessage = document.getElementById('modal-message');
+  const modalClose = document.getElementById('modal-close');
+
+  const data = {
+    name: form.name.value,
+    email: form.email.value,
+    subject: form.subject.value,
+    message: form.message.value,
+  };
+
+  fetch("http://localhost:8081/api/contact", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  })
+  .then(res => res.text())
+  .then(text => {
+    modalMessage.textContent = text;
+    modal.style.display = 'block';
+    form.reset();
+  })
+  .catch(err => {
+    modalMessage.textContent = "Failed to send message. Please try again.";
+    modal.style.display = 'block';
+    console.error(err);
+  });
+
+  // Close modal when X is clicked
+  modalClose.onclick = function () {
+    modal.style.display = 'none';
+  };
+
+  // Also close modal if user clicks outside modal content
+  window.onclick = function (event) {
+    if (event.target == modal) {
+      modal.style.display = 'none';
+    }
+  };
+}
+
+</script>
+
+</body>
+</html>

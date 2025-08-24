@@ -1,0 +1,212 @@
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(rgba(0, 10, 10, 0.4), rgba(0, 15, 15, 0.7)),
+        url('images/alec-cooks-AWmFldiADCo-unsplash\ \(1\).jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #d1d9d6;
+      overflow-x: hidden;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      animation: bgPulse 10s infinite alternate;
+    }
+
+    @keyframes bgPulse {
+      from { filter: brightness(0.95); }
+      to { filter: brightness(1.05); }
+    }
+
+    #stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+
+     .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 60px;
+    padding-left: 100px; /* <-- Add this to nudge content right */
+    position: relative;
+    z-index: 2;
+    animation: slideDown 0.8s ease-out;
+}
+
+    @keyframes slideDown {
+      from { transform: translateY(-100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .logo {
+      font-size: 30px;
+      color: #3EB489;
+      display: flex;
+      align-items: center;
+      font-weight: 600;
+      animation: logoFade 1.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes logoFade {
+      from { opacity: 0.8; }
+      to { opacity: 1; }
+    }
+
+    .logo::before {
+      content: "⚮";
+      margin-right: 5px;
+      animation: spin 4s infinite linear;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav a {
+      margin: 0 15px;
+      color: #d1d9d6;
+      text-decoration: none;
+      font-size: 16px;
+      opacity: 0.7;
+      transition: all 0.3s ease;
+      animation: navFadeIn 1s ease-out;
+    }
+
+    @keyframes navFadeIn {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 0.7; transform: translateX(0); }
+    }
+
+    .nav a:hover {
+      opacity: 1;
+      color: #3EB489;
+      transform: translateY(-2px);
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+    }
+
+    .actions .btn {
+      padding: 8px 15px;
+      margin-left: 15px;
+      border: 1px solid #3EB489;
+      border-radius: 75px;
+      background-color: transparent;
+      color: #3EB489;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      animation: btnAppear 1s ease-out 0.5s backwards;
+    }
+
+    @keyframes btnAppear {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .actions .btn:hover {
+      background-color: rgba(0, 255, 153, 0.2);
+      border-radius: 75px;
+    }
+
+    .main-content {
+      flex: 1;
+      text-align: center;
+      padding: 0 20px;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 1s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .main-content h1 {
+      font-size: 48px;
+      font-weight: 700;
+      margin: 0;
+      color: #fff;
+      line-height: 1.2;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+      animation: bounceIn 1.2s ease-out;
+    }
+
+    @keyframes bounceIn {
+      0% { transform: scale(0.5); opacity: 0; }
+      60% { transform: scale(1.1); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .main-content p {
+      font-size: 18px;
+      max-width: 600px;
+      margin: 20px auto;
+      color: #d1d9d6;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+      animation: slideUp 1s ease-out 0.5s backwards;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .main-content .demo-btn {
+      padding: 12px 25px;
+     border: 1px solid #3EB489;
+      border-radius: 75px;
+      background-color: transparent;
+      color: #3EB489;
+      font-weight: 400;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      animation: popIn 1.2s ease-out 0.8s backwards;
+    }
+    .demo-btn a {
+      color:#3EB489;
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0); opacity: 0; }
+      70% { transform: scale(1.1); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .main-content .demo-btn:hover {
+ background-color: rgba(0, 255, 153, 0.2);
+     border-radius: 75px;
+          color: #3EB489;
+      transform: scale(1.05);
+    }
+    .btn a {
+        text-decoration: none;
+              color: #3EB489;
+    }
+ 

@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How to Invest in Stocks - Investra</title>
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+  body {
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(20, 20, 20, 0.9)), url('images/pexels-therato-9941418.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      padding: 3rem 2rem;
+      opacity: 0;
+      animation: fadeIn 1.5s ease forwards;
+    }
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 40px;
+    }
+    .logo {
+      font-size: 29px;
+      margin-left: 100px;
+      color: #3EB489;
+      display: flex;
+      align-items: center;
+      font-weight: 600;
+      animation: logoFade 1.5s ease-in-out infinite alternate;
+    }
+    @keyframes logoFade {
+      from { opacity: 0.8; }
+      to { opacity: 1; }
+    }
+    .logo::before {
+      content: "⚮";
+      margin-right: 5px;
+      animation: spin 4s infinite linear;
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    nav ul {
+      display: flex;
+      align-items: center;
+      list-style: none;
+      border: solid 1px #3EB489;
+      padding: 12px;
+      border-radius: 75px;
+    }
+    nav ul li a {
+      margin: 0 13px;
+      color: #d1d9d6;
+      text-decoration: none;
+      font-size: 15px;
+      opacity: 0.7;
+      transition: all 0.3s ease;
+      animation: navFadeIn 1s ease-out;
+    }
+    @keyframes navFadeIn {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 0.7; transform: translateX(0); }
+    }
+    nav ul li a:hover {
+      opacity: 1;
+      color: #3EB489;
+      transform: translateY(-2px);
+    }
+    .actions {
+      display: flex;
+      align-items: center;
+    }
+    .actions .btn {
+      padding: 8px 15px;
+      margin-left: 15px;
+      border: 1px solid #3EB489;
+      border-radius: 75px;
+      background-color: transparent;
+      color: #3EB489;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      animation: btnAppear 1s ease-out 0.5s backwards;
+    }
+    @keyframes btnAppear {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .actions .btn:hover {
+      background-color: rgba(0, 255, 153, 0.2);
+      border-radius: 75px;
+    }
+    .main {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      justify-content: center;
+      align-items: center;
+      padding-top: 3rem;
+    }
+    .course-container {
+      display: flex;
+      max-width: 1200px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.09);
+      backdrop-filter: blur(3px);
+      border: 1px solid #3EB489;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .course-image {
+      flex: 1;
+      max-width: 50%;
+    }
+    .course-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .course-details {
+      flex: 1;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .course-details h1 {
+      font-size: 2.5rem;
+      color: #3EB489;
+      margin-bottom: 1rem;
+    }
+    .course-info {
+      margin-bottom: 1rem;
+    }
+    .course-info p {
+      font-size: 1rem;
+      color: #ccc;
+      margin: 0.5rem 0;
+    }
+    .course-price {
+      background: #3EB489;
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
+    .course-btn {
+      padding: 0.8rem 1.5rem;
+      border: none;
+      background-color: #3EB489;
+      color: #000;
+      border-radius: 75px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .course-btn:hover {
+      background-color: #2e8b67;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .modal-content {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid #3EB489;
+      border-radius: 8px;
+      padding: 2rem;
+      text-align: center;
+      max-width: 800px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      color: #fff;
+    }
+    .modal-content h3 {
+      color: #3EB489;
+      margin-bottom: 1.5rem;
+      font-size: 2rem;
+    }
+    .modal-content p {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+      text-align: left;
+    }
+    .close-modal {
+      padding: 0.8rem 1.8rem;
+      border: none;
+      background-color: #3EB489;
+      color: #000;
+      border-radius: 75px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1.1rem;
+      margin-top: 1.5rem;
+    }
+    .close-modal:hover {
+      background-color: #2e8b67;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @media (max-width: 900px) {
+      .course-container {
+        flex-direction: column;
+      }
+      .course-image {
+        max-width: 100%;
+      }
+      nav {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      nav ul {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      .actions .btn {
+        margin-left: 0;
+      }
+      .whiteboard {
+        width: 100%;
+      }
+    }
+
+
+    .navbar {
+   background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 15px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      border-radius: 8px;
+      margin: 20px auto;
+      max-width: 800px;
+    }
+
+    .navbar button {
+      background-color: rgba(45, 91, 57, 0.7);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .navbar button:hover {
+      background-color: rgba(19, 54, 29, 0.8);
+      transform: translateY(-2px);
+    }
+
+    .content {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid #3EB489;
+      border-radius: 8px;
+      padding: 2rem;
+      max-width: 1200px;
+      width: 90%;
+      margin: 20px auto;
+      min-height: 300px;
+    }
+
+    .content h2 {
+      color: #3EB489;
+      margin-bottom: 1rem;
+    }
+
+    .content p {
+      color: #ccc;
+      margin-bottom: 1rem;
+    }
+
+    .quiz-options {
+      list-style: none;
+      padding: 0;
+    }
+
+    .quiz-options li {
+      margin-bottom: 10px;
+    }
+
+    .quiz-options button {
+      background-color: rgba(62, 180, 137, 0.3);
+      color: white;
+      border: 1px solid #3EB489;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s;
+      width: 100%;
+      text-align: left;
+    }
+
+    .quiz-options button:hover {
+      background-color: rgba(62, 180, 137, 0.5);
+    }
+
+    #result {
+      margin-top: 20px;
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    .correct {
+      background-color: rgba(0, 255, 0, 0.1);
+      color: #3EB489;
+    }
+
+    .incorrect {
+      background-color: rgba(255, 0, 0, 0.1);
+      color: #ff6b6b;
+    }
+    
+    .lesson-questions {
+      margin: 20px 0;
+      padding: 15px;
+      background: rgba(62, 180, 137, 0.1);
+      border-left: 3px solid #3EB489;
+    }
+    
+    .lesson-questions h3 {
+      color: #3EB489;
+      margin-bottom: 10px;
+    }
+    
+    .lesson-questions ol {
+      padding-left: 20px;
+    }
+    
+    .lesson-questions li {
+      margin-bottom: 8px;
+      color: #ccc;
+    }
+    
+    .lesson-quiz {
+      margin-top: 30px;
+      padding: 20px;
+      background: rgba(62, 180, 137, 0.15);
+      border-radius: 8px;
+    }
+    
+    .lesson-quiz h3 {
+      color: #3EB489;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+    
+    .question-answer {
+      margin-top: 15px;
+      padding: 15px;
+      background: rgba(62, 180, 137, 0.1);
+      border-radius: 5px;
+    }
+    
+    .question-answer h4 {
+      color: #3EB489;
+      margin-bottom: 8px;
+    }
+    
+    .question-answer p {
+      color: #ccc;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+   <nav>
+    <div class="logo">Investra</div>
+    <ul>
+      <li><a href="home.html">Home</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="Learning.html">Learning</a></li>
+      <li><a href="portfolio2.html">Virtual Stocks</a></li>
+      <li><a href="research.html">Services</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+      <li><a href="contact.html">Contact</a></li>
+       
+   
+    </ul>
+    <div class="actions">
+          <button class="btn"><a href="help.html" style="color: #3EB489;text-decoration: none;">Help Center</a></button>
+      <button class="btn"><a href="index.html" style="color: #3EB489;text-decoration: none;">Sign Out</a></button>
+   
+    </div>
+  </nav>
+
+  <div class="main">
+    <div class="course-container">
+      <div class="course-image">
+        <img src="images/jamie-street-VP4WmibxvcY-unsplash.jpg" alt="How to Invest in Stocks" />
+      </div>
+      <div class="course-details">
+        <div>
+          <h1>How to Invest in Stocks</h1>
+          <div class="course-info">
+            <p><strong>Time Spent:</strong> 3 Hours</p>
+            <p><strong>Lessons:</strong> 6</p>
+            <p><strong>Level:</strong> Beginner to Intermediate</p>
+            <p><strong>Format:</strong> Lessons & Interactive Exercises</p>
+            <p><strong>Language:</strong> English</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="navbar">
+      <button onclick="showLesson('getting-started')">Getting Started</button>
+      <button onclick="showLesson('research')">Stock Research</button>
+      <button onclick="showLesson('strategies')">Investment Strategies</button>
+      <button onclick="showLesson('portfolio')">Portfolio Building</button>
+      <button onclick="showLesson('risk')">Risk Management</button>
+      <button onclick="showLesson('psychology')">Investor Psychology</button>
+    </div>
+    
+    <div id="content" class="content">
+      <h2>Welcome to "How to Invest in Stocks" Course!</h2>
+      <p>Please select a lesson from the buttons above to begin your stock investing journey.</p>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.2 });
+
+      document.querySelectorAll('.course-container, .faq-item, .whiteboard').forEach(element => {
+        observer.observe(element);
+      });
+
+      const faqItems = document.querySelectorAll('.faq-item');
+      faqItems.forEach(item => {
+        item.addEventListener('click', () => {
+          item.classList.toggle('active');
+        });
+      });
+    });
+
+    function showLesson(key) {
+      const lesson = lessons[key];
+      const contentDiv = document.getElementById('content');
+
+      let optionsHtml = lesson.quiz.options.map(opt => 
+        `<li><button onclick="checkAnswer('${opt.replace(/'/g, "\\'")}', '${lesson.quiz.answer.replace(/'/g, "\\'")}')">${opt}</button></li>`
+      ).join('');
+
+      let answersHtml = lesson.questions.map((q, i) => `
+        <div class="question-answer">
+          <h4>${q}</h4>
+          <p>${lesson.answers[i]}</p>
+        </div>
+      `).join('');
+
+      contentDiv.innerHTML = `
+        <h2>${lesson.title}</h2>
+        <p>${lesson.content}</p>
+        
+        <div class="lesson-questions">
+          <h3>Key Questions and Answers:</h3>
+          ${answersHtml}
+        </div>
+        
+        <button onclick="openModal('${lesson.notes.replace(/'/g, "\\'")}')" class="course-btn">Show Detailed Notes</button>
+        
+        <div class="lesson-quiz">
+          <h3>Quick Check</h3>
+          <p>${lesson.quiz.question}</p>
+          <ul class="quiz-options">${optionsHtml}</ul>
+          <div id="result"></div>
+        </div>
+      `;
+    }
+
+    function checkAnswer(selected, correct) {
+      const resultDiv = document.getElementById('result');
+      if (selected === correct) {
+        resultDiv.innerHTML = `<p class="correct">Correct! Well done.</p>`;
+      } else {
+        resultDiv.innerHTML = `<p class="incorrect">Incorrect. The correct answer is: ${correct}</p>`;
+      }
+    }
+
+    function openModal(notes) {
+      const modal = document.getElementById('notesModal');
+      document.getElementById('notesContent').innerHTML = `
+        <h3>Detailed Lesson Notes</h3>
+        <p>${notes}</p>
+      `;
+      modal.style.display = "flex";
+    }
+
+    function closeModal() {
+      document.getElementById('notesModal').style.display = "none";
+    }
+
+    const lessons = {
+      'getting-started': {
+        title: "Lesson 1: Getting Started with Stock Investing",
+        content: "This lesson covers the fundamental steps to begin your stock investing journey, from opening an account to making your first trade.",
+        notes: "To start investing in stocks, you'll need: 1) A brokerage account (choose between full-service brokers, discount brokers, or robo-advisors), 2) Funds to invest (start with what you can afford), and 3) Basic knowledge of how markets work. Key decisions include: choosing between taxable accounts or retirement accounts (like IRAs), deciding between active or passive investing, and determining your investment style (growth, value, or income investing). Beginners should start with small amounts, diversify their holdings, and focus on long-term investing rather than short-term trading. Dollar-cost averaging (investing fixed amounts regularly) can help reduce market timing risks.",
+        questions: [
+          "What are the three main things you need to start investing in stocks?",
+          "What's the difference between taxable and retirement accounts?",
+          "What are the main investment styles?",
+          "Why is diversification important for beginners?",
+          "How does dollar-cost averaging work?"
+        ],
+        answers: [
+          "You need: 1) A brokerage account, 2) Funds to invest, and 3) Basic market knowledge.",
+          "Taxable accounts have no special tax benefits but offer flexibility. Retirement accounts (like IRAs) offer tax advantages but have contribution limits and withdrawal restrictions.",
+          "Main styles are: growth investing (focusing on companies expected to grow rapidly), value investing (looking for undervalued stocks), and income investing (focusing on dividend-paying stocks).",
+          "Diversification spreads risk across different companies and sectors, reducing the impact if any single investment performs poorly.",
+          "Dollar-cost averaging means investing fixed amounts at regular intervals, buying more shares when prices are low and fewer when prices are high, smoothing out market volatility."
+        ],
+        quiz: {
+          question: "Which investment style focuses on companies expected to grow rapidly?",
+          options: ["Value investing", "Income investing", "Growth investing"],
+          answer: "Growth investing"
+        }
+      },
+      'research': {
+        title: "Lesson 2: How to Research Stocks",
+        content: "Learn the fundamental and technical analysis techniques to evaluate potential stock investments.",
+        notes: "Fundamental analysis examines a company's financial health and business prospects through: 1) Financial statements (income statement, balance sheet, cash flow statement), 2) Key ratios (P/E, P/B, debt-to-equity, ROE), 3) Industry position and competitive advantages, and 4) Management quality. Technical analysis studies price patterns and market trends using charts and indicators (moving averages, RSI, MACD). Qualitative factors include: brand strength, industry trends, regulatory environment, and company culture. Quantitative factors include all measurable financial metrics. Research tools include: company filings (10-K, 10-Q), analyst reports, financial news, and stock screeners. Always consider both the company's current situation and its future growth potential.",
+        questions: [
+          "What are the main components of fundamental analysis?",
+          "How does technical analysis differ from fundamental analysis?",
+          "What are some key financial ratios to consider?",
+          "Where can investors find company financial information?",
+          "Why is it important to consider both qualitative and quantitative factors?"
+        ],
+        answers: [
+          "Fundamental analysis includes examining financial statements, calculating key ratios, assessing industry position, and evaluating management quality.",
+          "Fundamental analysis focuses on company financials and business prospects, while technical analysis studies price movements and market psychology through charts and indicators.",
+          "Important ratios include: Price-to-Earnings (P/E), Price-to-Book (P/B), Debt-to-Equity, Return on Equity (ROE), and Profit Margins.",
+          "Investors can find financial information in company filings (10-K annual reports, 10-Q quarterly reports), investor relations websites, and financial data providers.",
+          "Quantitative factors provide measurable data, while qualitative factors (like management quality and brand strength) can significantly impact long-term success but are harder to measure."
+        ],
+        quiz: {
+          question: "Which type of analysis focuses on price charts and market trends?",
+          options: ["Fundamental analysis", "Technical analysis", "Quantitative analysis"],
+          answer: "Technical analysis"
+        }
+      },
+      'strategies': {
+        title: "Lesson 3: Stock Investment Strategies",
+        content: "Explore different investment strategies from value investing to growth investing and everything in between.",
+        notes: "Common investment strategies include: 1) Value investing (buying undervalued stocks with strong fundamentals), 2) Growth investing (focusing on companies with above-average growth potential), 3) Dividend investing (selecting stocks with consistent dividend payments), 4) Index investing (buying broad market index funds), and 5) Momentum investing (following recent price trends). Long-term investors typically use buy-and-hold strategies, while active traders might use swing trading or day trading approaches. Sector rotation involves shifting investments among economic sectors based on macroeconomic cycles. The best strategy depends on your risk tolerance, time horizon, and investment goals. Many successful investors combine multiple strategies or adjust their approach as market conditions change.",
+        questions: [
+          "What's the main principle behind value investing?",
+          "How does growth investing differ from value investing?",
+          "What are the benefits of dividend investing?",
+          "Why might someone choose index investing?",
+          "What factors should influence your choice of investment strategy?"
+        ],
+        answers: [
+          "Value investing seeks to buy stocks trading below their intrinsic value, often identified through low P/E or P/B ratios, with the expectation they'll eventually be recognized by the market.",
+          "Growth investing focuses on companies expected to grow revenues/earnings rapidly, often paying higher valuations, while value investing looks for undervalued stocks regardless of growth prospects.",
+          "Dividend investing provides regular income, tends to be less volatile, and dividend-paying companies are often more established with stable cash flows.",
+          "Index investing offers broad diversification, lower costs, and typically outperforms most active managers over the long term, making it ideal for passive investors.",
+          "Your strategy should align with your risk tolerance, time horizon, financial goals, knowledge level, and the amount of time you can devote to research and monitoring."
+        ],
+        quiz: {
+          question: "Which strategy focuses on buying broad market index funds?",
+          options: ["Value investing", "Index investing", "Momentum investing"],
+          answer: "Index investing"
+        }
+      },
+      'portfolio': {
+        title: "Lesson 4: Building a Stock Portfolio",
+        content: "Learn how to construct a diversified stock portfolio that aligns with your investment goals and risk tolerance.",
+        notes: "Portfolio construction involves: 1) Asset allocation (dividing investments among different asset classes), 2) Diversification (spreading investments across sectors/industries), and 3) Rebalancing (periodically adjusting to maintain target allocations). A well-diversified portfolio typically includes stocks from different sectors (technology, healthcare, finance, etc.), market caps (large, mid, small), and geographic regions. The 60/40 portfolio (60% stocks, 40% bonds) is a classic balanced approach. Younger investors can typically take more risk (higher stock allocation), while those nearing retirement may want more bonds. Core-satellite investing combines a stable core (index funds) with smaller satellite positions (individual stocks). Regular portfolio reviews (quarterly or annually) help maintain alignment with your goals.",
+        questions: [
+          "What are the three key components of portfolio construction?",
+          "Why is sector diversification important?",
+          "How does the 60/40 portfolio work?",
+          "How should asset allocation change with age?",
+          "What is core-satellite investing?"
+        ],
+        answers: [
+          "The key components are: asset allocation (mix of stocks, bonds, etc.), diversification (spreading risk), and rebalancing (maintaining target allocations).",
+          "Sector diversification reduces risk because different sectors perform well at different times - if one sector struggles, others may compensate.",
+          "The 60/40 portfolio allocates 60% to stocks (for growth) and 40% to bonds (for stability), providing balance between risk and return.",
+          "Younger investors can have more stocks (higher risk/higher return), while older investors should increase bond allocation for stability as they near retirement.",
+          "Core-satellite combines a large, diversified core (like index funds) with smaller satellite positions (individual stocks or sector funds) to balance stability with growth opportunities."
+        ],
+        quiz: {
+          question: "Which portfolio strategy combines index funds with individual stock picks?",
+          options: ["60/40 portfolio", "Core-satellite investing", "Sector rotation"],
+          answer: "Core-satellite investing"
+        }
+      },
+      'risk': {
+        title: "Lesson 5: Risk Management in Stock Investing",
+        content: "Understand how to identify, assess, and manage the various risks associated with stock market investing.",
+        notes: "Key investment risks include: 1) Market risk (overall market declines), 2) Company-specific risk (problems with individual companies), 3) Sector risk (issues affecting entire industries), 4) Liquidity risk (inability to sell quickly), and 5) Inflation risk (purchasing power erosion). Risk management strategies include: diversification, position sizing (limiting exposure to any single stock), stop-loss orders, hedging (using options or inverse ETFs), and maintaining cash reserves. The risk-reward tradeoff means higher potential returns typically require accepting higher risk. Understanding your personal risk tolerance is crucial - don't take risks that will keep you awake at night. Emotional discipline is key - avoid panic selling in downturns or chasing performance during rallies.",
+        questions: [
+          "What are the main types of investment risk?",
+          "How does diversification help manage risk?",
+          "What is position sizing and why is it important?",
+          "What is the risk-reward tradeoff?",
+          "Why is emotional discipline important in risk management?"
+        ],
+        answers: [
+          "Main risks include: market risk, company-specific risk, sector risk, liquidity risk, and inflation risk.",
+          "Diversification spreads risk across different investments so problems with one don't severely impact the entire portfolio.",
+          "Position sizing means limiting how much you invest in any single stock (often 5-10% max) to prevent excessive damage from any one investment's decline.",
+          "The risk-reward tradeoff means investments with higher potential returns typically come with higher risk of loss - there's no free lunch in investing.",
+          "Emotional decisions often lead to buying high (during euphoria) and selling low (during panic) - discipline helps stick to your strategy through market ups and downs."
+        ],
+        quiz: {
+          question: "Which risk refers to problems affecting an entire industry sector?",
+          options: ["Market risk", "Sector risk", "Liquidity risk"],
+          answer: "Sector risk"
+        }
+      },
+      'psychology': {
+        title: "Lesson 6: Investor Psychology and Behavioral Finance",
+        content: "Explore how psychology affects investment decisions and how to avoid common behavioral pitfalls.",
+        notes: "Behavioral finance studies how psychology influences investors and markets. Common biases include: 1) Overconfidence (overestimating knowledge/skills), 2) Confirmation bias (seeking information that supports existing views), 3) Loss aversion (feeling losses more acutely than gains), 4) Herd mentality (following the crowd), and 5) Anchoring (fixating on specific price points). Emotional investing often leads to buying high (during excitement) and selling low (during fear). Successful investors develop rules-based systems to counter emotional impulses. Maintaining an investment journal can help identify personal bias patterns. Understanding market cycles helps recognize when emotions might be driving prices to extremes. The most successful investors often go against the crowd when fundamentals justify doing so.",
+        questions: [
+          "What is behavioral finance?",
+          "How does confirmation bias affect investors?",
+          "Why is loss aversion problematic?",
+          "What is herd mentality in investing?",
+          "How can investors counteract psychological biases?"
+        ],
+        answers: [
+          "Behavioral finance examines how psychological factors influence investor behavior and market outcomes, often leading to irrational decisions.",
+          "Confirmation bias causes investors to seek information supporting their existing views while ignoring contradictory evidence, potentially leading to poor decisions.",
+          "Loss aversion makes investors hold losing positions too long (hoping to break even) while selling winners too soon, undermining long-term performance.",
+          "Herd mentality is following the crowd into popular investments without independent analysis, often buying at peaks and selling at bottoms.",
+          "Investors can counteract biases by: creating rules-based systems, maintaining diversified portfolios, keeping investment journals, and focusing on long-term fundamentals rather than short-term emotions."
+        ],
+        quiz: {
+          question: "Which bias makes investors focus only on information that supports their existing views?",
+          options: ["Loss aversion", "Confirmation bias", "Herd mentality"],
+          answer: "Confirmation bias"
+        }
+      }
+    };
+
+    // Show first lesson by default
+    showLesson('getting-started');
+  </script>
+
+  <!-- Notes Modal -->
+  <div id="notesModal" class="modal">
+    <div class="modal-content">
+      <div id="notesContent"></div>
+      <button class="close-modal" onclick="closeModal()">Close Notes</button>
+    </div>
+  </div>
+</body>
+</html>

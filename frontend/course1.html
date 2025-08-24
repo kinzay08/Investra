@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stocks and Shares Course</title>
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+    body {
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(20, 20, 20, 0.9)), url('images/pexels-therato-9941418.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      padding: 3rem 2rem;
+      opacity: 0;
+      animation: fadeIn 1.5s ease forwards;
+    }
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 40px;
+    }
+    .logo {
+      font-size: 29px;
+      margin-left: 100px;
+      color: #3EB489;
+      display: flex;
+      align-items: center;
+      font-weight: 600;
+      animation: logoFade 1.5s ease-in-out infinite alternate;
+    }
+    @keyframes logoFade {
+      from { opacity: 0.8; }
+      to { opacity: 1; }
+    }
+    .logo::before {
+      content: "⚮";
+      margin-right: 5px;
+      animation: spin 4s infinite linear;
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    nav ul {
+      display: flex;
+      align-items: center;
+      list-style: none;
+      border: solid 1px #3EB489;
+      padding: 12px;
+      border-radius: 75px;
+    }
+    nav ul li a {
+      margin: 0 13px;
+      color: #d1d9d6;
+      text-decoration: none;
+      font-size: 15px;
+      opacity: 0.7;
+      transition: all 0.3s ease;
+      animation: navFadeIn 1s ease-out;
+    }
+    @keyframes navFadeIn {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 0.7; transform: translateX(0); }
+    }
+    nav ul li a:hover {
+      opacity: 1;
+      color: #3EB489;
+      transform: translateY(-2px);
+    }
+    .actions {
+      display: flex;
+      align-items: center;
+    }
+    .actions .btn {
+      padding: 8px 15px;
+      margin-left: 15px;
+      border: 1px solid #3EB489;
+      border-radius: 75px;
+      background-color: transparent;
+      color: #3EB489;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      animation: btnAppear 1s ease-out 0.5s backwards;
+    }
+    @keyframes btnAppear {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .actions .btn:hover {
+      background-color: rgba(0, 255, 153, 0.2);
+      border-radius: 75px;
+    }
+    .main {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      justify-content: center;
+      align-items: center;
+      padding-top: 3rem;
+    }
+    .course-container {
+      display: flex;
+      max-width: 1200px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.09);
+      backdrop-filter: blur(3px);
+      border: 1px solid #3EB489;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .course-image {
+      flex: 1;
+      max-width: 50%;
+    }
+    .course-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .course-details {
+      flex: 1;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .course-details h1 {
+      font-size: 2.5rem;
+      color: #3EB489;
+      margin-bottom: 1rem;
+    }
+    .course-info {
+      margin-bottom: 1rem;
+    }
+    .course-info p {
+      font-size: 1rem;
+      color: #ccc;
+      margin: 0.5rem 0;
+    }
+    .course-price {
+      background: #3EB489;
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
+    .course-btn {
+      padding: 0.8rem 1.5rem;
+      border: none;
+      background-color: #3EB489;
+      color: #000;
+      border-radius: 75px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .course-btn:hover {
+      background-color: #2e8b67;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .modal-content {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid #3EB489;
+      border-radius: 8px;
+      padding: 2rem;
+      text-align: center;
+      max-width: 800px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      color: #fff;
+    }
+    .modal-content h3 {
+      color: #3EB489;
+      margin-bottom: 1.5rem;
+      font-size: 2rem;
+    }
+    .modal-content p {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+      text-align: left;
+    }
+    .close-modal {
+      padding: 0.8rem 1.8rem;
+      border: none;
+      background-color: #3EB489;
+      color: #000;
+      border-radius: 75px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1.1rem;
+      margin-top: 1.5rem;
+    }
+    .close-modal:hover {
+      background-color: #2e8b67;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @media (max-width: 900px) {
+      .course-container {
+        flex-direction: column;
+      }
+      .course-image {
+        max-width: 100%;
+      }
+      nav {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      nav ul {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      .actions .btn {
+        margin-left: 0;
+      }
+      .whiteboard {
+        width: 100%;
+      }
+    }
+
+
+    .navbar {
+   background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 15px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      border-radius: 8px;
+      margin: 20px auto;
+      max-width: 800px;
+    }
+
+    .navbar button {
+      background-color: rgba(45, 91, 57, 0.7);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .navbar button:hover {
+      background-color: rgba(19, 54, 29, 0.8);
+      transform: translateY(-2px);
+    }
+
+    .content {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid #3EB489;
+      border-radius: 8px;
+      padding: 2rem;
+      max-width: 1200px;
+      width: 90%;
+      margin: 20px auto;
+      min-height: 300px;
+    }
+
+    .content h2 {
+      color: #3EB489;
+      margin-bottom: 1rem;
+    }
+
+    .content p {
+      color: #ccc;
+      margin-bottom: 1rem;
+    }
+
+    .quiz-options {
+      list-style: none;
+      padding: 0;
+    }
+
+    .quiz-options li {
+      margin-bottom: 10px;
+    }
+
+    .quiz-options button {
+      background-color: rgba(62, 180, 137, 0.3);
+      color: white;
+      border: 1px solid #3EB489;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s;
+      width: 100%;
+      text-align: left;
+    }
+
+    .quiz-options button:hover {
+      background-color: rgba(62, 180, 137, 0.5);
+    }
+
+    #result {
+      margin-top: 20px;
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    .correct {
+      background-color: rgba(0, 255, 0, 0.1);
+      color: #3EB489;
+    }
+
+    .incorrect {
+      background-color: rgba(255, 0, 0, 0.1);
+      color: #ff6b6b;
+    }
+    
+    .lesson-questions {
+      margin: 20px 0;
+      padding: 15px;
+      background: rgba(62, 180, 137, 0.1);
+      border-left: 3px solid #3EB489;
+    }
+    
+    .lesson-questions h3 {
+      color: #3EB489;
+      margin-bottom: 10px;
+    }
+    
+    .lesson-questions ol {
+      padding-left: 20px;
+    }
+    
+    .lesson-questions li {
+      margin-bottom: 8px;
+      color: #ccc;
+    }
+    
+    .lesson-quiz {
+      margin-top: 30px;
+      padding: 20px;
+      background: rgba(62, 180, 137, 0.15);
+      border-radius: 8px;
+    }
+    
+    .lesson-quiz h3 {
+      color: #3EB489;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+    
+    .question-answer {
+      margin-top: 15px;
+      padding: 15px;
+      background: rgba(62, 180, 137, 0.1);
+      border-radius: 5px;
+    }
+    
+    .question-answer h4 {
+      color: #3EB489;
+      margin-bottom: 8px;
+    }
+    
+    .question-answer p {
+      color: #ccc;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+   <nav>
+    <div class="logo">Investra</div>
+    <ul>
+      <li><a href="home.html">Home</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="Learning.html">Learning</a></li>
+      <li><a href="portfolio2.html">Virtual Stocks</a></li>
+      <li><a href="research.html">Services</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+      <li><a href="contact.html">Contact</a></li>
+       
+   
+    </ul>
+    <div class="actions">
+          <button class="btn"><a href="help.html" style="color: #3EB489;text-decoration: none;">Help Center</a></button>
+      <button class="btn"><a href="index.html" style="color: #3EB489;text-decoration: none;">Sign Out</a></button>
+   
+    </div>
+  </nav>
+  <div class="main">
+    <div class="course-container">
+      <div class="course-image">
+        <img src="images/sajad-nori-i09DzZkwnuY-unsplash.jpg" alt="Stocks and Shares Course" />
+      </div>
+      <div class="course-details">
+        <div>
+          <h1>Stocks and Shares: Beginner to Advanced</h1>
+          <div class="course-info">
+            <p><strong>Time Spent:</strong> 2 Hours</p>
+            <p><strong>Lessons:</strong> 3</p>
+            <p><strong>Level:</strong> Beginner to Advanced</p>
+            <p><strong>Format:</strong> Lessons</p>
+            <p><strong>Language:</strong> English</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="navbar">
+      <button onclick="showLesson('first')">First Lesson</button>
+      <button onclick="showLesson('second')">Second Lesson</button>
+      <button onclick="showLesson('third')">Third Lesson</button>
+    </div>
+    
+    <div id="content" class="content">
+      <h2>Welcome to Stocks and Shares Course!</h2>
+      <p>Please select a lesson from the buttons above to begin your learning journey.</p>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.2 });
+
+      document.querySelectorAll('.course-container, .faq-item, .whiteboard').forEach(element => {
+        observer.observe(element);
+      });
+
+      const faqItems = document.querySelectorAll('.faq-item');
+      faqItems.forEach(item => {
+        item.addEventListener('click', () => {
+          item.classList.toggle('active');
+        });
+      });
+    });
+
+    function showLesson(key) {
+      const lesson = lessons[key];
+      const contentDiv = document.getElementById('content');
+
+      let optionsHtml = lesson.quiz.options.map(opt => 
+        `<li><button onclick="checkAnswer('${opt.replace(/'/g, "\\'")}', '${lesson.quiz.answer.replace(/'/g, "\\'")}')">${opt}</button></li>`
+      ).join('');
+
+      let answersHtml = lesson.questions.map((q, i) => `
+        <div class="question-answer">
+          <h4>${q}</h4>
+          <p>${lesson.answers[i]}</p>
+        </div>
+      `).join('');
+
+      contentDiv.innerHTML = `
+        <h2>${lesson.title}</h2>
+        <p>${lesson.content}</p>
+        
+        <div class="lesson-questions">
+          <h3>Key Questions and Answers:</h3>
+          ${answersHtml}
+        </div>
+        
+        <button onclick="openModal('${lesson.notes.replace(/'/g, "\\'")}')" class="course-btn">Show Detailed Notes</button>
+        
+        <div class="lesson-quiz">
+          <h3>Quick Check</h3>
+          <p>${lesson.quiz.question}</p>
+          <ul class="quiz-options">${optionsHtml}</ul>
+          <div id="result"></div>
+        </div>
+      `;
+    }
+
+    function checkAnswer(selected, correct) {
+      const resultDiv = document.getElementById('result');
+      if (selected === correct) {
+        resultDiv.innerHTML = `<p class="correct">Correct! Well done.</p>`;
+      } else {
+        resultDiv.innerHTML = `<p class="incorrect">Incorrect. The correct answer is: ${correct}</p>`;
+      }
+    }
+
+    function openModal(notes) {
+      const modal = document.getElementById('notesModal');
+      document.getElementById('notesContent').innerHTML = `
+        <h3>Detailed Lesson Notes</h3>
+        <p>${notes}</p>
+      `;
+      modal.style.display = "flex";
+    }
+
+    function closeModal() {
+      document.getElementById('notesModal').style.display = "none";
+    }
+
+    const lessons = {
+      first: {
+        title: "Lesson 1: Introduction to Stocks",
+        content: "This lesson covers the basics of what stocks are and how they work in the financial markets.",
+        notes: "Stocks represent ownership in a company. When you buy a stock, you become a shareholder, which means you own a small part of that company. Companies issue stock to raise capital for growth and operations. Stocks are traded on exchanges like the NYSE or NASDAQ. The price of a stock fluctuates based on supply and demand in the market. Key terms to remember: Shareholder - an owner of shares in a company, Dividend - a portion of a company's earnings distributed to shareholders, Market Capitalization - the total value of a company's outstanding shares (calculated as share price × number of shares outstanding).",
+        questions: [
+          "What exactly does it mean to own a stock?",
+          "How do companies benefit from issuing stocks?",
+          "What are the main stock exchanges where stocks are traded?",
+          "How does supply and demand affect stock prices?",
+          "What rights do shareholders typically have?"
+        ],
+        answers: [
+          "Owning a stock means you own a small portion (share) of a company. This makes you a shareholder with potential rights to dividends and voting on certain company matters.",
+          "Companies issue stocks to raise capital for expansion, research, paying off debt, or other business needs without taking on debt.",
+          "The main stock exchanges are the New York Stock Exchange (NYSE), NASDAQ, London Stock Exchange (LSE), Tokyo Stock Exchange (TSE), and Shanghai Stock Exchange (SSE).",
+          "Stock prices are determined by supply and demand. When more people want to buy a stock (demand) than sell it (supply), the price rises. Conversely, if more people want to sell than buy, the price falls.",
+          "Common shareholders typically have voting rights (usually one vote per share), the right to receive dividends if declared, and the right to a portion of assets if the company is liquidated."
+        ],
+        quiz: {
+          question: "What does buying a stock make you?",
+          options: ["A creditor of the company", "An owner (shareholder) of the company", "A manager of the company"],
+          answer: "An owner (shareholder) of the company"
+        }
+      },
+      second: {
+        title: "Lesson 2: Types of Stocks",
+        content: "Learn about different types of stocks including common and preferred stocks.",
+        notes: "There are two main types of stocks: common and preferred. Common stockholders have voting rights but are last in line for company assets if the company goes bankrupt. Preferred stockholders typically don't have voting rights but receive dividends before common stockholders and have higher claim on assets. Stocks can also be categorized by size (large-cap, mid-cap, small-cap), by sector (technology, healthcare, etc.), or by style (growth vs. value stocks). Blue-chip stocks are shares of large, well-established companies with a history of reliable performance. Penny stocks are high-risk stocks that trade for less than $5 per share. Understanding these classifications helps investors build diversified portfolios that match their risk tolerance and investment goals.",
+        questions: [
+          "What are the key differences between common and preferred stocks?",
+          "Why might an investor choose preferred stocks over common stocks?",
+          "How are stocks categorized by market capitalization?",
+          "What are growth stocks versus value stocks?",
+          "How do sector classifications help investors?"
+        ],
+        answers: [
+          "Common stocks offer voting rights but lower priority for dividends and assets. Preferred stocks typically don't have voting rights but offer fixed dividends and higher claim on assets in liquidation.",
+          "Investors might choose preferred stocks for their stable dividend payments and higher claim on assets, making them less risky than common stocks.",
+          "Stocks are categorized by market cap as: Large-cap ($10B+), Mid-cap ($2B-$10B), Small-cap ($300M-$2B), and Micro-cap ($50M-$300M). Market cap = share price × number of outstanding shares.",
+          "Growth stocks are from companies expected to grow earnings faster than the market, often reinvesting profits rather than paying dividends. Value stocks are undervalued relative to their fundamentals and often pay dividends.",
+          "Sector classifications (like technology, healthcare, financials) help investors diversify their portfolios across different industries, reducing risk from any single sector's performance."
+        ],
+        quiz: {
+          question: "Which type of stock typically has voting rights?",
+          options: ["Common stock", "Preferred stock", "Both types"],
+          answer: "Common stock"
+        }
+      },
+      third: {
+        title: "Lesson 3: How Stock Prices Work",
+        content: "Understand the factors that influence stock prices and how they are determined.",
+        notes: "Stock prices are determined by supply and demand in the market. Factors that influence stock prices include: company performance (earnings, revenue), industry trends, economic conditions, interest rates, and investor sentiment. The P/E ratio (price-to-earnings ratio) is a common metric used to evaluate whether a stock is overvalued or undervalued. Market capitalization (share price × number of shares outstanding) shows the total value the market places on a company. Technical analysis examines price movements and trading volume to predict future price changes, while fundamental analysis evaluates a company's financial health and prospects. Market indices like the S&P 500 track the performance of groups of stocks to represent market segments. Understanding these concepts helps investors make informed decisions about when to buy or sell stocks.",
+        questions: [
+          "What fundamental factors affect a company's stock price?",
+          "How do economic conditions influence the stock market?",
+          "What does the P/E ratio tell us about a stock?",
+          "How is market capitalization calculated and what does it indicate?",
+          "Why might investor sentiment cause stock prices to fluctuate?"
+        ],
+        answers: [
+          "Fundamental factors include earnings reports, revenue growth, profit margins, debt levels, management quality, competitive position, and future growth prospects.",
+          "Economic conditions like GDP growth, unemployment rates, inflation, and interest rates affect corporate profits and investor confidence, which in turn affect stock prices.",
+          "The P/E (Price-to-Earnings) ratio compares a company's stock price to its earnings per share. A high P/E may suggest overvaluation or high growth expectations, while a low P/E may indicate undervaluation or problems.",
+          "Market cap = current stock price × total number of outstanding shares. It indicates the total value investors assign to a company and helps categorize companies by size (large-cap, mid-cap, etc.).",
+          "Investor sentiment reflects the overall attitude of investors toward the market or a particular stock. Positive sentiment can drive prices up beyond fundamentals, while negative sentiment can push prices down regardless of strong fundamentals."
+        ],
+        quiz: {
+          question: "What is the main factor that determines a stock's price?",
+          options: ["The CEO's salary", "Supply and demand in the market", "The age of the company"],
+          answer: "Supply and demand in the market"
+        }
+      }
+    };
+
+    // Show first lesson by default
+    showLesson('first');
+  </script>
+
+  <!-- Notes Modal -->
+  <div id="notesModal" class="modal">
+    <div class="modal-content">
+      <div id="notesContent"></div>
+      <button class="close-modal" onclick="closeModal()">Close Notes</button>
+    </div>
+  </div>
+</body>
+</html>

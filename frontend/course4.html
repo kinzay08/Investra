@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Analyzing Stocks - Investra</title>
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+    body {
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(20, 20, 20, 0.9)), url('images/pexels-therato-9941418.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      padding: 3rem 2rem;
+      opacity: 0;
+      animation: fadeIn 1.5s ease forwards;
+    }
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 40px;
+    }
+    .logo {
+      font-size: 29px;
+      margin-left: 100px;
+      color: #3EB489;
+      display: flex;
+      align-items: center;
+      font-weight: 600;
+      animation: logoFade 1.5s ease-in-out infinite alternate;
+    }
+    @keyframes logoFade {
+      from { opacity: 0.8; }
+      to { opacity: 1; }
+    }
+    .logo::before {
+      content: "⚮";
+      margin-right: 5px;
+      animation: spin 4s infinite linear;
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    nav ul {
+      display: flex;
+      align-items: center;
+      list-style: none;
+      border: solid 1px #3EB489;
+      padding: 12px;
+      border-radius: 75px;
+    }
+    nav ul li a {
+      margin: 0 13px;
+      color: #d1d9d6;
+      text-decoration: none;
+      font-size: 15px;
+      opacity: 0.7;
+      transition: all 0.3s ease;
+      animation: navFadeIn 1s ease-out;
+    }
+    @keyframes navFadeIn {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 0.7; transform: translateX(0); }
+    }
+    nav ul li a:hover {
+      opacity: 1;
+      color: #3EB489;
+      transform: translateY(-2px);
+    }
+    .actions {
+      display: flex;
+      align-items: center;
+    }
+    .actions .btn {
+      padding: 8px 15px;
+      margin-left: 15px;
+      border: 1px solid #3EB489;
+      border-radius: 75px;
+      background-color: transparent;
+      color: #3EB489;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      animation: btnAppear 1s ease-out 0.5s backwards;
+    }
+    @keyframes btnAppear {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .actions .btn:hover {
+      background-color: rgba(0, 255, 153, 0.2);
+      border-radius: 75px;
+    }
+    .main {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      justify-content: center;
+      align-items: center;
+      padding-top: 3rem;
+    }
+    .course-container {
+      display: flex;
+      max-width: 1200px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.09);
+      backdrop-filter: blur(3px);
+      border: 1px solid #3EB489;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .course-image {
+      flex: 1;
+      max-width: 50%;
+    }
+    .course-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .course-details {
+      flex: 1;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .course-details h1 {
+      font-size: 2.5rem;
+      color: #3EB489;
+      margin-bottom: 1rem;
+    }
+    .course-info {
+      margin-bottom: 1rem;
+    }
+    .course-info p {
+      font-size: 1rem;
+      color: #ccc;
+      margin: 0.5rem 0;
+    }
+    .course-price {
+      background: #3EB489;
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
+    .course-btn {
+      padding: 0.8rem 1.5rem;
+      border: none;
+      background-color: #3EB489;
+      color: #000;
+      border-radius: 75px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .course-btn:hover {
+      background-color: #2e8b67;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .modal-content {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid #3EB489;
+      border-radius: 8px;
+      padding: 2rem;
+      text-align: center;
+      max-width: 800px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      color: #fff;
+    }
+    .modal-content h3 {
+      color: #3EB489;
+      margin-bottom: 1.5rem;
+      font-size: 2rem;
+    }
+    .modal-content p {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+      text-align: left;
+    }
+    .close-modal {
+      padding: 0.8rem 1.8rem;
+      border: none;
+      background-color: #3EB489;
+      color: #000;
+      border-radius: 75px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1.1rem;
+      margin-top: 1.5rem;
+    }
+    .close-modal:hover {
+      background-color: #2e8b67;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @media (max-width: 900px) {
+      .course-container {
+        flex-direction: column;
+      }
+      .course-image {
+        max-width: 100%;
+      }
+      nav {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      nav ul {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      .actions .btn {
+        margin-left: 0;
+      }
+      .whiteboard {
+        width: 100%;
+      }
+    }
+    .navbar {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 15px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      border-radius: 8px;
+      margin: 20px auto;
+      max-width: 800px;
+    }
+    .navbar button {
+      background-color: rgba(45, 91, 57, 0.7);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .navbar button:hover {
+      background-color: rgba(19, 54, 29, 0.8);
+      transform: translateY(-2px);
+    }
+    .content {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid #3EB489;
+      border-radius: 8px;
+      padding: 2rem;
+      max-width: 1200px;
+      width: 90%;
+      margin: 20px auto;
+      min-height: 300px;
+    }
+    .content h2 {
+      color: #3EB489;
+      margin-bottom: 1rem;
+    }
+    .content p {
+      color: #ccc;
+      margin-bottom: 1rem;
+    }
+    .quiz-options {
+      list-style: none;
+      padding: 0;
+    }
+    .quiz-options li {
+      margin-bottom: 10px;
+    }
+    .quiz-options button {
+      background-color: rgba(62, 180, 137, 0.3);
+      color: white;
+      border: 1px solid #3EB489;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s;
+      width: 100%;
+      text-align: left;
+    }
+    .quiz-options button:hover {
+      background-color: rgba(62, 180, 137, 0.5);
+    }
+    #result {
+      margin-top: 20px;
+      padding: 10px;
+      border-radius: 5px;
+    }
+    .correct {
+      background-color: rgba(0, 255, 0, 0.1);
+      color: #3EB489;
+    }
+    .incorrect {
+      background-color: rgba(255, 0, 0, 0.1);
+      color: #ff6b6b;
+    }
+    .lesson-questions {
+      margin: 20px 0;
+      padding: 15px;
+      background: rgba(62, 180, 137, 0.1);
+      border-left: 3px solid #3EB489;
+    }
+    .lesson-questions h3 {
+      color: #3EB489;
+      margin-bottom: 10px;
+    }
+    .lesson-questions ol {
+      padding-left: 20px;
+    }
+    .lesson-questions li {
+      margin-bottom: 8px;
+      color: #ccc;
+    }
+    .lesson-quiz {
+      margin-top: 30px;
+      padding: 20px;
+      background: rgba(62, 180, 137, 0.15);
+      border-radius: 8px;
+    }
+    .lesson-quiz h3 {
+      color: #3EB489;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+    .question-answer {
+      margin-top: 15px;
+      padding: 15px;
+      background: rgba(62, 180, 137, 0.1);
+      border-radius: 5px;
+    }
+    .question-answer h4 {
+      color: #3EB489;
+      margin-bottom: 8px;
+    }
+    .question-answer p {
+      color: #ccc;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+   <nav>
+    <div class="logo">Investra</div>
+    <ul>
+      <li><a href="home.html">Home</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="Learning.html">Learning</a></li>
+      <li><a href="portfolio2.html">Virtual Stocks</a></li>
+      <li><a href="research.html">Services</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+      <li><a href="contact.html">Contact</a></li>
+       
+   
+    </ul>
+    <div class="actions">
+          <button class="btn"><a href="help.html" style="color: #3EB489;text-decoration: none;">Help Center</a></button>
+      <button class="btn"><a href="index.html" style="color: #3EB489;text-decoration: none;">Sign Out</a></button>
+   
+    </div>
+  </nav>
+
+  <div class="main">
+    <div class="course-container">
+      <div class="course-image">
+        <img src="images/anne-nygard-tcJ6sJTtTWI-unsplash.jpg" alt="Analyzing Stocks" />
+      </div>
+      <div class="course-details">
+        <div>
+          <h1>Analyzing Stocks</h1>
+          <div class="course-info">
+            <p><strong>Time Spent:</strong> 3 Hours</p>
+            <p><strong>Lessons:</strong> 6</p>
+            <p><strong>Level:</strong> Beginner to Intermediate</p>
+            <p><strong>Format:</strong> Lessons & Interactive Exercises</p>
+            <p><strong>Language:</strong> English</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="navbar">
+      <button onclick="showLesson('fundamentals')">Fundamentals of Analysis</button>
+      <button onclick="showLesson('qualitative')">Qualitative Factors</button>
+      <button onclick="showLesson('valuation')">Valuation Metrics</button>
+      <button onclick="showLesson('industry')">Industry Analysis</button>
+      <button onclick="showLesson('risk')">Risk Assessment</button>
+      <button onclick="showLesson('practical')">Practical Application</button>
+    </div>
+    
+    <div id="content" class="content">
+      <h2>Welcome to the "Analyzing Stocks" Course!</h2>
+      <p>Please select a lesson from the buttons above to begin your stock analysis journey.</p>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.2 });
+
+      document.querySelectorAll('.course-container, .faq-item, .whiteboard').forEach(element => {
+        observer.observe(element);
+      });
+
+      const faqItems = document.querySelectorAll('.faq-item');
+      faqItems.forEach(item => {
+        item.addEventListener('click', () => {
+          item.classList.toggle('active');
+        });
+      });
+    });
+
+    function showLesson(key) {
+      const lesson = lessons[key];
+      const contentDiv = document.getElementById('content');
+
+      let optionsHtml = lesson.quiz.options.map(opt => 
+        `<li><button onclick="checkAnswer('${opt.replace(/'/g, "\\'")}', '${lesson.quiz.answer.replace(/'/g, "\\'")}')">${opt}</button></li>`
+      ).join('');
+
+      let answersHtml = lesson.questions.map((q, i) => `
+        <div class="question-answer">
+          <h4>${q}</h4>
+          <p>${lesson.answers[i]}</p>
+        </div>
+      `).join('');
+
+      contentDiv.innerHTML = `
+        <h2>${lesson.title}</h2>
+        <p>${lesson.content}</p>
+        
+        <div class="lesson-questions">
+          <h3>Key Questions and Answers:</h3>
+          ${answersHtml}
+        </div>
+        
+        <button onclick="openModal('${lesson.notes.replace(/'/g, "\\'")}')" class="course-btn">Show Detailed Notes</button>
+        
+        <div class="lesson-quiz">
+          <h3>Quick Check</h3>
+          <p>${lesson.quiz.question}</p>
+          <ul class="quiz-options">${optionsHtml}</ul>
+          <div id="result"></div>
+        </div>
+      `;
+    }
+
+    function checkAnswer(selected, correct) {
+      const resultDiv = document.getElementById('result');
+      if (selected === correct) {
+        resultDiv.innerHTML = `<p class="correct">Correct! Well done.</p>`;
+      } else {
+        resultDiv.innerHTML = `<p class="incorrect">Incorrect. The correct answer is: ${correct}</p>`;
+      }
+    }
+
+    function openModal(notes) {
+      const modal = document.getElementById('notesModal');
+      document.getElementById('notesContent').innerHTML = `
+        <h3>Detailed Lesson Notes</h3>
+        <p>${notes}</p>
+      `;
+      modal.style.display = "flex";
+    }
+
+    function closeModal() {
+      document.getElementById('notesModal').style.display = "none";
+    }
+
+    const lessons = {
+      'fundamentals': {
+        title: "Lesson 1: Fundamentals of Stock Analysis",
+        content: "Learn the core principles of fundamental analysis to evaluate a company's financial health and investment potential.",
+        notes: "Fundamental analysis involves assessing a company's financial statements to determine its intrinsic value. Key components include: 1) Income statement (revenue, expenses, net income), 2) Balance sheet (assets, liabilities, equity), 3) Cash flow statement (operating, investing, financing cash flows). Focus on metrics like revenue growth, profit margins, and earnings consistency. Use ratios such as Price-to-Earnings (P/E), Price-to-Book (P/B), and Return on Equity (ROE) to compare companies. Tools include company filings (10-K, 10-Q), financial news, and stock screeners. Always consider historical performance and future projections.",
+        questions: [
+          "What are the three main financial statements used in fundamental analysis?",
+          "What does the Price-to-Earnings (P/E) ratio indicate?",
+          "Why is revenue growth important in stock analysis?",
+          "What tools can be used to gather fundamental data?",
+          "Why consider both historical and future projections?"
+        ],
+        answers: [
+          "The three main financial statements are the income statement, balance sheet, and cash flow statement.",
+          "The P/E ratio compares a company's stock price to its earnings per share, indicating whether it is overvalued or undervalued relative to earnings.",
+          "Revenue growth shows a company's ability to increase sales, a key driver of future profitability and stock value.",
+          "Tools include company filings (10-K, 10-Q), financial news, investor relations websites, and stock screeners.",
+          "Historical performance shows past stability, while future projections estimate growth potential, both critical for valuation."
+        ],
+        quiz: {
+          question: "Which financial statement shows a company's revenue and expenses?",
+          options: ["Balance sheet", "Income statement", "Cash flow statement"],
+          answer: "Income statement"
+        }
+      },
+      'qualitative': {
+        title: "Lesson 2: Qualitative Factors in Stock Analysis",
+        content: "Explore non-numerical factors that influence a company's long-term success and stock performance.",
+        notes: "Qualitative analysis evaluates non-financial aspects of a company, including: 1) Management quality (experience, track record, alignment with shareholders), 2) Competitive advantages (brand strength, patents, market share), 3) Industry trends (growth, disruption, regulation), 4) Corporate governance (transparency, ethics). Research these through company reports, news, and industry publications. Strong management and unique advantages can drive sustainable growth. For example, a strong brand like Apple’s can maintain pricing power. Always balance qualitative insights with financial data for a complete analysis.",
+        questions: [
+          "What is a key aspect of management quality to evaluate?",
+          "What are examples of competitive advantages?",
+          "How do industry trends impact stock analysis?",
+          "Where can qualitative information be sourced?",
+          "Why balance qualitative and financial data?"
+        ],
+        answers: [
+          "Evaluate management’s experience, past performance, and alignment with shareholder interests (e.g., stock ownership).",
+          "Competitive advantages include strong brands, patents, proprietary technology, or dominant market share.",
+          "Industry trends, like growth or regulatory changes, affect a company’s future revenue and profitability potential.",
+          "Qualitative information comes from company reports, press releases, industry publications, and news articles.",
+          "Qualitative data provides context for financial metrics, ensuring a holistic view of a company’s potential."
+        ],
+        quiz: {
+          question: "Which factor is part of qualitative analysis?",
+          options: ["Price-to-Earnings ratio", "Competitive advantage", "Earnings per share"],
+          answer: "Competitive advantage"
+        }
+      },
+      'valuation': {
+        title: "Lesson 3: Key Valuation Metrics",
+        content: "Understand the essential metrics used to determine whether a stock is fairly valued, overvalued, or undervalued.",
+        notes: "Valuation metrics help assess a stock’s price relative to its financial performance. Key metrics include: 1) Price-to-Earnings (P/E) ratio (stock price divided by EPS), 2) Price-to-Book (P/B) ratio (market value vs. book value), 3) Earnings Per Share (EPS) (net income divided by shares outstanding), 4) Dividend Yield (annual dividend per share divided by stock price). Compare these metrics to industry averages. A low P/E may indicate undervaluation, but consider growth prospects. Use financial websites and company filings to access data.",
+        questions: [
+          "What does the Price-to-Earnings (P/E) ratio measure?",
+          "How is Earnings Per Share (EPS) calculated?",
+          "Why compare valuation metrics to industry averages?",
+          "What does a high Dividend Yield indicate?",
+          "Where can investors find valuation data?"
+        ],
+        answers: [
+          "The P/E ratio measures a stock’s price relative to its earnings per share, indicating potential over- or undervaluation.",
+          "EPS is calculated by dividing a company’s net income by its outstanding shares.",
+          "Comparing to industry averages shows how a stock’s valuation stacks up against peers, revealing relative value.",
+          "A high Dividend Yield may indicate a stock pays strong dividends, but could also signal undervaluation or risk.",
+          "Valuation data is available in company filings (10-K, 10-Q), financial websites, and stock screeners."
+        ],
+        quiz: {
+          question: "Which metric compares a stock’s market value to its book value?",
+          options: ["Price-to-Earnings (P/E)", "Price-to-Book (P/B)", "Dividend Yield"],
+          answer: "Price-to-Book (P/B)"
+        }
+      },
+      'industry': {
+        title: "Lesson 4: Industry and Competitive Analysis",
+        content: "Learn how to analyze a company’s industry and competitive position to assess its investment potential.",
+        notes: "Industry analysis evaluates a company’s operating environment, including: 1) Industry growth (e.g., expanding tech vs. declining retail), 2) Competitive landscape (market share, rival strengths), 3) Regulatory factors (government policies, trade rules), 4) Economic cycles (cyclical vs. non-cyclical industries). Competitive analysis assesses a company’s position via market share, cost advantages, or innovation. Use industry reports, trade publications, and company filings to gather data. A company in a growing industry with a strong competitive edge is often a better investment.",
+        questions: [
+          "What is a key factor in industry analysis?",
+          "How does competitive analysis benefit stock evaluation?",
+          "What are regulatory factors in industry analysis?",
+          "Where can industry data be found?",
+          "Why prefer companies with a strong competitive edge?"
+        ],
+        answers: [
+          "Industry growth, such as whether the sector is expanding or contracting, is a key factor.",
+          "Competitive analysis shows a company’s market share and advantages, indicating its ability to outperform rivals.",
+          "Regulatory factors include government policies, trade regulations, or environmental laws that impact operations.",
+          "Industry data is available in trade publications, industry reports, and company filings (10-K, 10-Q).",
+          "A strong competitive edge, like unique technology or brand, supports long-term profitability and market dominance."
+        ],
+        quiz: {
+          question: "What does industry analysis evaluate?",
+          options: ["Company’s stock price", "Industry growth and regulations", "Dividend payments"],
+          answer: "Industry growth and regulations"
+        }
+      },
+      'risk': {
+        title: "Lesson 5: Risk Assessment in Stock Analysis",
+        content: "Understand how to identify and evaluate risks that impact a stock’s performance during analysis.",
+        notes: "Risk assessment in stock analysis includes: 1) Financial risk (high debt, low cash flow), 2) Market risk (economic downturns), 3) Company-specific risk (management issues, lawsuits), 4) Industry risk (disruption, regulation). Evaluate risks by reviewing financial statements for debt-to-equity ratios, checking news for legal or operational issues, and assessing industry stability. Mitigate risks by focusing on financially sound companies with strong fundamentals. Always weigh risks against potential returns to make informed decisions.",
+        questions: [
+          "What is an example of financial risk in stock analysis?",
+          "How does market risk affect stocks?",
+          "What is company-specific risk?",
+          "How can investors assess industry risk?",
+          "Why weigh risks against potential returns?"
+        ],
+        answers: [
+          "Financial risk includes high debt levels or weak cash flow, which can limit a company’s flexibility.",
+          "Market risk involves economic downturns that can lower stock prices across industries.",
+          "Company-specific risk includes issues like poor management, product failures, or legal challenges.",
+          "Industry risk can be assessed through industry reports and news on disruptions or regulatory changes.",
+          "Weighing risks against returns ensures investments align with your risk tolerance and financial goals."
+        ],
+        quiz: {
+          question: "Which risk relates to a company’s high debt levels?",
+          options: ["Market risk", "Financial risk", "Industry risk"],
+          answer: "Financial risk"
+        }
+      },
+      'practical': {
+        title: "Lesson 6: Practical Stock Analysis Application",
+        content: "Apply stock analysis techniques to evaluate real-world companies and make investment decisions.",
+        notes: "Practical stock analysis combines fundamental, qualitative, and risk assessments. Steps include: 1) Select a company and gather data (filings, news, industry reports), 2) Analyze financials (P/E, EPS, ROE, revenue growth), 3) Evaluate qualitative factors (management, competitive edge), 4) Assess industry and risks (growth, regulations, debt), 5) Compare to peers for valuation context. For example, analyzing Apple involves checking its EPS growth, brand strength, and tech industry trends. Document findings in an investment journal to refine your process.",
+        questions: [
+          "What is the first step in practical stock analysis?",
+          "How do financial metrics aid practical analysis?",
+          "Why evaluate qualitative factors in practice?",
+          "What role does peer comparison play?",
+          "How does an investment journal help?"
+        ],
+        answers: [
+          "The first step is selecting a company and gathering data from filings, news, and industry reports.",
+          "Financial metrics like P/E and EPS show valuation and profitability, guiding investment decisions.",
+          "Qualitative factors, like management or brand, reveal long-term potential not captured by numbers.",
+          "Peer comparison provides context, showing if a stock is over- or undervalued relative to competitors.",
+          "An investment journal tracks analysis decisions, helping refine your process and identify patterns."
+        ],
+        quiz: {
+          question: "What is a key step in practical stock analysis?",
+          options: ["Buying stocks immediately", "Comparing to industry peers", "Focusing only on stock price"],
+          answer: "Comparing to industry peers"
+        }
+      }
+    };
+
+    // Show first lesson by default
+    showLesson('fundamentals');
+  </script>
+
+  <!-- Notes Modal -->
+  <div id="notesModal" class="modal">
+    <div class="modal-content">
+      <div id="notesContent"></div>
+      <button class="close-modal" onclick="closeModal()">Close Notes</button>
+    </div>
+  </div>
+</body>
+</html>

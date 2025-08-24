@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Risks and Rewards in Stock Market - Investra</title>
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+    body {
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(20, 20, 20, 0.9)), url('images/pexels-therato-9941418.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      padding: 3rem 2rem;
+      opacity: 0;
+      animation: fadeIn 1.5s ease forwards;
+    }
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 40px;
+    }
+    .logo {
+      font-size: 29px;
+      margin-left: 100px;
+      color: #3EB489;
+      display: flex;
+      align-items: center;
+      font-weight: 600;
+      animation: logoFade 1.5s ease-in-out infinite alternate;
+    }
+    @keyframes logoFade {
+      from { opacity: 0.8; }
+      to { opacity: 1; }
+    }
+    .logo::before {
+      content: "⚮";
+      margin-right: 5px;
+      animation: spin 4s infinite linear;
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    nav ul {
+      display: flex;
+      align-items: center;
+      list-style: none;
+      border: solid 1px #3EB489;
+      padding: 12px;
+      border-radius: 75px;
+    }
+    nav ul li a {
+      margin: 0 13px;
+      color: #d1d9d6;
+      text-decoration: none;
+      font-size: 15px;
+      opacity: 0.7;
+      transition: all 0.3s ease;
+      animation: navFadeIn 1s ease-out;
+    }
+    @keyframes navFadeIn {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 0.7; transform: translateX(0); }
+    }
+    nav ul li a:hover {
+      opacity: 1;
+      color: #3EB489;
+      transform: translateY(-2px);
+    }
+    .actions {
+      display: flex;
+      align-items: center;
+    }
+    .actions .btn {
+      padding: 8px 15px;
+      margin-left: 15px;
+      border: 1px solid #3EB489;
+      border-radius: 75px;
+      background-color: transparent;
+      color: #3EB489;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      animation: btnAppear 1s ease-out 0.5s backwards;
+    }
+    @keyframes btnAppear {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .actions .btn:hover {
+      background-color: rgba(0, 255, 153, 0.2);
+      border-radius: 75px;
+    }
+    .main {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      justify-content: center;
+      align-items: center;
+      padding-top: 3rem;
+    }
+    .course-container {
+      display: flex;
+      max-width: 1200px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.09);
+      backdrop-filter: blur(3px);
+      border: 1px solid #3EB489;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .course-image {
+      flex: 1;
+      max-width: 50%;
+    }
+    .course-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .course-details {
+      flex: 1;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .course-details h1 {
+      font-size: 2.5rem;
+      color: #3EB489;
+      margin-bottom: 1rem;
+    }
+    .course-info {
+      margin-bottom: 1rem;
+    }
+    .course-info p {
+      font-size: 1rem;
+      color: #ccc;
+      margin: 0.5rem 0;
+    }
+    .course-price {
+      background: #3EB489;
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
+    .course-btn {
+      padding: 0.8rem 1.5rem;
+      border: none;
+      background-color: #3EB489;
+      color: #000;
+      border-radius: 75px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .course-btn:hover {
+      background-color: #2e8b67;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .modal-content {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid #3EB489;
+      border-radius: 8px;
+      padding: 2rem;
+      text-align: center;
+      max-width: 800px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      color: #fff;
+    }
+    .modal-content h3 {
+      color: #3EB489;
+      margin-bottom: 1.5rem;
+      font-size: 2rem;
+    }
+    .modal-content p {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+      text-align: left;
+    }
+    .close-modal {
+      padding: 0.8rem 1.8rem;
+      border: none;
+      background-color: #3EB489;
+      color: #000;
+      border-radius: 75px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1.1rem;
+      margin-top: 1.5rem;
+    }
+    .close-modal:hover {
+      background-color: #2e8b67;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @media (max-width: 900px) {
+      .course-container {
+        flex-direction: column;
+      }
+      .course-image {
+        max-width: 100%;
+      }
+      nav {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      nav ul {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      .actions .btn {
+        margin-left: 0;
+      }
+      .whiteboard {
+        width: 100%;
+      }
+    }
+    .navbar {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 15px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      border-radius: 8px;
+      margin: 20px auto;
+      max-width: 800px;
+    }
+    .navbar button {
+      background-color: rgba(45, 91, 57, 0.7);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .navbar button:hover {
+      background-color: rgba(19, 54, 29, 0.8);
+      transform: translateY(-2px);
+    }
+    .content {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid #3EB489;
+      border-radius: 8px;
+      padding: 2rem;
+      max-width: 1200px;
+      width: 90%;
+      margin: 20px auto;
+      min-height: 300px;
+    }
+    .content h2 {
+      color: #3EB489;
+      margin-bottom: 1rem;
+    }
+    .content p {
+      color: #ccc;
+      margin-bottom: 1rem;
+    }
+    .quiz-options {
+      list-style: none;
+      padding: 0;
+    }
+    .quiz-options li {
+      margin-bottom: 10px;
+    }
+    .quiz-options button {
+      background-color: rgba(62, 180, 137, 0.3);
+      color: white;
+      border: 1px solid #3EB489;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s;
+      width: 100%;
+      text-align: left;
+    }
+    .quiz-options button:hover {
+      background-color: rgba(62, 180, 137, 0.5);
+    }
+    #result {
+      margin-top: 20px;
+      padding: 10px;
+      border-radius: 5px;
+    }
+    .correct {
+      background-color: rgba(0, 255, 0, 0.1);
+      color: #3EB489;
+    }
+    .incorrect {
+      background-color: rgba(255, 0, 0, 0.1);
+      color: #ff6b6b;
+    }
+    .lesson-questions {
+      margin: 20px 0;
+      padding: 15px;
+      background: rgba(62, 180, 137, 0.1);
+      border-left: 3px solid #3EB489;
+    }
+    .lesson-questions h3 {
+      color: #3EB489;
+      margin-bottom: 10px;
+    }
+    .lesson-questions ol {
+      padding-left: 20px;
+    }
+    .lesson-questions li {
+      margin-bottom: 8px;
+      color: #ccc;
+    }
+    .lesson-quiz {
+      margin-top: 30px;
+      padding: 20px;
+      background: rgba(62, 180, 137, 0.15);
+      border-radius: 8px;
+    }
+    .lesson-quiz h3 {
+      color: #3EB489;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+    .question-answer {
+      margin-top: 15px;
+      padding: 15px;
+      background: rgba(62, 180, 137, 0.1);
+      border-radius: 5px;
+    }
+    .question-answer h4 {
+      color: #3EB489;
+      margin-bottom: 8px;
+    }
+    .question-answer p {
+      color: #ccc;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+   <nav>
+    <div class="logo">Investra</div>
+    <ul>
+      <li><a href="home.html">Home</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="Learning.html">Learning</a></li>
+      <li><a href="portfolio2.html">Virtual Stocks</a></li>
+      <li><a href="research.html">Services</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+      <li><a href="contact.html">Contact</a></li>
+       
+   
+    </ul>
+    <div class="actions">
+          <button class="btn"><a href="help.html" style="color: #3EB489;text-decoration: none;">Help Center</a></button>
+      <button class="btn"><a href="index.html" style="color: #3EB489;text-decoration: none;">Sign Out</a></button>
+   
+    </div>
+  </nav>
+  <div class="main">
+    <div class="course-container">
+      <div class="course-image">
+        <img src="images/asa-e-k-13EsoonqDkY-unsplash.jpg" alt="Risks and Rewards in Stock Market" />
+      </div>
+      <div class="course-details">
+        <div>
+          <h1>Risks and Rewards in Stock Market</h1>
+          <div class="course-info">
+            <p><strong>Time Spent:</strong> 3 Hours</p>
+            <p><strong>Lessons:</strong> 6</p>
+            <p><strong>Level:</strong> Beginner to Intermediate</p>
+            <p><strong>Format:</strong> Lessons & Interactive Exercises</p>
+            <p><strong>Language:</strong> English</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="navbar">
+      <button onclick="showLesson('intro')">Introduction to Risks and Rewards</button>
+      <button onclick="showLesson('risk-types')">Types of Risks</button>
+      <button onclick="showLesson('rewards')">Potential Rewards</button>
+      <button onclick="showLesson('management')">Risk Management</button>
+      <button onclick="showLesson('balance')">Balancing Risks and Rewards</button>
+      <button onclick="showLesson('practical')">Practical Analysis</button>
+    </div>
+    
+    <div id="content" class="content">
+      <h2>Welcome to the "Risks and Rewards in Stock Market" Course!</h2>
+      <p>Please select a lesson from the buttons above to begin your journey into understanding risks and rewards in stock market investing.</p>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.2 });
+
+      document.querySelectorAll('.course-container, .faq-item, .whiteboard').forEach(element => {
+        observer.observe(element);
+      });
+
+      const faqItems = document.querySelectorAll('.faq-item');
+      faqItems.forEach(item => {
+        item.addEventListener('click', () => {
+          item.classList.toggle('active');
+        });
+      });
+    });
+
+    function showLesson(key) {
+      const lesson = lessons[key];
+      const contentDiv = document.getElementById('content');
+
+      let optionsHtml = lesson.quiz.options.map(opt => 
+        `<li><button onclick="checkAnswer('${opt.replace(/'/g, "\\'")}', '${lesson.quiz.answer.replace(/'/g, "\\'")}')">${opt}</button></li>`
+      ).join('');
+
+      let answersHtml = lesson.questions.map((q, i) => `
+        <div class="question-answer">
+          <h4>${q}</h4>
+          <p>${lesson.answers[i]}</p>
+        </div>
+      `).join('');
+
+      contentDiv.innerHTML = `
+        <h2>${lesson.title}</h2>
+        <p>${lesson.content}</p>
+        
+        <div class="lesson-questions">
+          <h3>Key Questions and Answers:</h3>
+          ${answersHtml}
+        </div>
+        
+        <button onclick="openModal('${lesson.notes.replace(/'/g, "\\'")}')" class="course-btn">Show Detailed Notes</button>
+        
+        <div class="lesson-quiz">
+          <h3>Quick Check</h3>
+          <p>${lesson.quiz.question}</p>
+          <ul class="quiz-options">${optionsHtml}</ul>
+          <div id="result"></div>
+        </div>
+      `;
+    }
+
+    function checkAnswer(selected, correct) {
+      const resultDiv = document.getElementById('result');
+      if (selected === correct) {
+        resultDiv.innerHTML = `<p class="correct">Correct! Well done.</p>`;
+      } else {
+        resultDiv.innerHTML = `<p class="incorrect">Incorrect. The correct answer is: ${correct}</p>`;
+      }
+    }
+
+    function openModal(notes) {
+      const modal = document.getElementById('notesModal');
+      document.getElementById('notesContent').innerHTML = `
+        <h3>Detailed Lesson Notes</h3>
+        <p>${notes}</p>
+      `;
+      modal.style.display = "flex";
+    }
+
+    function closeModal() {
+      document.getElementById('notesModal').style.display = "none";
+    }
+
+    const lessons = {
+      'intro': {
+        title: "Lesson 1: Introduction to Risks and Rewards",
+        content: "Learn the fundamental concepts of risks and rewards in stock market investing and why they matter.",
+        notes: "Risk in the stock market refers to the potential for financial loss, while reward is the potential for profit through price appreciation or dividends. Higher risks often come with the possibility of higher rewards, but not guaranteed. Investors assess risks and rewards to align investments with their goals and risk tolerance. Risks can stem from market fluctuations, company performance, or economic conditions, while rewards include capital gains and income. Sources like financial news, company filings, and market reports help evaluate these factors.",
+        questions: [
+          "What is risk in the stock market?",
+          "What are the main types of rewards in stocks?",
+          "Why assess risks and rewards?",
+          "What can cause stock market risks?",
+          "Where can investors find risk and reward information?"
+        ],
+        answers: [
+          "Risk is the potential for financial loss due to price declines or other factors.",
+          "Rewards include capital gains (price increases) and dividends (income payments).",
+          "Assessing risks and rewards aligns investments with financial goals and risk tolerance.",
+          "Risks can arise from market volatility, poor company performance, or economic downturns.",
+          "Information is in financial news, company filings (10-K, 10-Q), and market reports."
+        ],
+        quiz: {
+          question: "What does risk represent in the stock market?",
+          options: ["Guaranteed profit", "Potential financial loss", "Fixed income"],
+          answer: "Potential financial loss"
+        }
+      },
+      'risk-types': {
+        title: "Lesson 2: Types of Stock Market Risks",
+        content: "Explore the various types of risks investors face in the stock market.",
+        notes: "Stock market risks include: 1) Market risk (price declines due to economic or global events), 2) Company-specific risk (poor performance, management issues), 3) Liquidity risk (difficulty selling shares), 4) Inflation risk (reduced purchasing power), 5) Interest rate risk (rising rates lowering stock prices). Assess risks through financial statements, news, and economic reports. For example, a company with high debt faces greater company-specific risk. Understanding risk types helps investors prepare and diversify.",
+        questions: [
+          "What is market risk?",
+          "What causes company-specific risk?",
+          "How does liquidity risk affect investors?",
+          "Why is inflation risk a concern?",
+          "Where can risk information be sourced?"
+        ],
+        answers: [
+          "Market risk is the potential for losses due to broad market declines from economic or global events.",
+          "Company-specific risk arises from poor performance, management failures, or legal issues.",
+          "Liquidity risk occurs when investors can’t sell shares quickly without significant price drops.",
+          "Inflation risk reduces the real value of returns, impacting purchasing power.",
+          "Risk information is in financial statements, news, and economic reports."
+        ],
+        quiz: {
+          question: "Which risk involves broad market declines?",
+          options: ["Liquidity risk", "Market risk", "Inflation risk"],
+          answer: "Market risk"
+        }
+      },
+      'rewards': {
+        title: "Lesson 3: Potential Rewards of Investing",
+        content: "Understand the potential rewards of stock market investing and what drives them.",
+        notes: "Rewards in the stock market include: 1) Capital gains (profit from selling stocks at a higher price), 2) Dividends (regular income payments from companies), 3) Portfolio growth (compounding returns over time). Rewards are driven by company performance (earnings growth), market conditions, and economic expansion. High-growth stocks may offer larger capital gains, while stable companies provide dividends. Find reward potential in company filings, earnings reports, and financial news. Long-term investing often maximizes rewards.",
+        questions: [
+          "What are capital gains?",
+          "How do dividends contribute to rewards?",
+          "What drives stock market rewards?",
+          "Where can reward potential be assessed?",
+          "Why is long-term investing beneficial?"
+        ],
+        answers: [
+          "Capital gains are profits from selling stocks at a price higher than the purchase price.",
+          "Dividends provide regular income, adding to total returns alongside price appreciation.",
+          "Rewards are driven by strong company earnings, favorable market conditions, and economic growth.",
+          "Reward potential is in company filings (10-K, 10-Q), earnings reports, and financial news.",
+          "Long-term investing allows compounding and reduces the impact of short-term volatility."
+        ],
+        quiz: {
+          question: "Which reward comes from selling stocks at a profit?",
+          options: ["Dividends", "Capital gains", "Portfolio growth"],
+          answer: "Capital gains"
+        }
+      },
+      'management': {
+        title: "Lesson 4: Risk Management Strategies",
+        content: "Learn strategies to manage and mitigate risks in stock market investing.",
+        notes: "Risk management strategies include: 1) Diversification (spreading investments across sectors), 2) Position sizing (limiting investment in a single stock), 3) Stop-loss orders (automatic selling at a set price), 4) Research (analyzing financials and news), 5) Long-term perspective (reducing volatility impact). For example, owning stocks in technology and healthcare reduces sector-specific risk. Use financial platforms and company reports to inform strategies. Effective risk management protects capital while pursuing rewards.",
+        questions: [
+          "What is diversification in risk management?",
+          "How does position sizing reduce risk?",
+          "What is a stop-loss order?",
+          "Why is research important for risk management?",
+          "Where can investors access risk management data?"
+        ],
+        answers: [
+          "Diversification spreads investments across sectors or assets to reduce exposure to any single risk.",
+          "Position sizing limits the amount invested in one stock, minimizing potential losses.",
+          "A stop-loss order automatically sells a stock at a set price to cap losses.",
+          "Research helps identify risks through financial statements, news, and market trends.",
+          "Data is available on financial platforms, company filings, and news outlets."
+        ],
+        quiz: {
+          question: "Which strategy involves spreading investments across sectors?",
+          options: ["Position sizing", "Diversification", "Stop-loss orders"],
+          answer: "Diversification"
+        }
+      },
+      'balance': {
+        title: "Lesson 5: Balancing Risks and Rewards",
+        content: "Understand how to balance risks and rewards to align with your investment goals.",
+        notes: "Balancing risks and rewards involves: 1) Defining risk tolerance (low, moderate, high), 2) Setting investment goals (growth, income, preservation), 3) Choosing appropriate stocks (e.g., stable for low risk, growth for high risk), 4) Monitoring portfolio performance, 5) Adjusting based on market conditions. For example, a young investor may tolerate higher risk for growth, while retirees prefer stable dividends. Use financial news, company filings, and risk assessment tools to guide decisions. Regular rebalancing ensures alignment with goals.",
+        questions: [
+          "What is risk tolerance?",
+          "How do investment goals influence stock choices?",
+          "Why monitor portfolio performance?",
+          "What role does market conditions play?",
+          "Where can balancing data be sourced?"
+        ],
+        answers: [
+          "Risk tolerance is an investor’s ability and willingness to endure declines in investment value.",
+          "Goals like growth or income determine whether to choose high-risk growth stocks or stable dividend stocks.",
+          "Monitoring performance ensures the portfolio aligns with risk tolerance and goals.",
+          "Market conditions, like economic downturns, may require adjusting risk exposure.",
+          "Data is in financial news, company filings, and risk assessment tools."
+        ],
+        quiz: {
+          question: "What determines an investor’s risk tolerance?",
+          options: ["Stock price", "Ability to endure losses", "Market size"],
+          answer: "Ability to endure losses"
+        }
+      },
+      'practical': {
+        title: "Lesson 6: Practical Risk and Reward Analysis",
+        content: "Apply risk and reward analysis to make informed stock market investment decisions.",
+        notes: "Practical analysis involves: 1) Selecting a stock and gathering data (filings, news), 2) Assessing risks (market, company-specific, economic), 3) Evaluating rewards (earnings growth, dividends), 4) Applying risk management (diversification, position sizing), 5) Documenting decisions in an investment journal. For example, analyzing Microsoft involves checking its stable earnings (reward) and tech sector volatility (risk), then diversifying with other sectors. Use 10-K filings, financial platforms, and news for data. Regular review refines strategies.",
+        questions: [
+          "What is the first step in practical analysis?",
+          "How do you assess a stock’s risks?",
+          "Why evaluate potential rewards?",
+          "What role does an investment journal play?",
+          "Where can practical analysis data be sourced?"
+        ],
+        answers: [
+          "The first step is selecting a stock and gathering data from filings and news.",
+          "Assess risks by reviewing market conditions, company financials, and economic factors.",
+          "Evaluating rewards identifies potential gains from price appreciation or dividends.",
+          "An investment journal tracks decisions, helping refine strategies and identify patterns.",
+          "Data is sourced from 10-K filings, financial platforms, and news outlets."
+        ],
+        quiz: {
+          question: "What is a key step in practical risk and reward analysis?",
+          options: ["Ignoring company financials", "Assessing market risks", "Focusing only on dividends"],
+          answer: "Assessing market risks"
+        }
+      }
+    };
+
+    // Show first lesson by default
+    showLesson('intro');
+  </script>
+
+  <!-- Notes Modal -->
+  <div id="notesModal" class="modal">
+    <div class="modal-content">
+      <div id="notesContent"></div>
+      <button class="close-modal" onclick="closeModal()">Close Notes</button>
+    </div>
+  </div>
+</body>
+</html>

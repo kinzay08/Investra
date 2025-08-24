@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+ <title>Investra</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  <style>
+    html, body {
+  height: 100%;
+  margin: 0;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+}
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(20, 20, 20, 0.9)),
+        url("images/pexels-therato-9941418.jpg") no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      padding: 3rem 2rem;
+      opacity: 0;
+      animation: fadeIn 1.5s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      font-size: 29px;
+      margin-left: 100px;
+      color: #3EB489;
+      display: flex;
+      align-items: center;
+      font-weight: 600;
+      animation: logoFade 1.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes logoFade {
+      from { opacity: 0.8; }
+      to { opacity: 1; }
+    }
+
+    .logo::before {
+      content: "⚮";
+      margin-right: 5px;
+      animation: spin 4s infinite linear;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    nav ul {
+      display: flex;
+      align-items: center;
+      list-style: none;
+      flex-wrap: wrap;
+      border: solid 1px  #3EB489;
+      padding: 12px;
+      border-radius: 75px;
+    }
+
+    nav ul li a {
+      margin: 0 13px;
+      color: #d1d9d6;
+      text-decoration: none;
+      font-size: 15px;
+      opacity: 0.7;
+      transition: all 0.3s ease;
+      animation: navFadeIn 1s ease-out;
+    }
+
+    @keyframes navFadeIn {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 0.7; transform: translateX(0); }
+    }
+
+    nav ul li a:hover {
+      opacity: 1;
+      color: #3EB489;
+      transform: translateY(-2px);
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .actions .btn {
+      padding: 8px 15px;
+      border: 1px solid #3EB489;
+      border-radius: 75px;
+      background-color: transparent;
+      color: #3EB489;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      animation: btnAppear 1s ease-out 0.5s backwards;
+    }
+
+    @keyframes btnAppear {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .actions .btn:hover {
+      background-color: rgba(0, 255, 153, 0.2);
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      min-height: 80vh;
+      padding: 10px;
+      max-width: 1200px;
+    }
+
+    .left-section, .right-section {
+      flex: 1;
+      min-width: 320px;
+      padding: 10px;
+    }
+
+    .logo-container {
+      max-width: 300px;
+      margin: 0 auto 20px;
+    }
+
+    .logo-container img {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(150, 193, 181, 0.7);
+    }
+
+    .compliance-icons {
+      margin-top: 20px;
+    }
+
+    .compliance-icons i {
+      font-size: 20px;
+      color: #43b86e;
+      margin: 0 15px;
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+
+    .compliance-icons i:hover {
+      transform: scale(1.3);
+      color: #3b7e3e;
+    }
+
+    .partner-section {
+      background-color: #101c11;
+      padding: 5px 10px;
+      border-radius: 15px;
+      display: inline-block;
+      font-size: 12px;
+      color: #3e714c;
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 36px;
+      color: #ffffff;
+      font-weight: 700;
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+
+    p {
+      font-size: 16px;
+      color: #e0e0e0;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    .infinity-logo-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 350px;
+    }
+
+    .infinity-logo {
+      font-size: 400px; /* slightly smaller to reduce rendering glitches */
+      color: #0ea541;
+      animation: spin 7s linear infinite;
+      text-shadow: 0 0 10px #31c136, 0 0 20px #4d853e;
+      /* Fix for glitch */
+      transform-style: preserve-3d;
+      backface-visibility: hidden;
+      will-change: transform;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        text-align: center;
+      }
+      nav {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0 1rem;
+      }
+      .logo {
+        margin-left: 0;
+        margin-bottom: 10px;
+      }
+      nav ul {
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .actions {
+        justify-content: center;
+      }
+    }
+        footer {
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(20, 20, 20, 0.8));
+      color: #ccc;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      margin-top: 5rem;
+      width: 100%;
+      padding: 1rem 0;
+      size: cover;
+    }
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      flex-wrap: wrap;
+      gap: 2rem;
+      padding: 0 2rem;
+    }
+    .footer-column {
+      flex: 1;
+      min-width: 150px;
+    }
+    .footer-column h4 {
+      color: #fff;
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+    }
+    .footer-column ul {
+      list-style: none;
+    }
+    .footer-column ul li {
+      margin-bottom: 0.5rem;
+    }
+    .footer-column ul li a {
+      color: #ccc;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.3s ease;
+    }
+    .footer-column ul li a:hover {
+      color: #3EB489;
+    }
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 2rem auto 0;
+      padding: 1rem 2rem 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-bottom-links a {
+      color: #ccc;
+      text-decoration: none;
+      margin-right: 1rem;
+      font-size: 0.9rem;
+      transition: color 0.3s ease;
+    }
+    .footer-bottom-links a:hover {
+      color: #3EB489;
+    }
+    .social-icons a {
+      color: #ccc;
+      font-size: 1.2rem;
+      margin-left: 1rem;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .social-icons a:hover {
+      color: #3EB489;
+    }
+    @media (max-width: 900px) {
+      .footer-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+      }
+      .social-icons {
+        margin-top: 1rem;
+      }
+    }
+   nav ul{
+      border: solid 1px  #3EB489;
+      padding: 12px;
+      border-radius: 75px;
+    
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+  <nav>
+    <div class="logo">Investra</div>
+    <ul>
+      <li><a href="home.html">Home</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="Learning.html">Learning</a></li>
+      <li><a href="portfolio2.html">Virtual Stocks</a></li>
+      <li><a href="research.html">Services</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+      <li><a href="contact.html">Contact</a></li>
+       
+   
+    </ul>
+    <div class="actions">
+          <button class="btn"><a href="help.html" style="color: #3EB489;text-decoration: none;">Help Center</a></button>
+      <button class="btn"><a href="index.html" style="color: #3EB489;text-decoration: none;">Sign Out</a></button>
+   
+    </div>
+  </nav>
+  <div class="container">
+    <div class="left-section">
+      <div class="infinity-logo-container">
+        <div class="infinity-logo">∞</div>
+      </div>
+    </div>
+
+    <div class="right-section">
+      <div class="partner-section">About us</div>
+      <h1>Learn. Invest. Grow — The Smart Way</h1>
+      <p>
+        Investra is your gateway to mastering the world of investments. We simplify complex financial
+        concepts through interactive lessons, real-time simulations, and personalized learning paths.
+
+        Whether you're a student, a young professional, or just someone curious about how money works,
+        Investra gives you the tools and confidence to make smarter investment decisions.
+
+        Join a growing community of learners and start your journey towards financial literacy and
+        independence — only on Investra.
+      </p>
+    </div>
+  </div>
+  
+  <footer>
+    <div class="footer-content">
+      <div class="footer-column">
+        <h4>About us</h4>
+        <ul>
+          <li><a href="#">Team</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Socials</a></li>
+          <li><a href="#">Activity</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Platform</h4>
+        <ul>
+          <li><a href="#">Pricing</a></li>
+          <li><a href="#">Solutions</a></li>
+          <li><a href="#">Plans</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Blog</h4>
+        <ul>
+          <li><a href="#">Use Cases</a></li>
+          <li><a href="#">Testimonials</a></li>
+          <li><a href="#">Insights</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Careers</h4>
+        <ul>
+          <li><a href="#">Team</a></li>
+          <li><a href="#">Activity</a></li>
+          <li><a href="#">Socials</a></li>
+          <li><a href="#">About us</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Testimonials</h4>
+        <ul>
+          <li><a href="#">Use Cases</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Insights</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Terms & Conditions</h4>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Cookies</a></li>
+          <li><a href="#">Refunds</a></li>
+          <li><a href="#">License</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-bottom-links">
+        <a href="#">Terms & Conditions</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Cookies</a>
+        <a href="#">Refunds</a>
+        <a href="#">License</a>
+      </div>
+      <div class="social-icons">
+        <!-- <a href="#">📘</a>
+        <a href="#">📷</a>
+        <a href="#">🔗</a>
+        <a href="#">🐦</a>
+        <a href="#">📺</a> -->
+      </div>
+    </div>
+  </footer>
+  </div>
+</body>
+</html>

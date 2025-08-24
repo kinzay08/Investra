@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+ <title>Investra</title>
+   <link rel="stylesheet" href="style1.css">
+</head>
+<body>
+
+  <div class="main-container">
+    <div class="left-section">
+      <div class="logo">Investra</div>
+      <br/>
+      <a href="index.html" class="back-button">&larr; Back</a>
+    </div>
+
+    <div class="right-section">
+      <div class="login-form">
+        <h2>Login</h2>
+        <form id="login-form">
+          <input type="text" id="username" placeholder="Username" required />
+          <input type="password" id="password" placeholder="Password" required />
+          <p>Don't have an account? <a href="register.html">Signup</a></p>
+          <button type="submit">Login</button>
+        </form>
+      </div>
+      <p class="contact-note">If there's any queries contact @.com</p>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const loginForm = document.getElementById("login-form");
+
+      loginForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        const loginData = {
+          username: username,
+          password: password,
+        };
+
+        try {
+          const response = await fetch("http://localhost:8081/api/auth/login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(loginData),
+          });
+
+          if (!response.ok) {
+            throw new Error("Invalid credentials");
+          }
+
+          const token = await response.text();
+          localStorage.setItem("jwtToken", token);
+
+          const payload = JSON.parse(atob(token.split(".")[1]));
+          localStorage.setItem("userId", payload.userId);
+
+          alert("Login successful!");
+          window.location.href = "home.html";
+        } catch (error) {
+          console.error("Login error:", error);
+          alert("Login failed: " + error.message);
+        }
+      });
+    });
+  </script>
+</body>
+</html>

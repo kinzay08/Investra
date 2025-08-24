@@ -1,0 +1,447 @@
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+    body {
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(20, 20, 20, 0.8)), url('images/pexels-therato-9941418.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      padding: 3rem 2rem;
+      opacity: 0;
+      animation: fadeIn 1.5s ease forwards;
+    }
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 40px;
+    }
+    .logo {
+      font-size: 29px;
+      margin-left: 100px;
+      color: #3EB489;
+      display: flex;
+      align-items: center;
+      font-weight: 600;
+      animation: logoFade 1.5s ease-in-out infinite alternate;
+    }
+    @keyframes logoFade {
+      from { opacity: 0.8; }
+      to { opacity: 1; }
+    }
+    .logo::before {
+      content: "⚮";
+      margin-right: 5px;
+      animation: spin 4s infinite linear;
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    nav ul {
+      display: flex;
+      align-items: center;
+      list-style: none;
+      border: solid 1px #3EB489;
+      padding: 12px;
+      border-radius: 75px;
+    }
+    nav ul li a {
+      margin: 0 13px;
+      color: #d1d9d6;
+      text-decoration: none;
+      font-size: 15px;
+      opacity: 0.7;
+      transition: all 0.3s ease;
+      animation: navFadeIn 1s ease-out;
+    }
+    @keyframes navFadeIn {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 0.7; transform: translateX(0); }
+    }
+    nav ul li a:hover {
+      opacity: 1;
+      color: #3EB489;
+      transform: translateY(-2px);
+    }
+    .actions {
+      display: flex;
+      align-items: center;
+    }
+    .actions .btn {
+      padding: 8px 15px;
+      margin-left: 15px;
+      border: 1px solid #3EB489;
+      border-radius: 75px;
+      background-color: transparent;
+      color: #3EB489;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      animation: btnAppear 1s ease-out 0.5s backwards;
+    }
+    @keyframes btnAppear {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .actions .btn:hover {
+      background-color: rgba(0, 255, 153, 0.2);
+      border-radius: 75px;
+    }
+    .main {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      justify-content: center;
+      align-items: center;
+      padding-top: 3rem;
+    }
+    .course-container {
+      display: flex;
+      max-width: 1200px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.09);
+      backdrop-filter: blur(3px);
+      border: 1px solid #3EB489;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .course-image {
+      flex: 1;
+      max-width: 50%;
+    }
+    .course-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .course-details {
+      flex: 1;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .course-details h1 {
+      font-size: 2.5rem;
+      color: #3EB489;
+      margin-bottom: 1rem;
+    }
+    .course-info {
+      margin-bottom: 1rem;
+    }
+    .course-info p {
+      font-size: 1rem;
+      color: #ccc;
+      margin: 0.5rem 0;
+    }
+    .course-price {
+      background: #3EB489;
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
+    .course-btn {
+      padding: 0.8rem 1.5rem;
+      border: none;
+      background-color: #3EB489;
+      color: #000;
+      border-radius: 75px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .course-btn:hover {
+      background-color: #2e8b67;
+    }
+    .whiteboard {
+      max-width: 1200px;
+      width: 80%;
+      margin: 2rem auto;
+      padding: 1.5rem;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid #3EB489;
+      border-radius: 8px;
+      box-sizing: border-box;
+    }
+    .whiteboard h2 {
+      font-size: 1.5rem;
+      color: #3EB489;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    .whiteboard textarea {
+      width: 100%;
+      height: 200px;
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 1rem;
+      resize: vertical;
+      padding: 0.5rem;
+      box-sizing: border-box;
+    }
+    .whiteboard textarea:focus {
+      outline: none;
+    }
+    .faq-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 0;
+    }
+    .faq-section h2 {
+      font-size: 2rem;
+      color: #3EB489;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    .faq-item {
+      background: rgba(255, 255, 255, 0.09);
+      border: 1px solid #3EB489;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+    }
+    .faq-question {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      cursor: pointer;
+      background: rgba(62, 180, 137, 0.2);
+    }
+    .faq-question h3 {
+      font-size: 1.2rem;
+      color: #fff;
+    }
+    .faq-question .toggle-icon {
+      font-size: 1.5rem;
+      transition: transform 0.3s ease;
+    }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      padding: 0 1rem;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+    .faq-answer p {
+      padding: 1rem 0;
+      color: #ccc;
+      font-size: 1rem;
+    }
+    .faq-item.active .faq-answer {
+      max-height: 200px;
+      padding: 1rem;
+    }
+    .faq-item.active .toggle-icon {
+      transform: rotate(45deg);
+    }
+    .quiz-section {
+      max-width: 1200px;
+      width: 80%;
+      margin: 2rem auto;
+      padding: 1.5rem;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid #3EB489;
+      border-radius: 8px;
+      box-sizing: border-box;
+    }
+    .quiz-section h2 {
+      font-size: 1.5rem;
+      color: #3EB489;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    .quiz-question {
+      margin-bottom: 1.5rem;
+      padding: 0 1rem;
+    }
+    .quiz-question p {
+      font-size: 1rem;
+      color: #ccc;
+      margin-bottom: 0.5rem;
+    }
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      padding-left: 1rem;
+    }
+    .quiz-option {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .quiz-options input[type="radio"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+    .quiz-options label {
+      color: #ccc;
+      font-size: 1rem;
+      line-height: 1.5;
+      cursor: pointer;
+    }
+    .quiz-submit {
+      display: block;
+      margin: 1rem auto;
+      padding: 0.8rem 1.5rem;
+      border: none;
+      background-color: #3EB489;
+      color: #000;
+      border-radius: 75px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .quiz-submit:hover {
+      background-color: #2e8b67;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .modal-content {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid #3EB489;
+      border-radius: 8px;
+      padding: 2rem;
+      text-align: center;
+      max-width: 500px;
+      width: 90%;
+      color: #fff;
+    }
+    .modal-content h3 {
+      color: #3EB489;
+      margin-bottom: 1rem;
+    }
+    .modal-content p {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+    .close-modal {
+      padding: 0.5rem 1rem;
+      border: none;
+      background-color: #3EB489;
+      color: #000;
+      border-radius: 75px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .close-modal:hover {
+      background-color: #2e8b67;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @media (max-width: 900px) {
+      .course-container {
+        flex-direction: column;
+      }
+      .course-image {
+        max-width: 100%;
+      }
+      nav {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      nav ul {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      .actions .btn {
+        margin-left: 0;
+      }
+      .whiteboard, .quiz-section {
+        width: 100%;
+      }
+    }
+    footer {
+      background: rgba(0, 0, 0, 0.7);
+      color: #ccc;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      width: 100%;
+      padding: 0.5rem 0;
+      margin-top: 1rem;
+    }
+    .footer-content {
+      display: flex;
+      justify-content: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding: 0 1rem;
+    }
+    .footer-column {
+      flex: 1;
+      min-width: 100px;
+    }
+    .footer-column h4 {
+      color: #fff;
+      margin-bottom: 0.3rem;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+    .footer-column ul {
+      list-style: none;
+      text-align: center;
+    }
+    .footer-column ul li {
+      margin-bottom: 0.2rem;
+    }
+    .footer-column ul li a {
+      color: #ccc;
+      text-decoration: none;
+      font-size: 0.7rem;
+      transition: color 0.3s ease;
+    }
+    .footer-column ul li a:hover {
+      color: #3EB489;
+    }
+    .footer-bottom {
+      display: flex;
+      justify-content: center;
+      max-width: 1200px;
+      margin: 0.5rem auto 0;
+      padding: 0.3rem 1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .footer-bottom-links a {
+      color: #ccc;
+      text-decoration: none;
+      margin: 0 0.5rem;
+      font-size: 0.7rem;
+      transition: color 0.3s ease;
+    }
+    .footer-bottom-links a:hover {
+      color: #3EB489;
+    }
+    @media (max-width: 900px) {
+      .footer-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+      }
+    }

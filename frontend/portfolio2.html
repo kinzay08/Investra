@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+ <title>Investra</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Montserrat', Arial, sans-serif;
+      min-height: 100vh;
+      position: relative;
+      color: white;
+      overflow-x: hidden;
+      background: #1a1a2e;
+    }
+    body::before {
+    content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: url('images/joshua-harvey-8LCiq0PuPBI-unsplash\ \(1\).jpg') center/cover no-repeat;
+  filter: blur(2px) brightness(0.3) saturate(0.9); 
+  z-index: -2;
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.25);
+      z-index: -1;
+    }
+    nav {
+      margin-top: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 40px;
+    }
+    .logo {
+      font-size: 29px;
+      margin-left: 150px;
+      color: #3EB489;
+      display: flex;
+      align-items: center;
+      font-weight: 600;
+      animation: logoFade 1.5s ease-in-out infinite alternate;
+    }
+    @keyframes logoFade {
+      from { opacity: 0.8; }
+      to { opacity: 1; }
+    }
+    .logo::before {
+      content: "⚮";
+      margin-right: 5px;
+      animation: spin 4s infinite linear;
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    nav ul {
+      display: flex;
+      align-items: center;
+      list-style: none;
+      border: solid 1px #3EB489;
+      padding: 12px;
+      border-radius: 75px;
+    }
+    nav ul li a {
+      margin: 0 13px;
+      color: #d1d9d6;
+      text-decoration: none;
+      font-size: 15px;
+      opacity: 0.7;
+      transition: all 0.3s ease;
+      animation: navFadeIn 1s ease-out;
+    }
+    @keyframes navFadeIn {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 0.7; transform: translateX(0); }
+    }
+    nav ul li a:hover {
+      opacity: 1;
+      color: #3EB489;
+      transform: translateY(-2px);
+    }
+    nav .actions {
+      display: flex;
+      align-items: center;
+      margin-right: 45px;
+    }
+    nav .actions .btn {
+      padding: 8px 15px;
+      margin-left: 10px;
+      border: 1px solid #3EB489;
+      border-radius: 75px;
+      background-color: transparent;
+      color: #3EB489;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      animation: btnAppear 1s ease-out 0.5s backwards;
+    }
+    @keyframes btnAppear {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .actions .btn:hover {
+      background-color: rgba(0, 255, 153, 0.2);
+      border-radius: 75px;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 30px 40px;
+      background: transparent;
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(15px);
+      border-radius: 16px;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      gap: 30px;
+      color: #b2dfdb;
+    }
+    .sidebar {
+      width: 250px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 20px;
+      max-height: 215vh;
+      overflow-y: auto;
+    }
+    .sidebar h2 {
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      color: #3EB489;
+    }
+    .sidebar .stock-item {
+      padding: 10px;
+      margin-bottom: 10px;
+      background: rgba(0, 77, 64, 0.4);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .sidebar .stock-item:hover, .sidebar .stock-item.selected {
+      background: rgba(0, 121, 107, 0.6);
+    }
+    .sidebar .stock-item p {
+      margin: 5px 0;
+      font-size: 0.95rem;
+    }
+    .main-content {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .market-overview {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 15px;
+      display: flex;
+      justify-content: space-around;
+      gap: 20px;
+    }
+    .market-overview div {
+      text-align: center;
+    }
+    .market-overview h3 {
+      margin: 0 0 5px;
+      color: #3EB489;
+      font-size: 1.1rem;
+    }
+    .market-overview p {
+      margin: 0;
+      font-size: 0.95rem;
+    }
+    .graph-container {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 15px;
+    }
+    .chart-wrapper {
+      width: 100%;
+      height: 400px;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .trade-details {
+      background: rgba(8, 89, 76, 0.5);
+      border-radius: 12px;
+      padding: 15px;
+      display: flex;
+      gap: 20px;
+    }
+    .trade-info {
+      flex-grow: 1;
+    }
+    .trade-info h3 {
+      margin: 0 0 10px;
+      color: #3EB489;
+    }
+    .trade-actions {
+      margin-bottom: 10px;
+    }
+    .trade-actions input {
+      width: 80px;
+      padding: 6px 8px;
+      border-radius: 8px;
+      border: 1.5px solid #b2dfdb;
+      background: rgba(0, 77, 64, 0.4);
+      color: #e0f2f1;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: background 0.3s ease, border-color 0.3s ease;
+      text-align: center;
+    }
+    .trade-actions input:focus {
+      outline: none;
+      background: rgba(0, 121, 107, 0.6);
+      border-color: #80cbc4;
+      color: #3EB489;
+    }
+    .trade-actions button {
+      background-color: transparent;
+      color: #3EB489;
+      border: 1.5px solid #b2dfdb;
+      padding: 8px 18px;
+      margin-left: 10px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      border-radius: 15px;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .trade-actions button:hover {
+      background-color: #80cbc4;
+      color: #004d40;
+      border-color: #80cbc4;
+    }
+    .portfolio {
+      margin-top: 10px;
+    }
+    .portfolio p {
+      margin: 5px 0;
+    }
+    .trade-history {
+      flex-basis: 40%;
+    }
+    .trade-history table {
+      width: 100%;
+      border-collapse: collapse;
+      background: rgba(2, 61, 24, 0.1);
+      border-radius: 12px;
+    }
+    .trade-history th, .trade-history td {
+      padding: 10px;
+      text-align: left;
+    }
+    .trade-history th {
+      background: rgba(9, 100, 86, 0.1);
+      color: #3EB489;
+    }
+    .watchlist {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 15px;
+    }
+    .watchlist h3 {
+      margin: 0 0 15px;
+      color: #3EB489;
+      font-size: 1.2rem;
+    }
+    .watchlist-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+      margin-bottom: 10px;
+      background: rgba(0, 77, 64, 0.4);
+      border-radius: 8px;
+    }
+    .watchlist-item p {
+      margin: 0;
+      font-size: 0.95rem;
+    }
+    @media (max-width: 900px) {
+      .container {
+        flex-direction: column;
+      }
+      .sidebar {
+        width: 100%;
+        margin-bottom: 20px;
+      }
+      .trade-details {
+        flex-direction: column;
+      }
+      .trade-history {
+        flex-basis: 100%;
+      }
+      .market-overview {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+   <nav>
+    <div class="logo">Investra</div>
+    <ul>
+      <li><a href="home.html">Home</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="Learning.html">Learning</a></li>
+      <li><a href="portfolio2.html">Virtual Stocks</a></li>
+      <li><a href="research.html">Services</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+      <li><a href="contact.html">Contact</a></li>
+       
+   
+    </ul>
+    <div class="actions">
+          <button class="btn"><a href="help.html" style="color: #3EB489;text-decoration: none;">Help Center</a></button>
+      <button class="btn"><a href="index.html" style="color: #3EB489;text-decoration: none;">Sign Out</a></button>
+   
+    </div>
+  </nav>
+  <div class="container">
+    <div class="sidebar">
+      <h2>Stocks</h2>
+      <div id="stockList"></div>
+      <h2>Trending</h2>
+      <div id="trendingList"></div>
+    </div>
+    <div class="main-content">
+      <div class="market-overview">
+        <div>
+          <h3>Total Market Cap</h3>
+          <p id="marketCap">$1.8T</p>
+        </div>
+        <div>
+          <h3>24h Volume</h3>
+          <p id="volume">$92B</p>
+        </div>
+      </div>
+      <div class="graph-container">
+        <h3 id="chartTitle">OGDC Price and P&L Over Time</h3>
+        <div class="chart-wrapper">
+          <canvas id="tradeChart"></canvas>
+        </div>
+      </div>
+      <div class="trade-details">
+        <div class="trade-info" id="tradeInfo">
+          <h3>OGDC/USD: $1,650.00 (-12.5%)</h3>
+          <div class="trade-actions">
+            <input type="number" id="quantity" min="1" value="1">
+            <button onclick="buyStock()">Buy</button>
+            <button onclick="sellStock()">Sell</button>
+          </div>
+          <div class="portfolio" id="portfolio">
+            <p>Cash: $100,000.00</p>
+            <p>OGDC: 0.00</p>
+            <p>MARI: 0.00</p>
+            <p>UBL: 0.00</p>
+            <p>MEBL: 0.00</p>
+            <p>FFC: 0.00</p>
+            <p>LUCK: 0.00</p>
+            <p>PPL: 0.00</p>
+            <p>MCB: 0.00</p>
+            <p>COLG: 0.00</p>
+            <p>NESTLE: 0.00</p>
+            <p>PAKD: 0.00</p>
+            <p>EFERT: 0.00</p>
+            <p>BWCL: 0.00</p>
+            <p>HBL: 0.00</p>
+            <p>ALGO: 0.00</p>
+            <p>FTM: 0.00</p>
+            <p>NEAR: 0.00</p>
+            <p>HBAR: 0.00</p>
+            <p>VET: 0.00</p>
+            <p>Total P&L: $0.00</p>
+          </div>
+        </div>
+        <div class="trade-history">
+          <h3>Trade History</h3>
+          <table id="tradeHistory">
+            <tr>
+              <th>Asset</th>
+              <th>Action</th>
+              <th>Amount</th>
+              <th>Time</th>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="watchlist">
+        <h3>Watchlist</h3>
+        <div id="watchlistItems"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let cash = 100000;
+    let holdings = {
+      OGDC: 0, MARI: 0, UBL: 0, MEBL: 0, FFC: 0, LUCK: 0,
+      PPL: 0, MCB: 0, COLG: 0, NESTLE: 0, PAKD: 0, EFERT: 0,
+      BWCL: 0, HBL: 0, ALGO: 0, FTM: 0, NEAR: 0, HBAR: 0, VET: 0
+    };
+    let transactionHistory = [];
+    let currentStock = 'OGDC';
+    let priceHistory = [];
+    let pnlHistory = [];
+    let marketCap = 1800000000000; // $1.8T
+    let volume = 92000000000; // $92B
+
+    const assets = [
+      { name: "OGDC", price: 1650.00, basePrice: 1650.00, fluctuation: 165.00, trend: 0.1, change: '-12.5%' },
+      { name: "MARI", price: 55000.00, basePrice: 55000.00, fluctuation: 5500.00, trend: 0.05, change: '-8.3%' },
+      { name: "UBL", price: 0.42, basePrice: 0.42, fluctuation: 0.042, trend: 0.15, change: '-15.2%' },
+      { name: "MEBL", price: 0.0085, basePrice: 0.0085, fluctuation: 0.00085, trend: 0.2, change: '-10.8%' },
+      { name: "FFC", price: 0.000075, basePrice: 0.000075, fluctuation: 0.0000075, trend: 0.3, change: '-18.4%' },
+      { name: "LUCK", price: 0.18, basePrice: 0.18, fluctuation: 0.018, trend: 0.1, change: '-13.7%' },
+      { name: "PPL", price: 0.35, basePrice: 0.35, fluctuation: 0.035, trend: 0.15, change: '-14.3%' },
+      { name: "MCB", price: 0.50, basePrice: 0.50, fluctuation: 0.05, trend: 0.1, change: '-11.1%' },
+      { name: "COLG", price: 120.00, basePrice: 120.00, fluctuation: 12.00, trend: 0.05, change: '-9.8%' },
+      { name: "NESTLE", price: 4.20, basePrice: 4.20, fluctuation: 0.42, trend: 0.2, change: '-13.5%' },
+      { name: "PAKD", price: 20.00, basePrice: 20.00, fluctuation: 2.00, trend: 0.1, change: '-10.2%' },
+      { name: "EFERT", price: 0.40, basePrice: 0.40, fluctuation: 0.04, trend: 0.15, change: '-12.0%' },
+      { name: "BWCL", price: 10.50, basePrice: 10.50, fluctuation: 1.05, trend: 0.2, change: '-14.7%' },
+      { name: "HBL", price: 5.80, basePrice: 5.80, fluctuation: 0.58, trend: 0.1, change: '-11.5%' },
+      { name: "ALGO", price: 0.15, basePrice: 0.15, fluctuation: 0.015, trend: 0.25, change: '-13.3%' },
+      { name: "FTM", price: 0.25, basePrice: 0.25, fluctuation: 0.025, trend: 0.3, change: '-15.0%' },
+      { name: "NEAR", price: 3.00, basePrice: 3.00, fluctuation: 0.30, trend: 0.15, change: '-10.8%' },
+      { name: "HBAR", price: 0.06, basePrice: 0.06, fluctuation: 0.006, trend: 0.2, change: '-14.1%' },
+      { name: "VET", price: 0.02, basePrice: 0.02, fluctuation: 0.002, trend: 0.35, change: '-16.7%' }
+    ];
+
+    function updateSidebar() {
+      const stockList = document.getElementById('stockList');
+      stockList.innerHTML = assets.map(asset => `
+        <div class="stock-item ${currentStock === asset.name ? 'selected' : ''}" onclick="selectStock('${asset.name}')">
+          <p><strong>${asset.name}</strong></p>
+          <p>Price: $${asset.price.toLocaleString(undefined, { maximumFractionDigits: 6 })}</p>
+          <p>Change: ${asset.change}</p>
+        </div>
+      `).join('');
+
+      const trendingList = document.getElementById('trendingList');
+      const trendingStocks = ['OGDC', 'MARI', 'UBL', 'MEBL', 'FFC'];
+      trendingList.innerHTML = trendingStocks.map(name => {
+        const asset = assets.find(a => a.name === name);
+        return `
+          <div class="stock-item">
+            <p><strong>${asset.name}</strong></p>
+            <p>Price: $${asset.price.toLocaleString(undefined, { maximumFractionDigits: 6 })}</p>
+            <p>Change: ${asset.change}</p>
+          </div>
+        `;
+      }).join('');
+
+      const watchlistItems = document.getElementById('watchlistItems');
+      const watchlistStocks = ['OGDC', 'MARI', 'UBL'];
+      watchlistItems.innerHTML = watchlistStocks.map(name => {
+        const asset = assets.find(a => a.name === name);
+        return `
+          <div class="watchlist-item">
+            <p><strong>${asset.name}</strong></p>
+            <p>$${asset.price.toLocaleString(undefined, { maximumFractionDigits: 6 })} (${asset.change})</p>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function updateMarketStats() {
+      const marketCapChange = (Math.random() * 20000000000 - 10000000000); // ±10B
+      const volumeChange = (Math.random() * 5000000000 - 2500000000); // ±2.5B
+      marketCap += marketCapChange;
+      volume += volumeChange;
+      document.getElementById('marketCap').textContent = `$${(marketCap / 1000000000000).toFixed(1)}T`;
+      document.getElementById('volume').textContent = `$${(volume / 1000000000).toFixed(1)}B`;
+    }
+
+    function selectStock(name) {
+      currentStock = name;
+      updateChart();
+      updateSidebar();
+      updateTradeInfo();
+    }
+
+    function simulatePriceChanges() {
+      assets.forEach(asset => {
+        const volatility = (Math.random() * 0.2 - 0.1) * asset.fluctuation; // ±10%
+        const trend = asset.trend * (Math.random() > 0.5 ? 1 : -1); // Random trend direction
+        asset.price = Math.max(0.000001, asset.price + volatility + trend);
+        asset.change = `${((asset.price - asset.basePrice) / asset.basePrice * 100).toFixed(1)}%`;
+      });
+      updateSidebar();
+      updateMarketStats();
+      updateChart();
+    }
+
+    function updateChart() {
+      const asset = assets.find(a => a.name === currentStock);
+      const time = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+      priceHistory.push({ x: time, y: asset.price });
+      if (priceHistory.length > 20) {
+        priceHistory.shift();
+      }
+
+      const totalValue = Object.keys(holdings).reduce((sum, s) => sum + (holdings[s] * assets.find(a => a.name === s).price), 0);
+      const initialInvestment = 100000 - cash;
+      const pnl = totalValue - initialInvestment;
+      pnlHistory.push(pnl);
+      if (pnlHistory.length > 20) {
+        pnlHistory.shift();
+      }
+
+      tradeChart.data.labels = priceHistory.map(p => p.x);
+      tradeChart.data.datasets[0].data = priceHistory.map(p => p.y);
+      tradeChart.data.datasets[1].data = pnlHistory;
+      tradeChart.update();
+
+      document.getElementById('chartTitle').textContent = `${currentStock} Price and P&L Over Time`;
+    }
+
+    function updateTradeInfo() {
+      const asset = assets.find(a => a.name === currentStock);
+      const totalValue = Object.keys(holdings).reduce((sum, s) => sum + (holdings[s] * assets.find(a => a.name === s).price), 0);
+      const initialInvestment = 100000 - cash;
+      const pnl = totalValue - initialInvestment;
+
+      document.getElementById('tradeInfo').innerHTML = `
+        <h3>${currentStock}/USD: $${asset.price.toLocaleString(undefined, { maximumFractionDigits: 6 })} (${asset.change})</h3>
+        <div class="trade-actions">
+          <input type="number" id="quantity" min="1" value="1">
+          <button onclick="buyStock()">Buy</button>
+          <button onclick="sellStock()">Sell</button>
+        </div>
+        <div class="portfolio" id="portfolio">
+          <p>Cash: $${cash.toFixed(2)}</p>
+          <p>OGDC: ${holdings.OGDC.toFixed(2)}</p>
+          <p>MARI: ${holdings.MARI.toFixed(2)}</p>
+          <p>UBL: ${holdings.UBL.toFixed(2)}</p>
+          <p>MEBL: ${holdings.MEBL.toFixed(2)}</p>
+          <p>FFC: ${holdings.FFC.toFixed(2)}</p>
+          <p>LUCK: ${holdings.LUCK.toFixed(2)}</p>
+          <p>PPL: ${holdings.PPL.toFixed(2)}</p>
+          <p>MCB: ${holdings.MCB.toFixed(2)}</p>
+          <p>COLG: ${holdings.COLG.toFixed(2)}</p>
+          <p>NESTLE: ${holdings.NESTLE.toFixed(2)}</p>
+          <p>PAKD: ${holdings.PAKD.toFixed(2)}</p>
+          <p>EFERT: ${holdings.EFERT.toFixed(2)}</p>
+          <p>BWCL: ${holdings.BWCL.toFixed(2)}</p>
+          <p>HBL: ${holdings.HBL.toFixed(2)}</p>
+          <p>ALGO: ${holdings.ALGO.toFixed(2)}</p>
+          <p>FTM: ${holdings.FTM.toFixed(2)}</p>
+          <p>NEAR: ${holdings.NEAR.toFixed(2)}</p>
+          <p>HBAR: ${holdings.HBAR.toFixed(2)}</p>
+          <p>VET: ${holdings.VET.toFixed(2)}</p>
+          <p>Total P&L: $${pnl.toFixed(2)}</p>
+        </div>
+      `;
+    }
+
+    function buyStock() {
+      const qty = parseInt(document.getElementById('quantity').value);
+      if (isNaN(qty) || qty < 1) {
+        alert("Please enter a valid quantity (1 or more).");
+        return;
+      }
+      const asset = assets.find(a => a.name === currentStock);
+      const cost = asset.price * qty;
+      if (cost > cash) {
+        alert("Insufficient balance!");
+        return;
+      }
+      cash -= cost;
+      holdings[currentStock] += qty;
+      transactionHistory.push({
+        type: 'Buy',
+        stock: currentStock,
+        amount: cost,
+        price: asset.price,
+        time: new Date().toLocaleString()
+      });
+      updateChart();
+      updateTradeInfo();
+      updateTradeHistory();
+    }
+
+    function sellStock() {
+      const qty = parseInt(document.getElementById('quantity').value);
+      if (isNaN(qty) || qty < 1 || qty > holdings[currentStock]) {
+        alert("Invalid quantity or insufficient holdings!");
+        return;
+      }
+      const asset = assets.find(a => a.name === currentStock);
+      const revenue = asset.price * qty;
+      cash += revenue;
+      holdings[currentStock] -= qty;
+      transactionHistory.push({
+        type: 'Sell',
+        stock: currentStock,
+        amount: revenue,
+        price: asset.price,
+        time: new Date().toLocaleString()
+      });
+      updateChart();
+      updateTradeInfo();
+      updateTradeHistory();
+    }
+
+    function updateTradeHistory() {
+      const table = document.getElementById('tradeHistory');
+      table.innerHTML = `
+        <tr>
+          <th>Asset</th>
+          <th>Action</th>
+          <th>Amount</th>
+          <th>Time</th>
+        </tr>
+      `;
+
+      transactionHistory.slice().reverse().forEach(tx => {
+        table.innerHTML += `
+          <tr>
+            <td>${tx.stock}</td>
+            <td>${tx.type}</td>
+            <td>$${tx.amount.toFixed(2)}</td>
+            <td>${tx.time}</td>
+          </tr>
+        `;
+      });
+    }
+
+    const ctx = document.getElementById('tradeChart').getContext('2d');
+    const tradeChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: [],
+        datasets: [
+          {
+            label: 'Stock Price (USD)',
+            data: [],
+            borderColor: '#80cbc4',
+            backgroundColor: 'rgba(128,203,196,0.3)',
+            borderWidth: 2,
+            fill: false,
+            tension: 0.2,/////tension in the stars
+            pointRadius: 0,
+            pointHoverRadius: 4,
+            pointBackgroundColor: '#80cbc4',
+            pointHoverBackgroundColor: '#a7ffeb'
+          },
+          {
+            label: 'Cumulative P&L (USD)',
+            data: [],
+            borderColor: '#ffca28',
+            backgroundColor: 'rgba(255,202,40,0.3)',
+            borderWidth: 2,
+            fill: false,
+            tension: 0.2,
+            pointRadius: 0,
+            pointHoverRadius: 4,
+            pointBackgroundColor: '#ffca28',
+            pointHoverBackgroundColor: '#fff59d'
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: {
+          duration: 500,
+          easing: 'easeOutQuart'
+        },
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'Time (HH:MM)',
+              color: '#b2dfdb'
+            },
+            ticks: {
+              color: '#b2dfdb',
+              maxTicksLimit: 10
+            },
+            grid: {
+              color: 'rgba(178,223,219,0.1)'
+            }
+          },
+          y: {
+            title: {
+              display: true,
+              text: 'Value (USD)',
+              color: '#b2dfdb'
+            },
+            beginAtZero: false,
+            ticks: {
+              color: '#b2dfdb',
+              callback: function(value) {
+                return '$' + value.toLocaleString();
+              }
+            },
+            grid: {
+              color: 'rgba(178,223,219,0.2)'
+            }
+          }
+        },
+        plugins: {
+          legend: {
+            labels: {
+              color: '#80cbc4'
+            }
+          },
+          tooltip: {
+            enabled: true,
+            mode: 'nearest',
+            intersect: false,
+            backgroundColor: '#004d40',
+            titleColor: '#a7ffeb',
+            bodyColor: '#e0f2f1',
+            callbacks: {
+              label: function(context) {
+                return `${context.dataset.label}: $${context.parsed.y.toLocaleString()}`;
+              }
+            }
+          }
+        },
+        interaction: {
+          mode: 'nearest',
+          intersect: false
+        }
+      }
+    });
+
+    updateSidebar();
+    updateChart();
+    updateTradeInfo();
+    setInterval(simulatePriceChanges, 5000);
+  </script>
+</body>
+</html>

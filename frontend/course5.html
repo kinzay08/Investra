@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dividends and Earnings - Investra</title>
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+    body {
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(20, 20, 20, 0.9)), url('images/pexels-therato-9941418.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      padding: 3rem 2rem;
+      opacity: 0;
+      animation: fadeIn 1.5s ease forwards;
+    }
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 40px;
+    }
+    .logo {
+      font-size: 29px;
+      margin-left: 100px;
+      color: #3EB489;
+      display: flex;
+      align-items: center;
+      font-weight: 600;
+      animation: logoFade 1.5s ease-in-out infinite alternate;
+    }
+    @keyframes logoFade {
+      from { opacity: 0.8; }
+      to { opacity: 1; }
+    }
+    .logo::before {
+      content: "⚮";
+      margin-right: 5px;
+      animation: spin 4s infinite linear;
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    nav ul {
+      display: flex;
+      align-items: center;
+      list-style: none;
+      border: solid 1px #3EB489;
+      padding: 12px;
+      border-radius: 75px;
+    }
+    nav ul li a {
+      margin: 0 13px;
+      color: #d1d9d6;
+      text-decoration: none;
+      font-size: 15px;
+      opacity: 0.7;
+      transition: all 0.3s ease;
+      animation: navFadeIn 1s ease-out;
+    }
+    @keyframes navFadeIn {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 0.7; transform: translateX(0); }
+    }
+    nav ul li a:hover {
+      opacity: 1;
+      color: #3EB489;
+      transform: translateY(-2px);
+    }
+    .actions {
+      display: flex;
+      align-items: center;
+    }
+    .actions .btn {
+      padding: 8px 15px;
+      margin-left: 15px;
+      border: 1px solid #3EB489;
+      border-radius: 75px;
+      background-color: transparent;
+      color: #3EB489;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      animation: btnAppear 1s ease-out 0.5s backwards;
+    }
+    @keyframes btnAppear {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .actions .btn:hover {
+      background-color: rgba(0, 255, 153, 0.2);
+      border-radius: 75px;
+    }
+    .main {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      justify-content: center;
+      align-items: center;
+      padding-top: 3rem;
+    }
+    .course-container {
+      display: flex;
+      max-width: 1200px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.09);
+      backdrop-filter: blur(3px);
+      border: 1px solid #3EB489;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .course-image {
+      flex: 1;
+      max-width: 50%;
+    }
+    .course-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .course-details {
+      flex: 1;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .course-details h1 {
+      font-size: 2.5rem;
+      color: #3EB489;
+      margin-bottom: 1rem;
+    }
+    .course-info {
+      margin-bottom: 1rem;
+    }
+    .course-info p {
+      font-size: 1rem;
+      color: #ccc;
+      margin: 0.5rem 0;
+    }
+    .course-price {
+      background: #3EB489;
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
+    .course-btn {
+      padding: 0.8rem 1.5rem;
+      border: none;
+      background-color: #3EB489;
+      color: #000;
+      border-radius: 75px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .course-btn:hover {
+      background-color: #2e8b67;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .modal-content {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid #3EB489;
+      border-radius: 8px;
+      padding: 2rem;
+      text-align: center;
+      max-width: 800px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      color: #fff;
+    }
+    .modal-content h3 {
+      color: #3EB489;
+      margin-bottom: 1.5rem;
+      font-size: 2rem;
+    }
+    .modal-content p {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+      text-align: left;
+    }
+    .close-modal {
+      padding: 0.8rem 1.8rem;
+      border: none;
+      background-color: #3EB489;
+      color: #000;
+      border-radius: 75px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1.1rem;
+      margin-top: 1.5rem;
+    }
+    .close-modal:hover {
+      background-color: #2e8b67;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @media (max-width: 900px) {
+      .course-container {
+        flex-direction: column;
+      }
+      .course-image {
+        max-width: 100%;
+      }
+      nav {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      nav ul {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      .actions .btn {
+        margin-left: 0;
+      }
+      .whiteboard {
+        width: 100%;
+      }
+    }
+    .navbar {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 15px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      border-radius: 8px;
+      margin: 20px auto;
+      max-width: 800px;
+    }
+    .navbar button {
+      background-color: rgba(45, 91, 57, 0.7);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .navbar button:hover {
+      background-color: rgba(19, 54, 29, 0.8);
+      transform: translateY(-2px);
+    }
+    .content {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid #3EB489;
+      border-radius: 8px;
+      padding: 2rem;
+      max-width: 1200px;
+      width: 90%;
+      margin: 20px auto;
+      min-height: 300px;
+    }
+    .content h2 {
+      color: #3EB489;
+      margin-bottom: 1rem;
+    }
+    .content p {
+      color: #ccc;
+      margin-bottom: 1rem;
+    }
+    .quiz-options {
+      list-style: none;
+      padding: 0;
+    }
+    .quiz-options li {
+      margin-bottom: 10px;
+    }
+    .quiz-options button {
+      background-color: rgba(62, 180, 137, 0.3);
+      color: white;
+      border: 1px solid #3EB489;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s;
+      width: 100%;
+      text-align: left;
+    }
+    .quiz-options button:hover {
+      background-color: rgba(62, 180, 137, 0.5);
+    }
+    #result {
+      margin-top: 20px;
+      padding: 10px;
+      border-radius: 5px;
+    }
+    .correct {
+      background-color: rgba(0, 255, 0, 0.1);
+      color: #3EB489;
+    }
+    .incorrect {
+      background-color: rgba(255, 0, 0, 0.1);
+      color: #ff6b6b;
+    }
+    .lesson-questions {
+      margin: 20px 0;
+      padding: 15px;
+      background: rgba(62, 180, 137, 0.1);
+      border-left: 3px solid #3EB489;
+    }
+    .lesson-questions h3 {
+      color: #3EB489;
+      margin-bottom: 10px;
+    }
+    .lesson-questions ol {
+      padding-left: 20px;
+    }
+    .lesson-questions li {
+      margin-bottom: 8px;
+      color: #ccc;
+    }
+    .lesson-quiz {
+      margin-top: 30px;
+      padding: 20px;
+      background: rgba(62, 180, 137, 0.15);
+      border-radius: 8px;
+    }
+    .lesson-quiz h3 {
+      color: #3EB489;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+    .question-answer {
+      margin-top: 15px;
+      padding: 15px;
+      background: rgba(62, 180, 137, 0.1);
+      border-radius: 5px;
+    }
+    .question-answer h4 {
+      color: #3EB489;
+      margin-bottom: 8px;
+    }
+    .question-answer p {
+      color: #ccc;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+   <nav>
+    <div class="logo">Investra</div>
+    <ul>
+      <li><a href="home.html">Home</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="Learning.html">Learning</a></li>
+      <li><a href="portfolio2.html">Virtual Stocks</a></li>
+      <li><a href="research.html">Services</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+      <li><a href="contact.html">Contact</a></li>
+       
+   
+    </ul>
+    <div class="actions">
+          <button class="btn"><a href="help.html" style="color: #3EB489;text-decoration: none;">Help Center</a></button>
+      <button class="btn"><a href="index.html" style="color: #3EB489;text-decoration: none;">Sign Out</a></button>
+   
+    </div>
+  </nav>
+
+  <div class="main">
+    <div class="course-container">
+      <div class="course-image">
+        <img src="images/jamie-street-VP4WmibxvcY-unsplash.jpg" alt="Dividends and Earnings" />
+      </div>
+      <div class="course-details">
+        <div>
+          <h1>Dividends and Earnings</h1>
+          <div class="course-info">
+            <p><strong>Time Spent:</strong> 3 Hours</p>
+            <p><strong>Lessons:</strong> 6</p>
+            <p><strong>Level:</strong> Beginner to Intermediate</p>
+            <p><strong>Format:</strong> Lessons & Interactive Exercises</p>
+            <p><strong>Language:</strong> English</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="navbar">
+      <button onclick="showLesson('dividends')">Introduction to Dividends</button>
+      <button onclick="showLesson('earnings')">Understanding Earnings</button>
+      <button onclick="showLesson('dividend-metrics')">Dividend Metrics</button>
+      <button onclick="showLesson('earnings-quality')">Earnings Quality</button>
+      <button onclick="showLesson('sustainability')">Dividend Sustainability</button>
+      <button onclick="showLesson('practical')">Practical Analysis</button>
+    </div>
+    
+    <div id="content" class="content">
+      <h2>Welcome to the "Dividends and Earnings" Course!</h2>
+      <p>Please select a lesson from the buttons above to begin your journey into dividends and earnings analysis.</p>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.2 });
+
+      document.querySelectorAll('.course-container, .faq-item, .whiteboard').forEach(element => {
+        observer.observe(element);
+      });
+
+      const faqItems = document.querySelectorAll('.faq-item');
+      faqItems.forEach(item => {
+        item.addEventListener('click', () => {
+          item.classList.toggle('active');
+        });
+      });
+    });
+
+    function showLesson(key) {
+      const lesson = lessons[key];
+      const contentDiv = document.getElementById('content');
+
+      let optionsHtml = lesson.quiz.options.map(opt => 
+        `<li><button onclick="checkAnswer('${opt.replace(/'/g, "\\'")}', '${lesson.quiz.answer.replace(/'/g, "\\'")}')">${opt}</button></li>`
+      ).join('');
+
+      let answersHtml = lesson.questions.map((q, i) => `
+        <div class="question-answer">
+          <h4>${q}</h4>
+          <p>${lesson.answers[i]}</p>
+        </div>
+      `).join('');
+
+      contentDiv.innerHTML = `
+        <h2>${lesson.title}</h2>
+        <p>${lesson.content}</p>
+        
+        <div class="lesson-questions">
+          <h3>Key Questions and Answers:</h3>
+          ${answersHtml}
+        </div>
+        
+        <button onclick="openModal('${lesson.notes.replace(/'/g, "\\'")}')" class="course-btn">Show Detailed Notes</button>
+        
+        <div class="lesson-quiz">
+          <h3>Quick Check</h3>
+          <p>${lesson.quiz.question}</p>
+          <ul class="quiz-options">${optionsHtml}</ul>
+          <div id="result"></div>
+        </div>
+      `;
+    }
+
+    function checkAnswer(selected, correct) {
+      const resultDiv = document.getElementById('result');
+      if (selected === correct) {
+        resultDiv.innerHTML = `<p class="correct">Correct! Well done.</p>`;
+      } else {
+        resultDiv.innerHTML = `<p class="incorrect">Incorrect. The correct answer is: ${correct}</p>`;
+      }
+    }
+
+    function openModal(notes) {
+      const modal = document.getElementById('notesModal');
+      document.getElementById('notesContent').innerHTML = `
+        <h3>Detailed Lesson Notes</h3>
+        <p>${notes}</p>
+      `;
+      modal.style.display = "flex";
+    }
+
+    function closeModal() {
+      document.getElementById('notesModal').style.display = "none";
+    }
+
+    const lessons = {
+      'dividends': {
+        title: "Lesson 1: Introduction to Dividends",
+        content: "Learn what dividends are, why companies pay them, and their role in stock investing.",
+        notes: "Dividends are payments made by a company to its shareholders, typically from profits, as a way to distribute earnings. They are often paid quarterly and expressed as a per-share amount (e.g., $0.50 per share). Companies pay dividends to attract investors and signal financial stability. Dividend-paying stocks, like those of utilities or consumer goods firms, provide regular income and can be less volatile. Investors use dividends for income or reinvestment to compound returns. Access dividend information in company filings (10-K, 10-Q) or financial websites. Not all companies pay dividends; growth firms may reinvest profits instead.",
+        questions: [
+          "What is a dividend?",
+          "Why do companies pay dividends?",
+          "Which types of companies typically pay dividends?",
+          "How can investors use dividends?",
+          "Where can dividend information be found?"
+        ],
+        answers: [
+          "A dividend is a payment from a company to shareholders, usually from profits, often paid quarterly.",
+          "Companies pay dividends to share profits, attract investors, and signal financial health.",
+          "Utilities, consumer goods, and established firms often pay dividends due to stable earnings.",
+          "Investors use dividends for regular income or reinvest them to compound returns over time.",
+          "Dividend information is available in company filings (10-K, 10-Q) and financial websites."
+        ],
+        quiz: {
+          question: "What is the primary purpose of a dividend?",
+          options: ["Increase stock price", "Distribute profits to shareholders", "Reduce company debt"],
+          answer: "Distribute profits to shareholders"
+        }
+      },
+      'earnings': {
+        title: "Lesson 2: Understanding Earnings",
+        content: "Explore what earnings represent, how they are reported, and their importance in stock valuation.",
+        notes: "Earnings, or net income, are a company’s profits after expenses, taxes, and other deductions, reported quarterly in the income statement. Earnings per Share (EPS) is calculated by dividing net income by outstanding shares, a key metric for investors. Strong, consistent earnings growth often drives stock price increases. Companies report earnings via 10-Q (quarterly) and 10-K (annual) filings, with guidance on future earnings. Analysts’ estimates influence market expectations. Check earnings data on financial websites or company investor relations pages. Earnings surprises (beating or missing estimates) can significantly impact stock prices.",
+        questions: [
+          "What are earnings in the context of a company?",
+          "How is Earnings per Share (EPS) calculated?",
+          "Why is earnings growth important for stocks?",
+          "Where are earnings reported?",
+          "What happens when a company misses earnings estimates?"
+        ],
+        answers: [
+          "Earnings are a company’s profits after all expenses, taxes, and deductions, shown in the income statement.",
+          "EPS is calculated by dividing net income by the number of outstanding shares.",
+          "Earnings growth signals financial health and potential for stock price appreciation.",
+          "Earnings are reported in 10-Q (quarterly) and 10-K (annual) filings, with guidance in earnings calls.",
+          "Missing earnings estimates can lead to stock price declines due to negative investor sentiment."
+        ],
+        quiz: {
+          question: "Which metric divides net income by outstanding shares?",
+          options: ["Dividend Yield", "Earnings per Share (EPS)", "Price-to-Earnings (P/E)"],
+          answer: "Earnings per Share (EPS)"
+        }
+      },
+      'dividend-metrics': {
+        title: "Lesson 3: Dividend Metrics and Ratios",
+        content: "Understand key metrics used to evaluate dividends and their attractiveness for investors.",
+        notes: "Key dividend metrics include: 1) Dividend Yield (annual dividend per share divided by stock price), 2) Dividend Payout Ratio (dividends divided by net income), 3) Dividend Growth Rate (annual increase in dividend payments). A high yield (e.g., 4%) may indicate attractive income but could signal risk if unsustainable. A payout ratio above 80% may suggest limited reinvestment. Consistent dividend growth reflects financial stability. Find these metrics in company filings or financial websites. Compare to industry averages to assess value.",
+        questions: [
+          "What does Dividend Yield measure?",
+          "How is the Dividend Payout Ratio calculated?",
+          "What does a high Dividend Growth Rate indicate?",
+          "Why compare dividend metrics to industry averages?",
+          "Where can dividend metrics be accessed?"
+        ],
+        answers: [
+          "Dividend Yield measures the annual dividend per share as a percentage of the stock price.",
+          "The Dividend Payout Ratio is calculated by dividing total dividends by net income.",
+          "A high Dividend Growth Rate indicates a company’s ability to consistently increase dividends.",
+          "Comparing to industry averages shows whether a stock’s dividend metrics are competitive or risky.",
+          "Dividend metrics are found in company filings (10-K, 10-Q) and financial websites."
+        ],
+        quiz: {
+          question: "Which metric shows dividends as a percentage of stock price?",
+          options: ["Dividend Payout Ratio", "Dividend Yield", "Dividend Growth Rate"],
+          answer: "Dividend Yield"
+        }
+      },
+      'earnings-quality': {
+        title: "Lesson 4: Assessing Earnings Quality",
+        content: "Learn how to evaluate the reliability and sustainability of a company’s earnings.",
+        notes: "Earnings quality reflects how reliable and repeatable a company’s profits are. High-quality earnings are consistent, driven by core operations, and backed by strong cash flows. Assess quality by: 1) Comparing net income to operating cash flow (should align closely), 2) Checking for one-time gains (e.g., asset sales), 3) Reviewing revenue recognition practices, 4) Analyzing expense trends. Low-quality earnings may rely on accounting adjustments or non-recurring items. Use financial statements (10-K, 10-Q) and cash flow statements to evaluate. High-quality earnings support long-term stock performance.",
+        questions: [
+          "What defines high-quality earnings?",
+          "Why compare net income to operating cash flow?",
+          "What is a sign of low-quality earnings?",
+          "How can revenue recognition practices affect earnings quality?",
+          "Where can earnings quality data be found?"
+        ],
+        answers: [
+          "High-quality earnings are consistent, derived from core operations, and supported by strong cash flows.",
+          "Comparing net income to operating cash flow ensures earnings are backed by actual cash, not accounting tricks.",
+          "Low-quality earnings often include one-time gains or rely on non-recurring items.",
+          "Aggressive revenue recognition (booking sales early) can inflate earnings, reducing reliability.",
+          "Earnings quality data is in financial statements (10-K, 10-Q) and cash flow statements."
+        ],
+        quiz: {
+          question: "What indicates high-quality earnings?",
+          options: ["One-time asset sales", "Strong operating cash flow", "High debt levels"],
+          answer: "Strong operating cash flow"
+        }
+      },
+      'sustainability': {
+        title: "Lesson 5: Dividend Sustainability",
+        content: "Understand how to assess whether a company can maintain or grow its dividend payments.",
+        notes: "Dividend sustainability depends on: 1) Earnings and cash flow (dividends should be covered by profits), 2) Payout ratio (ideally below 60% for safety), 3) Debt levels (high debt can strain dividend payments), 4) Business stability (consistent revenue in stable industries). Check the free cash flow-to-dividend ratio; a ratio above 1 suggests coverage. Review company filings and earnings calls for dividend policy insights. Companies with a history of dividend increases (e.g., Dividend Aristocrats) are often more reliable. Unsustainable dividends may be cut, impacting stock prices.",
+        questions: [
+          "What is a key factor in dividend sustainability?",
+          "Why is a low payout ratio preferred?",
+          "How does debt impact dividend payments?",
+          "What is the free cash flow-to-dividend ratio?",
+          "Why are Dividend Aristocrats considered reliable?"
+        ],
+        answers: [
+          "Strong earnings and cash flow are critical to ensure dividends are covered by profits.",
+          "A low payout ratio (below 60%) leaves room for reinvestment and protects dividends during downturns.",
+          "High debt can divert cash from dividends to debt servicing, threatening sustainability.",
+          "The free cash flow-to-dividend ratio shows if cash flow covers dividends; above 1 is positive.",
+          "Dividend Aristocrats have increased dividends for 25+ years, indicating financial stability."
+        ],
+        quiz: {
+          question: "What suggests a dividend is sustainable?",
+          options: ["High payout ratio", "Free cash flow covers dividends", "High debt levels"],
+          answer: "Free cash flow covers dividends"
+        }
+      },
+      'practical': {
+        title: "Lesson 6: Practical Analysis of Dividends and Earnings",
+        content: "Apply dividends and earnings analysis techniques to evaluate real-world companies.",
+        notes: "Practical analysis involves: 1) Selecting a company and gathering data (10-K, 10-Q, earnings calls), 2) Evaluating earnings (EPS growth, quality, consistency), 3) Analyzing dividends (yield, payout ratio, growth history), 4) Assessing sustainability (cash flow, debt), 5) Comparing to industry peers. For example, analyzing Procter & Gamble involves checking its stable EPS, 3% dividend yield, and low payout ratio. Document findings in an investment journal to track decisions. Cross-reference with financial news for context on earnings surprises or dividend changes.",
+        questions: [
+          "What is the first step in practical dividends and earnings analysis?",
+          "How does EPS growth inform investment decisions?",
+          "Why evaluate a company’s dividend payout ratio?",
+          "What role does peer comparison play in analysis?",
+          "How does an investment journal aid analysis?"
+        ],
+        answers: [
+          "The first step is selecting a company and gathering data from filings and earnings reports.",
+          "EPS growth indicates profitability trends, supporting potential stock price appreciation.",
+          "The payout ratio shows if dividends are sustainable or if the company is over-distributing profits.",
+          "Peer comparison reveals if a company’s dividends and earnings are competitive within its industry.",
+          "An investment journal tracks analysis decisions, helping refine strategies and identify patterns."
+        ],
+        quiz: {
+          question: "What is a key step in practical dividends and earnings analysis?",
+          options: ["Ignoring peer companies", "Evaluating dividend payout ratio", "Focusing only on stock price"],
+          answer: "Evaluating dividend payout ratio"
+        }
+      }
+    };
+
+    // Show first lesson by default
+    showLesson('dividends');
+  </script>
+
+  <!-- Notes Modal -->
+  <div id="notesModal" class="modal">
+    <div class="modal-content">
+      <div id="notesContent"></div>
+      <button class="close-modal" onclick="closeModal()">Close Notes</button>
+    </div>
+  </div>
+</body>
+</html>

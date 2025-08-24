@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Investra Help Center: Find answers, tutorials, and support for virtual trading and financial learning." />
+  <meta name="keywords" content="Investra help, virtual trading support, financial learning, help center" />
+  <meta name="author" content="Investra" />
+ <title>Investra</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+    body {
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(20, 20, 20, 0.9)), url('images/joshua-harvey-8LCiq0PuPBI-unsplash\ \(1\).jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      padding: 3rem 2rem;
+      opacity: 0;
+      animation: fadeIn 1.5s ease forwards;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 40px;
+    }
+    .logo {
+      font-size: 29px;
+      margin-left: 100px;
+      color: #3EB489;
+      display: flex;
+      align-items: center;
+      font-weight: 600;
+      animation: logoFade 1.5s ease-in-out infinite alternate;
+    }
+    @keyframes logoFade {
+      from { opacity: 0.8; }
+      to { opacity: 1; }
+    }
+    .logo::before {
+      content: "⚮";
+      margin-right: 5px;
+      animation: spin 4s infinite linear;
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    nav ul {
+      display: flex;
+      align-items: center;
+      list-style: none;
+      border: solid 1px #3EB489;
+      padding: 12px;
+      border-radius: 75px;
+    }
+    nav ul li a {
+      margin: 0 13px;
+      color: #d1d9d6;
+      text-decoration: none;
+      font-size: 15px;
+      opacity: 0.7;
+      transition: all 0.3s ease;
+      animation: navFadeIn 1s ease-out;
+    }
+    @keyframes navFadeIn {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 0.7; transform: translateX(0); }
+    }
+    nav ul li a:hover {
+      opacity: 1;
+      color: #3EB489;
+      transform: translateY(-2px);
+    }
+    .actions {
+      display: flex;
+      align-items: center;
+    }
+    .actions .btn {
+      padding: 8px 15px;
+      margin-left: 15px;
+      border: 1px solid #3EB489;
+      border-radius: 75px;
+      background-color: transparent;
+      color: #3EB489;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      animation: btnAppear 1s ease-out 0.5s backwards;
+    }
+    @keyframes btnAppear {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .actions .btn:hover {
+      background-color: rgba(0, 255, 153, 0.2);
+      border-radius: 75px;
+    }
+    .main {
+      flex: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    .hero {
+      text-align: center;
+      margin-bottom: 3rem;
+      animation: fadeIn 1s ease forwards;
+    }
+    .hero h1 {
+      color: #3EB489;
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    .hero p {
+      color: #ccc;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+    .search-bar {
+      max-width: 600px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .search-bar input {
+      width: 100%;
+      padding: 1rem 1.5rem;
+      border: 1px solid #3EB489;
+      border-radius: 25px;
+      background: rgba(255, 255, 255, 0.05);
+      color: #fff;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.3s ease;
+    }
+    .search-bar input::placeholder {
+      color: #aaa;
+    }
+    .search-bar input:focus {
+      border-color: #2e8b67;
+    }
+    .search-bar i {
+      position: absolute;
+      right: 1.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #3EB489;
+      font-size: 1.2rem;
+    }
+    .section {
+      margin-bottom: 4rem;
+      animation: fadeIn 1s ease forwards 0.3s;
+    }
+    .section h2 {
+      color: #3EB489;
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    .topics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+    .topic-card {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 2rem;
+      text-align: center;
+      border: 1px solid rgba(62, 180, 137, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .topic-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 15px rgba(62, 180, 137, 0.2);
+    }
+    .topic-card i {
+      font-size: 2.5rem;
+      color: #3EB489;
+      margin-bottom: 1rem;
+    }
+    .topic-card h3 {
+      color: #fff;
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+    }
+    .topic-card p {
+      color: #ccc;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      margin-bottom: 1rem;
+    }
+    .topic-card button {
+      padding: 0.8rem 1.5rem;
+      background-color: #3EB489;
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .topic-card button:hover {
+      background-color: #2e8b67;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .modal.active {
+      display: flex;
+      opacity: 1;
+    }
+    .modal-content {
+      background:black;
+      border-radius: 12px;
+      padding: 2rem;
+      max-width: 500px;
+      width: 90%;
+      position: relative;
+      border: 1px solid rgba(62, 180, 137, 0.2);
+      animation: slideIn 0.3s ease forwards;
+    }
+    .modal-content h3 {
+      color: #3EB489;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .modal-content p {
+      color: #ccc;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+    .modal-content ul {
+      list-style: none;
+      padding-left: 1rem;
+      color: #ccc;
+    }
+    .modal-content ul li {
+      position: relative;
+      padding-left: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .modal-content ul li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: #3EB489;
+    }
+    .close-modal {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      color: #3EB489;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+    .close-modal:hover {
+      color: #2e8b67;
+    }
+    .quick-links {
+      max-width: 300px;
+      margin: 2rem auto;
+      animation: fadeIn 1s ease forwards 0.5s;
+    }
+    .quick-links h3 {
+      color: #3EB489;
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+    }
+    .quick-links ul {
+      list-style: none;
+    }
+    .quick-links ul li {
+      margin-bottom: 0.5rem;
+    }
+    .quick-links ul li a {
+      color: #ccc;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .quick-links ul li a:hover {
+      color: #3EB489;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slideIn {
+      from { transform: translateY(-20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    @media (max-width: 900px) {
+      body {
+        padding: 2rem 1rem;
+      }
+      .hero h1 {
+        font-size: 2rem;
+      }
+      .topics-grid {
+        grid-template-columns: 1fr;
+      }
+      .quick-links {
+        max-width: 100%;
+        text-align: center;
+      }
+      .modal-content {
+        width: 95%;
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="logo">Investra</div>
+    <ul>
+      <li><a href="home.html">Home</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="Learning.html">Learning</a></li>
+      <li><a href="portfolio2.html">Virtual Stocks</a></li>
+      <li><a href="research.html">Services</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+      <li><a href="contact.html">Contact</a></li>
+       
+   
+    </ul>
+    <div class="actions">
+          <button class="btn"><a href="help.html" style="color: #3EB489;text-decoration: none;">Help Center</a></button>
+      <button class="btn"><a href="index.html" style="color: #3EB489;text-decoration: none;">Sign Out</a></button>
+   
+    </div>
+  </nav>
+
+  <div class="main">
+    <div class="hero">
+      <h1>Investra Help Center</h1>
+      <p>Find quick answers, explore tutorials, or contact support to master your financial learning and virtual trading journey.</p>
+      <div class="search-bar">
+        <input type="text" id="search-input" placeholder="Search for help topics..." aria-label="Search help topics" />
+        <i class="fas fa-search" aria-hidden="true"></i>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Help Topics</h2>
+      <div class="topics-grid" id="topics-grid">
+        <div class="topic-card" data-keywords="getting started beginner tutorial">
+          <i class="fas fa-rocket" aria-hidden="true"></i>
+          <h3>Getting Started</h3>
+          <p>Learn how to set up your Investra account and begin virtual trading.</p>
+          <button class="open-modal" data-modal="modal-getting-started">Learn More</button>
+        </div>
+        <div class="topic-card" data-keywords="trading stocks virtual trades">
+          <i class="fas fa-chart-line" aria-hidden="true"></i>
+          <h3>Trading Basics</h3>
+          <p>Understand how to buy and sell virtual stocks on our platform.</p>
+          <button class="open-modal" data-modal="modal-trading-basics">Learn More</button>
+        </div>
+        <div class="topic-card" data-keywords="account profile settings">
+          <i class="fas fa-user-circle" aria-hidden="true"></i>
+          <h3>Account Management</h3>
+          <p>Manage your profile, security settings, and preferences.</p>
+          <button class="open-modal" data-modal="modal-account-management">Learn More</button>
+        </div>
+        <div class="topic-card" data-keywords="portfolio investments tracking">
+          <i class="fas fa-folder-open" aria-hidden="true"></i>
+          <h3>Portfolio Tracking</h3>
+          <p>Track your virtual investments and analyze performance.</p>
+          <button class="open-modal" data-modal="modal-portfolio-tracking">Learn More</button>
+        </div>
+        <div class="topic-card" data-keywords="learn education finance">
+          <i class="fas fa-book-open" aria-hidden="true"></i>
+          <h3>Learning Resources</h3>
+          <p>Access tutorials and guides to improve your financial knowledge.</p>
+          <button class="open-modal" data-modal="modal-learning-resources">Learn More</button>
+        </div>
+        <div class="topic-card" data-keywords="troubleshooting issues technical">
+          <i class="fas fa-tools" aria-hidden="true"></i>
+          <h3>Troubleshooting</h3>
+          <p>Resolve common technical issues and platform errors.</p>
+          <button class="open-modal" data-modal="modal-troubleshooting">Learn More</button>
+        </div>
+      </div>
+    </div>
+
+
+  <!-- Modals -->
+  <div class="modal" id="modal-getting-started">
+    <div class="modal-content">
+      <button class="close-modal" aria-label="Close modal"><i class="fas fa-times"></i></button>
+      <h3>Getting Started</h3>
+      <p>Start your journey with Investra in a few simple steps.</p>
+      <ul>
+        <li>Create an account with your email.</li>
+        <li>Complete your profile setup.</li>
+        <li>Explore the virtual trading dashboard.</li>
+        <li>Follow the onboarding tutorial.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="modal" id="modal-trading-basics">
+    <div class="modal-content">
+      <button class="close-modal" aria-label="Close modal"><i class="fas fa-times"></i></button>
+      <h3>Trading Basics</h3>
+      <p>Learn the essentials of virtual trading on Investra.</p>
+      <ul>
+        <li>Search for stocks in the market.</li>
+        <li>Place buy or sell orders.</li>
+        <li>Monitor real-time price updates.</li>
+        <li>Review your trade history.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="modal" id="modal-account-management">
+    <div class="modal-content">
+      <button class="close-modal" aria-label="Close modal"><i class="fas fa-times"></i></button>
+      <h3>Account Management</h3>
+      <p>Customize and secure your Investra account.</p>
+      <ul>
+        <li>Update your profile details.</li>
+        <li>Enable two-factor authentication.</li>
+        <li>Manage notification preferences.</li>
+        <li>Reset your password if needed.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="modal" id="modal-portfolio-tracking">
+    <div class="modal-content">
+      <button class="close-modal" aria-label="Close modal"><i class="fas fa-times"></i></button>
+      <h3>Portfolio Tracking</h3>
+      <p>Monitor and analyze your virtual investments.</p>
+      <ul>
+        <li>View your portfolio summary.</li>
+        <li>Track performance with charts.</li>
+        <li>Compare returns against benchmarks.</li>
+        <li>Export your portfolio data.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="modal" id="modal-learning-resources">
+    <div class="modal-content">
+      <button class="close-modal" aria-label="Close modal"><i class="fas fa-times"></i></button>
+      <h3>Learning Resources</h3>
+      <p>Enhance your financial knowledge with our guides.</p>
+      <ul>
+        <li>Watch video tutorials on trading.</li>
+        <li>Read articles on market analysis.</li>
+        <li>Complete interactive quizzes.</li>
+        <li>Join webinars with experts.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="modal" id="modal-troubleshooting">
+    <div class="modal-content">
+      <button class="close-modal" aria-label="Close modal"><i class="fas fa-times"></i></button>
+      <h3>Troubleshooting</h3>
+      <p>Fix common issues with these steps.</p>
+      <ul>
+        <li>Clear your browser cache.</li>
+        <li>Check your internet connection.</li>
+        <li>Update your browser to the latest version.</li>
+        <li>Contact support if issues persist.</li>
+      </ul>
+    </div>
+  </div>
+
+
+  <script>
+    // Search Bar Functionality
+    const searchInput = document.getElementById('search-input');
+    const topicsGrid = document.getElementById('topics-grid');
+    const topicCards = topicsGrid.querySelectorAll('.topic-card');
+
+    searchInput.addEventListener('input', () => {
+      const query = searchInput.value.toLowerCase();
+      topicCards.forEach(card => {
+        const keywords = card.getAttribute('data-keywords').toLowerCase();
+        card.style.display = keywords.includes(query) || query === '' ? 'block' : 'none';
+      });
+    });
+
+    // Modal Functionality
+    const openModalButtons = document.querySelectorAll('.open-modal');
+    const modals = document.querySelectorAll('.modal');
+    const closeModalButtons = document.querySelectorAll('.close-modal');
+
+    openModalButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const modalId = button.getAttribute('data-modal');
+        const modal = document.getElementById(modalId);
+        modal.classList.add('active');
+        modal.querySelector('.modal-content').focus();
+      });
+    });
+
+    closeModalButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const modal = button.closest('.modal');
+        modal.classList.remove('active');
+      });
+    });
+
+    // Close modal on outside click or Esc key
+    modals.forEach(modal => {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.remove('active');
+        }
+      });
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        modals.forEach(modal => modal.classList.remove('active'));
+      }
+    });
+  </script>

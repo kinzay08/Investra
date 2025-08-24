@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel Login</title>
+<style>/* Background and Overlay */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.background {
+  background: url('images/alec-cooks-AWmFldiADCo-unsplash\ \(1\).jpg') no-repeat center center/cover;
+  filter: brightness(0.4);
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+}
+
+/* Login Form with blur and larger size */
+.login-container {
+  background: rgba(255, 255, 255, 0.05); /* light overlay */
+  backdrop-filter: blur(3px); /* blur effect */
+  -webkit-backdrop-filter: blur(12px);
+  border: 2px rgb(144, 155, 147) solid;
+  color: white;
+  padding: 40px;
+  border-radius: 20px;
+  width: 400px;
+  margin: auto;
+  margin-top: 8%;
+  box-shadow: 0 0 20px rgba(0,0,0,0.6);
+  text-align: center;
+  transition: 0.3s ease-in-out;
+}
+
+.login-container h2 {
+  margin-bottom: 25px;
+  font-size: 24px;
+}
+
+.login-container input {
+  width: 90%;
+  padding: 12px;
+  margin: 12px 0;
+  border: none;
+  border-radius: 75px;
+  outline: none;
+  font-size: 16px;
+    border: 2px rgb(144, 155, 147) solid;
+  background-color: rgba(255, 255, 255, 0.09 );
+  backdrop-filter: blur(1px);
+  color: white;
+}
+
+.login-container input::placeholder {
+  color: #ccc;
+}
+
+.login-container button {
+  width: 100%;
+  padding: 12px;
+  background-color: #208e6d;
+  color: white;
+  border: none;
+  border-radius: 75px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+.login-container button:hover {
+  background-color: #0a6b36;
+}
+
+#errorMsg {
+  color: #ff4d4d;
+  font-size: 14px;
+  margin-top: 12px;
+}
+</style>
+</head>
+<body>
+  <div class="background"></div>
+
+  <div class="login-container">
+    <h2>Admin Panel Login</h2>
+    <form id="loginForm">
+      <input type="text" id="username" placeholder="Username" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <button type="submit">Login</button>
+      <p id="errorMsg"></p>
+    </form>
+  </div>
+
+<script>
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value.trim();
+  const errorMsg = document.getElementById("errorMsg");
+
+  // Dummy check
+  if (username === "admin" && password === "1234") {
+    alert("Login Successful!");
+    // Redirect to dashboard
+    window.location.href = "dashboard.html";
+  } else {
+    errorMsg.textContent = "Invalid credentials!";
+  }
+});
+
+</script>
+</body>
+</html>

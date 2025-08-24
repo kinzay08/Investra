@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Panel - Contact Messages</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Montserrat', Arial, sans-serif;
+      background-image: url('images/lucija-ros-SxNX66JAFHI-unsplash.jpg');
+      background-size: cover;
+      background-position: center;
+      min-height: 100vh;
+      position: relative;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 0;
+    }
+
+    .container {
+      padding: 36px 24px;
+      max-width: 1080px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+      color: white;
+    }
+
+    h1 {
+      font-size: 50px;
+      font-weight: 700;
+      margin: 0 0 24px 0;
+      color: #ffffff;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      text-align: left;
+      max-width: 720px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      background: rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 0.5px solid #d3d8d4;
+      border-radius: 12px;
+      color: white;
+      font-weight: 600;
+      user-select: none;
+      table-layout: fixed;
+    }
+
+    thead tr {
+      color: #00ff99;
+      text-align: left;
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: 0.5px;
+    }
+
+    th, td {
+      padding: 16px 20px;
+      border-bottom: 1px solid #d3d8d4;
+      font-weight: 600;
+      font-size: 1rem;
+      vertical-align: top;
+      word-break: break-word;
+    }
+
+    td.message-cell {
+      max-height: 120px;
+      overflow-y: auto;
+    }
+
+    tbody tr {
+      background-color: rgba(26, 60, 52, 0.5);
+      transition: background-color 0.3s ease;
+    }
+
+    tbody tr:hover {
+      background-color: rgba(26, 60, 52, 0.8);
+    }
+
+    button {
+      background-color: transparent;
+      color: #d3d8d4;
+      border: 1px solid #d3d8d4;
+      padding: 8px 18px;
+      font-weight: 700;
+      font-size: 1rem;
+      border-radius: 15px;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      user-select: none;
+    }
+
+    button:hover {
+      background-color: #00ff99;
+      color: #003300;
+      border-color: #00ff99;
+    }
+
+    button:active {
+      background-color: #009944;
+      color: #e0f7e0;
+      border-color: #009944;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2.6rem;
+      }
+      table, th, td {
+        font-size: 0.9rem;
+      }
+      button {
+        padding: 6px 14px;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Admin Panel - Contact Messages</h1>
+    <table id="messagesTable">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Subject</th>
+          <th>Message</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- messages will load here -->
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    const apiBase = "http://localhost:8081/api/contact";
+
+    async function fetchMessages() {
+      try {
+        const res = await fetch(apiBase);
+        if (!res.ok) throw new Error("Failed to fetch messages");
+
+        const messages = await res.json();
+        const normalizedMessages = messages.map(msg => ({
+          ...msg,
+          id: msg.id || msg._id || null
+        }));
+        renderMessages(normalizedMessages);
+      } catch (error) {
+        alert("Error loading messages: " + error.message);
+      }
+    }
+
+    function renderMessages(messages) {
+      const tbody = document.querySelector("#messagesTable tbody");
+      tbody.innerHTML = "";
+
+      messages.forEach(msg => {
+        if (!msg.id) return;
+
+        const tr = document.createElement("tr");
+
+        tr.innerHTML = `
+          <td>${msg.id}</td>
+          <td>${msg.name || ''}</td>
+          <td>${msg.email || ''}</td>
+          <td>${msg.subject || ''}</td>
+          <td class="message-cell">${msg.message || ''}</td>
+          <td>
+            <div class="action-buttons">
+              <button onclick="deleteMessage('${msg.id}')">Delete</button>
+            </div>
+          </td>
+        `;
+
+        tbody.appendChild(tr);
+      });
+    }
+
+    async function deleteMessage(id) {
+      if (!confirm("Are you sure you want to delete this message?")) return;
+
+      try {
+        const res = await fetch(`${apiBase}/${id}`, { method: "DELETE" });
+        if (!res.ok) throw new Error(await res.text() || "Delete failed");
+
+        alert("Message deleted successfully!");
+        fetchMessages();
+      } catch (error) {
+        alert("Error deleting message: " + error.message);
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", fetchMessages);
+  </script>
+</body>
+</html>

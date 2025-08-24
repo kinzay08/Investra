@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stock Market Myths - Investra</title>
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+      body {
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(20, 20, 20, 0.9)), url('images/pexels-therato-9941418.jpg') no-repeat center center fixed;
+        background-size: cover;
+        color: #fff;
+        padding: 3rem 2rem;
+        opacity: 0;
+        animation: fadeIn 1.5s ease forwards;
+      }
+      nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 40px;
+      }
+      .logo {
+        font-size: 29px;
+        margin-left: 100px;
+        color: #3EB489;
+        display: flex;
+        align-items: center;
+        font-weight: 600;
+        animation: logoFade 1.5s ease-in-out infinite alternate;
+      }
+      @keyframes logoFade {
+        from {
+          opacity: 0.8;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      .logo::before {
+        content: "⚮";
+        margin-right: 5px;
+        animation: spin 4s infinite linear;
+      }
+        @keyframes spin {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+      nav ul {
+          display: flex;
+          align-items: center;
+          list-style: none;
+          border: solid 1px #3EB489;
+          padding: 12px;
+          border-radius: 75px;
+        }
+        nav ul li a {
+          margin: 0 13px;
+          color: #d1d9d6;
+          text-decoration: none;
+          font-size: 15px;
+          opacity: 0.7;
+          transition: all 0.3s ease;
+          animation: navFadeIn 1s ease-out;
+        }
+        @keyframes navFadeIn {
+          from {
+            opacity: 0;
+            transform: translateX(-20px);
+          }
+          to {
+            opacity: 0.7;
+            transform: translateX(0);
+          }
+        }
+        nav ul li a:hover {
+          opacity: 1;
+          color: #3EB489;
+          transform: translateY(-2px);
+        }
+        .actions {
+          display: flex;
+          align-items: center;
+        }
+        .actions .btn {
+          padding: 8px 15px;
+          margin-left: 15px;
+          border: 1px solid #3EB489;
+          border-radius: 75px;
+          background-color: transparent;
+          color: #3EB489;
+          cursor: pointer;
+          font-size: 14px;
+          transition: all 0.3s ease;
+          animation: btnAppear 1s ease-out 0.5s backwards;
+        }
+        @keyframes btnAppear {
+          from {
+            opacity: 0;
+            transform: scale(0.8);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+        .actions .btn:hover {
+          background-color: rgba(0, 255, 153, 0.2);
+          border-radius: 75px;
+        }
+        .main {
+          display: flex;
+          flex-direction: column;
+          gap: 2rem;
+          justify-content: center;
+          align-items: center;
+          padding-top: 3rem;
+        }
+        .course-container {
+          display: flex;
+          max-width: 1200px;
+          margin: 0 auto;
+          background: rgba(255, 255, 255, 0.09);
+          backdrop-filter: blur(3px);
+          border: 1px solid #3EB489;
+          border-radius: 12px;
+          overflow: hidden;
+        }
+        .course-image {
+          flex: 1;
+          max-width: 50%;
+        }
+        .course-image img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+        .course-details {
+          flex: 1;
+          padding: 2rem;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+        }
+        .course-details h1 {
+          font-size: 2.5rem;
+          color: #3EB489;
+          margin-bottom: 1rem;
+        }
+        .course-info {
+          margin-bottom: 1rem;
+        }
+        .course-info p {
+          font-size: 1rem;
+          color: #ccc;
+          margin: 0.5rem 0;
+        }
+        .course-price {
+          background: #3EB489;
+          color: #fff;
+          padding: 0.5rem 1rem;
+          border-radius: 5px;
+          display: inline-block;
+          margin-bottom: 1rem;
+        }
+        .course-btn {
+          padding: 0.8rem 1.5rem;
+          border: none;
+          background-color: #3EB489;
+          color: #000;
+          border-radius: 75px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+        .course-btn:hover {
+          background-color: #2e8b67;
+        }
+        .modal {
+          display: none;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.9);
+          align-items: center;
+          justify-content: center;
+          z-index: 1000;
+        }
+        .modal-content {
+          background: rgba(255, 255, 255, 0.1);
+          border: 1px solid #3EB489;
+          border-radius: 8px;
+          padding: 2rem;
+          text-align: center;
+          max-width: 800px;
+          width: 90%;
+          max-height: 80vh;
+          overflow-y: auto;
+          color: #fff;
+        }
+        .modal-content h3 {
+          color: #3EB489;
+          margin-bottom: 1.5rem;
+          font-size: 2rem;
+        }
+        .modal-content p {
+          font-size: 1.2rem;
+          margin-bottom: 1.5rem;
+          line-height: 1.6;
+          text-align: left;
+        }
+        .close-modal {
+          padding: 0.8rem 1.8rem;
+          border: none;
+          background-color: #3EB489;
+          color: #000;
+          border-radius: 75px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          font-size: 1.1rem;
+          margin-top: 1.5rem;
+        }
+        .close-modal:hover {
+          background-color: #2e8b67;
+        }
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+        @media (max-width: 900px) {
+          .course-container {
+            flex-direction: column;
+          }
+          .course-image {
+            max-width: 100%;
+          }
+          nav {
+            flex-direction: column;
+            gap: 1rem;
+          }
+          nav ul {
+            flex-direction: column;
+            gap: 0.5rem;
+          }
+          .actions .btn {
+            margin-left: 0;
+          }
+          .whiteboard {
+            width: 100%;
+          }
+        }
+        .navbar {
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(10px);
+          padding: 15px;
+          display: flex;
+          justify-content: center;
+          gap: 15px;
+          border-radius: 8px;
+          margin: 20px auto;
+          max-width: 800px;
+          }
+          .navbar button {
+            background-color: rgba(45, 91, 62, 0.7);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+          }
+          .navbar button:hover {
+            background-color: rgba(19, 54, 29, 0.8);
+            transform: translateY(-2px);
+          }
+          .content {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid #3EB489;
+            border-radius: 8px;
+            padding: 2rem;
+            max-width: 1200px;
+            width: 90%;
+            margin: 20px auto;
+            min-height: 300px;
+          }
+          .content h2 {
+            color: #3EB489;
+            margin-bottom: 1rem;
+          }
+          .content p {
+            color: #ccc;
+            margin-bottom: 1rem;
+          }
+          .quiz-options {
+            list-style: none;
+            padding: 0;
+          }
+          .quiz-options li {
+            margin-bottom: 10px;
+          }
+          .quiz-options button {
+            background-color: rgba(62, 180, 137, 0.3);
+            color: white;
+            border: 1px solid #3EB489;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            text-align: left;
+          }
+          .quiz-options button:hover {
+            background-color: rgba(62, 180, 137, 0.5);
+          }
+          #result {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+          }
+          .correct {
+            background-color: rgba(0, 255, 0, 0.1);
+            color: #3EB489;
+          }
+          .incorrect {
+            background-color: rgba(255, 0, 0, 0.1);
+            color: #ff6b6b;
+          }
+          .lesson-questions {
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(62, 180, 137, 0.1);
+            border-left: 3px solid #3EB489;
+          }
+          .lesson-questions h3 {
+            color: #3EB489;
+            margin-bottom: 10px;
+          }
+          .lesson-questions ol {
+            padding-left: 20px;
+          }
+          .lesson-questions li {
+            margin-bottom: 8px;
+            color: #ccc;
+          }
+          .lesson-quiz {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(62, 180, 137, 0.15);
+            border-radius: 8px;
+          }
+          .lesson-quiz h3 {
+            color: #3EB489;
+            margin-bottom: 15px;
+            text-align: center;
+          }
+          .question-answer {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(62, 180, 137, 0.1);
+            border-radius: 5px;
+          }
+          .question-answer h4 {
+            color: #3EB489;
+            margin-bottom: 8px;
+          }
+          .question-answer p {
+            color: #ccc;
+            line-height: 1.5;
+          }
+  </style>
+</head>
+<body>
+   <nav>
+    <div class="logo">Investra</div>
+    <ul>
+      <li><a href="home.html">Home</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="Learning.html">Learning</a></li>
+      <li><a href="portfolio2.html">Virtual Stocks</a></li>
+      <li><a href="research.html">Services</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+      <li><a href="contact.html">Contact</a></li>
+       
+   
+    </ul>
+    <div class="actions">
+          <button class="btn"><a href="help.html" style="color: #3EB489;text-decoration: none;">Help Center</a></button>
+      <button class="btn"><a href="index.html" style="color: #3EB489;text-decoration: none;">Sign Out</a></button>
+   
+    </div>
+  </nav>
+  <div class="main">
+    <div class="course-container">
+      <div class="course-image">
+        <img src="images/maxim-hopman-fiXLQXAhCfk-unsplash.jpg" alt="Stock Market Myths" />
+      </div>
+      <div class="course-details">
+        <div>
+          <h1>Stock Market Myths</h1>
+          <div class="course-info">
+            <p><strong>Time Spent:</strong> 3 Hours</p>
+            <p><strong>Lessons:</strong> 6</p>
+            <p><strong>Level:</strong> Beginner to Intermediate</p>
+            <p><strong>Format:</strong> Lessons & Interactive Exercises</p>
+            <p><strong>Language:</strong> English</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="navbar">
+      <button onclick="showLesson('intro')">Introduction to Myths</button>
+      <button onclick="showLesson('investing')">Myths About Investing</button>
+      <button onclick="showLesson('timing')">Myths About Timing</button>
+      <button onclick="showLesson('risk')">Myths About Risk</button>
+      <button onclick="showLesson('performance')">Myths About Performance</button>
+      <button onclick="showLesson('practical')">Overcoming Myths</button>
+    </div>
+    
+    <div id="content" class="content">
+      <h2>Welcome to the "Stock Market Myths" Course!</h2>
+      <p>Please select a lesson from the buttons above to begin your journey into debunking common stock market myths.</p>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.2 });
+
+      document.querySelectorAll('.course-container, .faq-item, .whiteboard').forEach(element => {
+        observer.observe(element);
+      });
+
+      const faqItems = document.querySelectorAll('.faq-item');
+      faqItems.forEach(item => {
+        item.addEventListener('click', () => {
+          item.classList.toggle('active');
+        });
+      });
+    });
+
+    function showLesson(key) {
+      const lesson = lessons[key];
+      const contentDiv = document.getElementById('content');
+
+      let optionsHtml = lesson.quiz.options.map(opt => 
+        `<li><button onclick="checkAnswer('${opt.replace(/'/g, "\\'")}', '${lesson.quiz.answer.replace(/'/g, "\\'")}')">${opt}</button></li>`
+      ).join('');
+
+      let answersHtml = lesson.questions.map((q, i) => `
+        <div class="question-answer">
+          <h4>${q}</h4>
+          <p>${lesson.answers[i]}</p>
+        </div>
+      `).join('');
+
+      contentDiv.innerHTML = `
+        <h2>${lesson.title}</h2>
+        <p>${lesson.content}</p>
+        
+        <div class="lesson-questions">
+          <h3>Key Questions and Answers:</h3>
+          ${answersHtml}
+        </div>
+        
+        <button onclick="openModal('${lesson.notes.replace(/'/g, "\\'")}')" class="course-btn">Show Detailed Notes</button>
+        
+        <div class="lesson-quiz">
+          <h3>Quick Check</h3>
+          <p>${lesson.quiz.question}</p>
+          <ul class="quiz-options">${optionsHtml}</ul>
+          <div id="result"></div>
+        </div>
+      `;
+    }
+
+    function checkAnswer(selected, correct) {
+      const resultDiv = document.getElementById('result');
+      if (selected === correct) {
+        resultDiv.innerHTML = `<p class="correct">Correct! Well done.</p>`;
+      } else {
+        resultDiv.innerHTML = `<p class="incorrect">Incorrect. The correct answer is: ${correct}</p>`;
+      }
+    }
+
+    function openModal(notes) {
+      const modal = document.getElementById('notesModal');
+      document.getElementById('notesContent').innerHTML = `
+        <h3>Detailed Lesson Notes</h3>
+        <p>${notes}</p>
+      `;
+      modal.style.display = "flex";
+    }
+
+    function closeModal() {
+      document.getElementById('notesModal').style.display = "none";
+    }
+
+    const lessons = {
+      'intro': {
+        title: "Lesson 1: Introduction to Stock Market Myths",
+        content: "Learn what stock market myths are and why debunking them is crucial for informed investing.",
+        notes: "Stock market myths are widespread misconceptions that can mislead investors, such as beliefs that investing is only for the wealthy or that you can always time the market. These myths often arise from misinformation, media hype, or outdated assumptions. Debunking them helps investors make rational decisions based on facts. Common myths affect perceptions of risk, returns, and strategies. Sources like financial literature, expert interviews, and historical data help separate myths from reality. Understanding myths builds confidence and improves investment outcomes.",
+        questions: [
+          "What are stock market myths?",
+          "Why do stock market myths persist?",
+          "How do myths impact investors?",
+          "Why is debunking myths important?",
+          "Where can investors find accurate information?"
+        ],
+        answers: [
+          "Stock market myths are misconceptions about investing, like believing it’s only for the rich.",
+          "Myths persist due to misinformation, media hype, and lack of financial education.",
+          "Myths can lead to poor decisions, like avoiding stocks or chasing unrealistic returns.",
+          "Debunking myths ensures decisions are based on facts, improving investment outcomes.",
+          "Accurate information is in financial literature, expert analyses, and historical data."
+        ],
+        quiz: {
+          question: "What is a stock market myth?",
+          options: ["A proven investment strategy", "A common misconception", "A guaranteed return"],
+          answer: "A common misconception"
+        }
+      },
+      'investing': {
+        title: "Lesson 2: Myths About Investing",
+        content: "Explore common myths about stock market investing and the truths behind them.",
+        notes: "Common investing myths include: 1) 'You need a lot of money to invest' (fractional shares allow small investments), 2) 'Stocks are like gambling' (investing relies on analysis, not luck), 3) 'Only experts can invest' (basic strategies are accessible to all). These myths discourage participation or promote risky behavior. Truths are found in financial education resources, brokerage platforms, and company filings. For example, low-cost index funds make investing affordable. Understanding these myths encourages broader, informed participation.",
+        questions: [
+          "What is the myth about needing a lot of money?",
+          "Why is comparing stocks to gambling a myth?",
+          "Who can invest in the stock market?",
+          "Where can truths about investing be found?",
+          "How do index funds counter investing myths?"
+        ],
+        answers: [
+          "The myth is that investing requires large sums; fractional shares allow small investments.",
+          "Stocks involve analysis of fundamentals, unlike gambling, which relies on chance.",
+          "Anyone with basic knowledge can invest, not just experts, using accessible tools.",
+          "Truths are in financial education resources, brokerage platforms, and company filings.",
+          "Low-cost index funds make investing affordable, debunking the 'need lots of money' myth."
+        ],
+        quiz: {
+          question: "What allows small investments in stocks?",
+          options: ["High fees", "Fractional shares", "Expert advice"],
+          answer: "Fractional shares"
+        }
+      },
+      'timing': {
+        title: "Lesson 3: Myths About Market Timing",
+        content: "Debunk myths surrounding the idea of perfectly timing the stock market.",
+        notes: "Market timing myths include: 1) 'You can predict market highs and lows' (no one can consistently do so), 2) 'Wait for the perfect moment to invest' (delays miss long-term gains), 3) 'Day trading guarantees profits' (it’s risky and often unprofitable). Historical data shows long-term investing outperforms timing attempts. Dollar-cost averaging reduces timing concerns. Find evidence in market studies and financial news. Avoiding timing myths encourages consistent, disciplined investing strategies.",
+        questions: [
+          "Can anyone consistently predict market highs and lows?",
+          "Why is waiting for the perfect moment a myth?",
+          "What is a risk of day trading?",
+          "How does dollar-cost averaging help?",
+          "Where can evidence against timing myths be found?"
+        ],
+        answers: [
+          "No, consistently predicting market highs and lows is impossible due to market complexity.",
+          "Waiting for the perfect moment delays investing, missing compounding gains over time.",
+          "Day trading is risky, often leading to losses due to volatility and high fees.",
+          "Dollar-cost averaging spreads investments over time, reducing timing risks.",
+          "Evidence is in market studies, historical data, and financial news reports."
+        ],
+        quiz: {
+          question: "What strategy reduces market timing risks?",
+          options: ["Day trading", "Dollar-cost averaging", "Waiting for lows"],
+          answer: "Dollar-cost averaging"
+        }
+      },
+      'risk': {
+        title: "Lesson 4: Myths About Risk",
+        content: "Understand myths about risks in the stock market and the realities of managing them.",
+        notes: "Risk-related myths include: 1) 'Stocks are always too risky' (risk varies by stock and strategy), 2) 'Higher risk always means higher reward' (not guaranteed), 3) 'Diversification eliminates all risk' (it only reduces specific risks). Realities show that risk can be managed through diversification, research, and long-term investing. For example, blue-chip stocks are less risky than startups. Find truths in financial literature and company filings. Debunking risk myths promotes balanced risk management.",
+        questions: [
+          "Are all stocks equally risky?",
+          "Does higher risk always lead to higher rewards?",
+          "What does diversification achieve?",
+          "How can investors manage stock market risk?",
+          "Where can risk management information be found?"
+        ],
+        answers: [
+          "No, risk varies; blue-chip stocks are less risky than speculative startups.",
+          "Higher risk doesn’t always mean higher rewards; losses are also possible.",
+          "Diversification reduces specific risks but doesn’t eliminate market-wide risks.",
+          "Risk is managed through diversification, research, and long-term investing.",
+          "Information is in financial literature, company filings, and educational resources."
+        ],
+        quiz: {
+          question: "What reduces specific risks in a portfolio?",
+          options: ["Diversification", "High-risk stocks", "Market timing"],
+          answer: "Diversification"
+        }
+      },
+      'performance': {
+        title: "Lesson 5: Myths About Performance",
+        content: "Examine myths about stock market performance and what drives actual results.",
+        notes: "Performance myths include: 1) 'Past performance guarantees future results' (it doesn’t), 2) 'You can always beat the market' (most investors underperform indices), 3) 'Hot stocks always outperform' (hype often leads to losses). Actual performance depends on fundamentals, economic conditions, and disciplined strategies. Index funds often match market returns reliably. Find evidence in market data, financial news, and academic studies. Debunking these myths encourages realistic expectations and sound strategies.",
+        questions: [
+          "Does past performance guarantee future results?",
+          "Can most investors consistently beat the market?",
+          "Why do hot stocks often underperform?",
+          "What drives actual stock performance?",
+          "Where can performance data be sourced?"
+        ],
+        answers: [
+          "No, past performance doesn’t guarantee future results due to changing conditions.",
+          "Most investors can’t consistently beat the market; indices often outperform actively managed funds.",
+          "Hot stocks, driven by hype, often crash when fundamentals don’t support valuations.",
+          "Performance depends on company fundamentals, economic conditions, and strategy.",
+          "Data is in market reports, financial news, and academic studies."
+        ],
+        quiz: {
+          question: "What is a myth about stock performance?",
+          options: ["Fundamentals drive returns", "Past performance guarantees results", "Index funds match market"],
+          answer: "Past performance guarantees results"
+        }
+      },
+      'practical': {
+        title: "Lesson 6: Practical Strategies to Overcome Myths",
+        content: "Apply strategies to avoid stock market myths and make informed investment decisions.",
+        notes: "Overcoming myths involves: 1) Educating yourself with reliable sources (books, financial news), 2) Focusing on fundamentals (earnings, valuation), 3) Using disciplined strategies (dollar-cost averaging, diversification), 4) Setting realistic goals (long-term growth), 5) Keeping an investment journal to track decisions. For example, counter the timing myth by investing regularly in an S&P 500 index fund. Use company filings, market data, and educational platforms for analysis. Avoiding myths leads to rational, effective investing.",
+        questions: [
+          "What is the first step to overcome myths?",
+          "Why focus on company fundamentals?",
+          "How does dollar-cost averaging counter myths?",
+          "What is the benefit of an investment journal?",
+          "Where can reliable investment data be found?"
+        ],
+        answers: [
+          "The first step is educating yourself with reliable sources like books and financial news.",
+          "Fundamentals like earnings ensure decisions are based on value, not hype or myths.",
+          "Dollar-cost averaging avoids timing myths by spreading investments over time.",
+          "An investment journal tracks decisions, helping avoid myth-driven errors.",
+          "Data is in company filings, market reports, and educational platforms."
+        ],
+        quiz: {
+          question: "What helps counter market timing myths?",
+          options: ["Chasing hot stocks", "Dollar-cost averaging", "Waiting for crashes"],
+          answer: "Dollar-cost averaging"
+        }
+      }
+    };
+
+    // Show first lesson by default
+    showLesson('intro');
+  </script>
+
+  <!-- Notes Modal -->
+  <div id="notesModal" class="modal">
+    <div class="modal-content">
+      <div id="notesContent"></div>
+      <button class="close-modal" onclick="closeModal()">Close Notes</button>
+    </div>
+  </div>
+</body>
+</html>

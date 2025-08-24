@@ -1,0 +1,718 @@
+
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+ <title>Investra</title>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    /* Base styles and background */
+body {
+  margin: 0;
+  font-family: 'Montserrat', Arial, sans-serif;
+  min-height: 100vh;
+  position: relative;
+  color: white;
+  overflow-x: hidden;
+  background: #000; /* fallback background */
+}
+
+/* Heavily blurred, darkened background image */
+/* Heavily blurred, lighter darkened background image */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: url('images/joshua-harvey-8LCiq0PuPBI-unsplash\ \(1\).jpg') center/cover no-repeat;
+  filter: blur(2px) brightness(0.3) saturate(0.9); 
+  z-index: -2;
+}
+
+/* Optional extra lighter darkness layer */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.25);  /* subtle black overlay, reduced opacity */
+  z-index: -1;
+}
+nav {
+  margin-top: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+         margin-bottom: 40px;
+    }
+    .logo {
+      font-size: 29px;
+      margin-left: 150px;
+      color: #3EB489;
+      display: flex;
+      align-items: center;
+      font-weight: 600;
+      animation: logoFade 1.5s ease-in-out infinite alternate;
+    }
+    @keyframes logoFade {
+      from { opacity: 0.8; }
+      to { opacity: 1; }
+    }
+    .logo::before {
+      content: "⚮";
+      margin-right: 5px;
+      animation: spin 4s infinite linear;
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    nav ul {
+      display: flex;
+      align-items: center;
+      list-style: none;
+
+    }
+    nav ul li a {
+      margin: 0 13px;
+      color: #d1d9d6;
+      text-decoration: none;
+      font-size: 15px;
+      opacity: 0.7;
+      transition: all 0.3s ease;
+      animation: navFadeIn 1s ease-out;
+    }
+    @keyframes navFadeIn {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 0.7; transform: translateX(0); }
+    }
+    nav ul li a:hover {
+      opacity: 1;
+      color: #3EB489;
+      transform: translateY(-2px);
+    }
+ nav .actions  {
+      display: flex;
+      align-items: center;
+      margin-right: 45px;
+    
+      
+    }
+   nav .actions .btn {
+      padding: 8px 15px !important;
+      margin-left: 10px ;
+      border: 1px solid #3EB489;
+      border-radius: 75px !important;
+      background-color: transparent !important;
+      color: #3EB489 !important;
+      cursor: pointer;
+      font-size: 14px !important;
+      transition: all 0.3s ease !important;
+      animation: btnAppear 1s ease-out 0.5s backwards;
+    }
+    @keyframes btnAppear {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .actions .btn:hover {
+      background-color: rgba(0, 255, 153, 0.2) !important;
+      border-radius: 75px;
+    }
+
+   nav ul{
+      border: solid 1px  #3EB489;
+      padding: 12px;
+      border-radius: 75px;
+    
+    }
+/* Container with glass effect */
+.container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 30px 40px;
+  background: transparent;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(15px);
+  border-radius: 16px;
+  position: relative;
+  z-index: 1;
+  margin-top: 40px;
+  display: flex;
+  gap: 30px;
+  color: #b2dfdb;
+
+}
+
+/* Left side - assets and portfolio */
+.left-panel {
+  flex: 1.3;
+  display: flex;
+  flex-direction: column;
+
+  gap: 25px;
+}
+
+/* Right side - chart */
+.right-panel {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 10px 15px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.right-panel h3 {
+  margin: 5px 0 10px;
+  font-size: 1.2rem;
+}
+
+/* Chart container */
+.chart-wrapper {
+  width: 100%;
+  height: 260px;
+  max-width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: -5px;
+}
+
+/* Achievements box */
+.achievements {
+  margin-top: 20px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 15px;
+  text-align: center;
+  color: #b2dfdb;
+}
+
+.achievements h3 {
+  margin: 0 0 10px;
+  color: #a7ffeb;
+}
+
+.achievement-item {
+  padding: 8px 12px;
+  margin: 6px auto;
+  background-color: rgba(0, 77, 64, 0.5);
+  border-radius: 10px;
+  font-size: 0.95rem;
+  width: 90%;
+}
+
+/* Main title */
+h1 {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 15px;
+    color: #3EB489;
+  user-select: none;
+}
+
+/* Balance and P&L display */
+#wallet, #pnl {
+  font-size: 20px;
+  font-weight: 700;
+  color: #3EB489;
+  margin-bottom: 10px;
+}
+
+/* Asset Table */
+table {
+  background: rgba(2, 61, 24, 0.1);
+  backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(1px);
+  border-radius: 12px;
+  color: white;
+  font-weight: 600;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+thead tr {
+  background: rgba(9, 100, 86, 0.1);
+   color: #3EB489;
+  text-align: left;
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+}
+
+th, td {
+  padding: 14px 18px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  vertical-align: middle;
+}
+
+tbody tr {
+  background: rgba(255, 255, 255, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+tbody tr:hover {
+  background-color: rgba(4, 30, 27, 0.7);
+}
+
+/* Number input */
+input[type="number"] {
+  width: 60px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 1.5px solid #b2dfdb;
+  background: rgba(0, 77, 64, 0.4);
+  color: #e0f2f1;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: background 0.3s ease, border-color 0.3s ease;
+  text-align: center;
+}
+
+input[type="number"]:focus {
+  outline: none;
+  background: rgba(0, 121, 107, 0.6);
+  border-color: #80cbc4;
+  color: #3EB489;
+}
+
+/* Buttons */
+.btn1 {
+  background-color: transparent;
+   color: #3EB489;
+  border: 1.5px solid #b2dfdb;
+  padding: 8px 18px;
+  margin: 0;
+  font-weight: 700;
+  font-size: 0.9rem;
+  border-radius: 15px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  user-select: none;
+}
+
+.btn1:hover {
+  background-color: #80cbc4;
+  color: #004d40;
+  border-color: #80cbc4;
+}
+
+.btn1:active {
+  background-color: #004d40;
+  color: #a7ffeb;
+  border-color: #004d40;
+}
+
+/* Profit/Loss styling */
+.gain {
+  color: #4caf50;
+  font-weight: 700;
+}
+
+.loss {
+  color: #ef5350;
+  font-weight: 700;
+}
+
+/* Portfolio holdings */
+#portfolio {
+  background: rgba(8, 89, 76, 0.5);
+  border-radius: 12px;
+  padding: 15px 20px;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+#portfolio h3 {
+  margin-top: 0;
+  color: #3EB489;
+  user-select: none;
+}
+
+#holdingList {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+   color: #3EB489;
+  font-weight: 600;
+}
+
+#holdingList li {
+  padding: 6px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 121, 107, 0.3);
+}
+
+#holdingList button {
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  border-radius: 12px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .container {
+    flex-direction: column;
+  }
+  .right-panel {
+    width: 100%;
+    max-height: 320px;
+    margin-top: 30px;
+  }
+}
+
+
+  </style>
+</head>
+<body>
+   <nav>
+    <div class="logo">Investra</div>
+    <ul>
+      <li><a href="home.html">Home</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="#">Learning</a></li>
+      <li><a href="portfolio.html">Virtual Stocks</a></li>
+      <li><a href="#">Research</a></li>
+          <li><a href="#">FAQ</a></li>
+      <li><a href="#">Contact</a></li>
+       <li><a href="#">Feedback</a></li>
+   
+    </ul>
+    <div class="actions">
+          <button class="btn">Help Center</button>
+      <button class="btn">Sign Out</button>
+   
+    </div>
+  </nav>
+
+  
+  <div class="container">
+
+
+    <div class="left-panel">
+
+
+
+      <h1>Stock & Crypto Simulator</h1>
+      <div id="wallet">Balance: Rs. <span id="balance">100000</span></div>
+      <div id="pnl">P&L: Rs. <span id="profitLoss">0</span></div>
+
+      <table id="assetTable" aria-label="Asset price list"></table>
+
+      <div id="portfolio" aria-label="User portfolio holdings">
+        <h3>Your Holdings</h3>
+        <ul id="holdingList"></ul>
+      </div>
+    </div>
+
+    <div class="right-panel">
+      <h3>Portfolio Value Over Time</h3>
+      <div class="chart-wrapper">
+        <canvas id="portfolioChart" aria-label="Portfolio value chart"></canvas>
+      </div>
+<div id="achievements" style="margin-top: 20px; color: #a7ffeb;">
+  <h3>🏆 Achievements</h3>
+  <div id="achievementList" style="display: flex; flex-direction: column; gap: 6px;"></div>
+</div>
+
+
+
+    </div>
+  </div>
+<script>
+let virtualBalance = 100000;
+let holdings = [];
+let portfolioHistory = [];
+let step = 0;
+
+const assets = [
+  { name: "TCS", price: 3800, drift: (Math.random() * 2 - 1) * 0.00001 },
+  { name: "Infosys", price: 1700, drift: (Math.random() * 2 - 1) * 0.00001 },
+  { name: "Reliance", price: 2450, drift: (Math.random() * 2 - 1) * 0.00001 },
+  { name: "Wipro", price: 410, drift: (Math.random() * 2 - 1) * 0.00001 },
+  { name: "HDFC Bank", price: 1500, drift: (Math.random() * 2 - 1) * 0.00001 },
+  { name: "ICICI Bank", price: 850, drift: (Math.random() * 2 - 1) * 0.00001 },
+  { name: "Bitcoin", price: 4000000, drift: (Math.random() * 2 - 1) * 0.00001 },
+  { name: "Ethereum", price: 280000, drift: (Math.random() * 2 - 1) * 0.00001 },
+  { name: "Dogecoin", price: 30, drift: (Math.random() * 2 - 1) * 0.00001 },
+  { name: "Ripple", price: 90, drift: (Math.random() * 2 - 1) * 0.00001 }
+];
+
+const table = document.getElementById("assetTable");
+table.innerHTML = `
+  <thead>
+    <tr>
+      <th>Asset</th>
+      <th>Price (Rs.)</th>
+      <th>Qty</th>
+      <th>Buy</th>
+    </tr>
+  </thead>
+  <tbody>
+    ${assets.map((asset, index) => `
+      <tr>
+        <td>${asset.name}</td>
+        <td id="price-${index}">${asset.price.toLocaleString()}</td>
+        <td><input type="number" id="qty-${index}" min="1" value="1" /></td>
+        <td><button class="btn1" data-index="${index}">Buy</button></td>
+      </tr>
+    `).join('')}
+  </tbody>
+`;
+
+table.querySelectorAll('button').forEach(button => {
+  button.addEventListener('click', () => {
+    const index = +button.getAttribute('data-index');
+    const qtyInput = document.getElementById(`qty-${index}`);
+    let qty = parseInt(qtyInput.value);
+    if (!qty || qty < 1) {
+      alert("Please enter a valid quantity (1 or more).");
+      return;
+    }
+    const asset = assets[index];
+    const cost = asset.price * qty;
+    if (cost > virtualBalance) {
+      alert("Insufficient balance!");
+      return;
+    }
+    virtualBalance -= cost;
+    document.getElementById("balance").textContent = virtualBalance.toLocaleString();
+
+    const existing = holdings.find(h => h.name === asset.name);
+    if (existing) {
+      existing.avgPrice = ((existing.avgPrice * existing.qty) + (asset.price * qty)) / (existing.qty + qty);
+      existing.avgPrice = parseFloat(existing.avgPrice.toFixed(2));
+      existing.qty += qty;
+    } else {
+      holdings.push({ name: asset.name, qty, avgPrice: asset.price });
+    }
+    renderHoldings();
+    updateChart();  // <-- THIS updates the value properly
+  });
+});
+
+function renderHoldings() {
+  const holdingList = document.getElementById("holdingList");
+  if (holdings.length === 0) {
+    holdingList.innerHTML = '<li>You have no holdings yet.</li>';
+    return;
+  }
+  holdingList.innerHTML = holdings.map(h => {
+    const currentPrice = assets.find(a => a.name === h.name)?.price || 0;
+    const profitLoss = ((currentPrice - h.avgPrice) * h.qty).toFixed(0);
+    const isGain = profitLoss >= 0;
+    return `
+      <li>
+        <strong>${h.name}</strong> - ${h.qty} shares @ Rs.${h.avgPrice.toLocaleString(undefined, {maximumFractionDigits:0})}
+        <span class="${isGain ? 'gain' : 'loss'}">
+          (${isGain ? '+' : ''}${profitLoss.toLocaleString()} Rs)
+        </span>
+        <button data-name="${h.name}">Sell All</button>
+      </li>`;
+  }).join('');
+  holdingList.querySelectorAll('button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const name = btn.getAttribute('data-name');
+      sellHolding(name);
+    });
+  });
+}
+
+function sellHolding(name) {
+  const index = holdings.findIndex(h => h.name === name);
+  if (index === -1) return;
+  const holding = holdings[index];
+  const currentPrice = assets.find(a => a.name === name)?.price || 0;
+  const saleAmount = currentPrice * holding.qty;
+  virtualBalance += saleAmount;
+  document.getElementById("balance").textContent = virtualBalance.toLocaleString();
+  holdings.splice(index, 1);
+  renderHoldings();
+  updateChart();
+}
+
+function simulatePriceChanges() {
+  for (let i = 0; i < assets.length; i++) {
+    const asset = assets[i];
+    const volatility = 0.0001;
+    const randomChange = (Math.random() * 2 - 1) * volatility;
+    const changePercent = asset.drift + randomChange;
+    let newPrice = asset.price * (1 + changePercent);
+    if (newPrice < 1) newPrice = 1;
+    asset.price = parseFloat(newPrice.toFixed(2));
+    document.getElementById(`price-${i}`).textContent = asset.price.toLocaleString();
+  }
+}
+
+function calculatePortfolioValue() {
+  let holdingsValue = holdings.reduce((total, h) => {
+    const currentPrice = assets.find(a => a.name === h.name)?.price || 0;
+    return total + currentPrice * h.qty;
+  }, 0);
+  return holdingsValue + virtualBalance;
+}
+
+let unlockedAchievements = new Set();
+
+function checkAchievements() {
+  const achievementList = document.getElementById("achievementList");
+
+  function unlock(id, text) {
+    if (!unlockedAchievements.has(id)) {
+      unlockedAchievements.add(id);
+      const div = document.createElement("div");
+      div.className = "achievement-item";
+      div.id = id;
+      div.textContent = text;
+      div.style.padding = "6px 10px";
+      div.style.background = "rgba(0, 77, 64, 0.6)";
+      div.style.borderRadius = "12px";
+      div.style.fontWeight = "600";
+      div.style.color = "#a7ffeb";
+      achievementList.appendChild(div);
+    }
+  }
+
+  if (holdings.length > 0) unlock("firstBuy", "🛒 First Purchase!");
+  if (holdings.length >= 5) unlock("diverseAchieve", "📊 You own 5+ assets!");
+  if (virtualBalance <= 50000) unlock("spender", "🧠 Spent Half Your Wallet!");
+  if (calculatePortfolioValue() >= 150000) unlock("richAchieve", "💰 You reached Rs. 150,000!");
+  if (portfolioHistory.length >= 20) unlock("activeTrader", "🕒 20+ Active Time Steps!");
+}
+
+function updateChart() {
+  const totalValue = calculatePortfolioValue();
+  const pnl = totalValue - 100000;
+  const profitLossSpan = document.getElementById("profitLoss");
+  profitLossSpan.textContent = pnl.toLocaleString();
+  if (pnl >= 0) {
+    profitLossSpan.classList.add("gain");
+    profitLossSpan.classList.remove("loss");
+  } else {
+    profitLossSpan.classList.add("loss");
+    profitLossSpan.classList.remove("gain");
+  }
+
+  step++;
+  portfolioHistory.push({ step: step, value: totalValue });
+  if (portfolioHistory.length > 20) portfolioHistory.shift();
+
+  portfolioChart.data.labels = portfolioHistory.map(p => p.step);
+  portfolioChart.data.datasets[0].data = portfolioHistory.map(p => p.value.toFixed(2));
+  portfolioChart.update();
+
+  // ✅ Check achievements every update
+  checkAchievements();
+}
+
+const ctx = document.getElementById('portfolioChart').getContext('2d');
+const portfolioChart = new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: [],
+    datasets: [{
+      label: 'Portfolio Value (Rs.)',
+      data: [],
+      borderColor: '#80cbc4',
+      backgroundColor: 'rgba(128,203,196,0.3)',
+      borderWidth: 2,
+      fill: true,
+      tension: 0,
+      pointRadius: 0,
+      pointHoverRadius: 4,
+      pointBackgroundColor: '#80cbc4',
+      pointHoverBackgroundColor: '#a7ffeb'
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    animation: {
+      duration: 500,
+      easing: 'easeOutQuart'
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Time Step',
+          color: '#b2dfdb'
+        },
+        ticks: {
+          color: '#b2dfdb',
+          maxTicksLimit: 10
+        },
+        grid: {
+          color: 'rgba(178,223,219,0.1)'
+        }
+      },
+      y: {
+        title: {
+          display: true,
+          text: 'Portfolio Value (Rs.)',
+          color: '#b2dfdb'
+        },
+        beginAtZero: false,
+        ticks: {
+          color: '#b2dfdb',
+          callback: function(value) {
+            return 'Rs. ' + value.toLocaleString();
+          }
+        },
+        grid: {
+          color: 'rgba(178,223,219,0.2)'
+        }
+      }
+    },
+    plugins: {
+      legend: {
+        labels: {
+          color: '#80cbc4'
+        }
+      },
+      tooltip: {
+        enabled: true,
+        mode: 'nearest',
+        intersect: false,
+        backgroundColor: '#004d40',
+        titleColor: '#a7ffeb',
+        bodyColor: '#e0f2f1',
+        callbacks: {
+          label: function(context) {
+            return `Value: Rs. ${context.parsed.y.toLocaleString()}`;
+          }
+        }
+      }
+    },
+    interaction: {
+      mode: 'nearest',
+      intersect: false
+    }
+  }
+});
+
+renderHoldings();
+updateChart();
+setInterval(simulatePriceChanges, 1000);
+setInterval(updateChart, 10000);
+</script>
+
+
+</body>
+</html> 

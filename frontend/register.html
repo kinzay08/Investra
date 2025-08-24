@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Investra</title>
+
+  <link rel="stylesheet" href="style1.css"/>
+
+</head>
+<body>
+
+  <div class="main-container">
+    <div class="left-section">
+      <div class="logo">Investra</div>
+      <br/>
+      <a href="index.html" class="back-button">&larr; Back</a>
+    </div>
+
+    <div class="right-section">
+      <div class="login-form">
+        <h2>Register</h2>
+        <form id="registerForm">
+          <input type="text" id="username" name="username" placeholder="Username" required>
+          <input type="email" id="email" name="email" placeholder="Email" required>
+          <input type="password" id="password" name="password" placeholder="Password" required>
+          <p>Already have an account? <a href="login.html">Login</a></p>
+          <button type="submit">Register</button>
+        </form>
+      </div>
+      <p class="contact-note">If there's any queries contact @.com</p>
+    </div>
+  </div>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const registerForm = document.getElementById("registerForm");
+
+    if (!registerForm) {
+      console.error("⚠️ Form with id='registerForm' not found!");
+      return;
+    }
+
+    registerForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const username = document.getElementById("username").value;
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      try {
+        const response = await fetch("http://localhost:8081/api/auth/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ username, email, password })
+        });
+
+        if (!response.ok) {
+          throw new Error("Server responded with an error.");
+        }
+
+        const result = await response.text();
+        alert(result); // Show success message
+
+        // ✅ Redirect to home.html after successful registration
+        window.location.href = "home.html";
+
+      } catch (error) {
+        console.error("❌ Error:", error);
+        alert("Registration failed! Check console for details.");
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

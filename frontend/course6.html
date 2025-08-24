@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IPOs and How Companies Get Listed - Investra</title>
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+    body {
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(20, 20, 20, 0.9)), url('images/pexels-therato-9941418.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      padding: 3rem 2rem;
+      opacity: 0;
+      animation: fadeIn 1.5s ease forwards;
+    }
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 40px;
+    }
+    .logo {
+      font-size: 29px;
+      margin-left: 100px;
+      color: #3EB489;
+      display: flex;
+      align-items: center;
+      font-weight: 600;
+      animation: logoFade 1.5s ease-in-out infinite alternate;
+    }
+    @keyframes logoFade {
+      from { opacity: 0.8; }
+      to { opacity: 1; }
+    }
+    .logo::before {
+      content: "⚮";
+      margin-right: 5px;
+      animation: spin 4s infinite linear;
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    nav ul {
+      display: flex;
+      align-items: center;
+      list-style: none;
+      border: solid 1px #3EB489;
+      padding: 12px;
+      border-radius: 75px;
+    }
+    nav ul li a {
+      margin: 0 13px;
+      color: #d1d9d6;
+      text-decoration: none;
+      font-size: 15px;
+      opacity: 0.7;
+      transition: all 0.3s ease;
+      animation: navFadeIn 1s ease-out;
+    }
+    @keyframes navFadeIn {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 0.7; transform: translateX(0); }
+    }
+    nav ul li a:hover {
+      opacity: 1;
+      color: #3EB489;
+      transform: translateY(-2px);
+    }
+    .actions {
+      display: flex;
+      align-items: center;
+    }
+    .actions .btn {
+      padding: 8px 15px;
+      margin-left: 15px;
+      border: 1px solid #3EB489;
+      border-radius: 75px;
+      background-color: transparent;
+      color: #3EB489;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      animation: btnAppear 1s ease-out 0.5s backwards;
+    }
+    @keyframes btnAppear {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .actions .btn:hover {
+      background-color: rgba(0, 255, 153, 0.2);
+      border-radius: 75px;
+    }
+    .main {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      justify-content: center;
+      align-items: center;
+      padding-top: 3rem;
+    }
+    .course-container {
+      display: flex;
+      max-width: 1200px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.09);
+      backdrop-filter: blur(3px);
+      border: 1px solid #3EB489;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .course-image {
+      flex: 1;
+      max-width: 50%;
+    }
+    .course-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .course-details {
+      flex: 1;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .course-details h1 {
+      font-size: 2.5rem;
+      color: #3EB489;
+      margin-bottom: 1rem;
+    }
+    .course-info {
+      margin-bottom: 1rem;
+    }
+    .course-info p {
+      font-size: 1rem;
+      color: #ccc;
+      margin: 0.5rem 0;
+    }
+    .course-price {
+      background: #3EB489;
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
+    .course-btn {
+      padding: 0.8rem 1.5rem;
+      border: none;
+      background-color: #3EB489;
+      color: #000;
+      border-radius: 75px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .course-btn:hover {
+      background-color: #2e8b67;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .modal-content {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid #3EB489;
+      border-radius: 8px;
+      padding: 2rem;
+      text-align: center;
+      max-width: 800px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      color: #fff;
+    }
+    .modal-content h3 {
+      color: #3EB489;
+      margin-bottom: 1.5rem;
+      font-size: 2rem;
+    }
+    .modal-content p {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+      text-align: left;
+    }
+    .close-modal {
+      padding: 0.8rem 1.8rem;
+      border: none;
+      background-color: #3EB489;
+      color: #000;
+      border-radius: 75px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1.1rem;
+      margin-top: 1.5rem;
+    }
+    .close-modal:hover {
+      background-color: #2e8b67;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @media (max-width: 900px) {
+      .course-container {
+        flex-direction: column;
+      }
+      .course-image {
+        max-width: 100%;
+      }
+      nav {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      nav ul {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      .actions .btn {
+        margin-left: 0;
+      }
+      .whiteboard {
+        width: 100%;
+      }
+    }
+    .navbar {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 15px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      border-radius: 8px;
+      margin: 20px auto;
+      max-width: 800px;
+    }
+    .navbar button {
+      background-color: rgba(45, 91, 57, 0.7);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .navbar button:hover {
+      background-color: rgba(19, 54, 29, 0.8);
+      transform: translateY(-2px);
+    }
+    .content {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid #3EB489;
+      border-radius: 8px;
+      padding: 2rem;
+      max-width: 1200px;
+      width: 90%;
+      margin: 20px auto;
+      min-height: 300px;
+    }
+    .content h2 {
+      color: #3EB489;
+      margin-bottom: 1rem;
+    }
+    .content p {
+      color: #ccc;
+      margin-bottom: 1rem;
+    }
+    .quiz-options {
+      list-style: none;
+      padding: 0;
+    }
+    .quiz-options li {
+      margin-bottom: 10px;
+    }
+    .quiz-options button {
+      background-color: rgba(62, 180, 137, 0.3);
+      color: white;
+      border: 1px solid #3EB489;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s;
+      width: 100%;
+      text-align: left;
+    }
+    .quiz-options button:hover {
+      background-color: rgba(62, 180, 137, 0.5);
+    }
+    #result {
+      margin-top: 20px;
+      padding: 10px;
+      border-radius: 5px;
+    }
+    .correct {
+      background-color: rgba(0, 255, 0, 0.1);
+      color: #3EB489;
+    }
+    .incorrect {
+      background-color: rgba(255, 0, 0, 0.1);
+      color: #ff6b6b;
+    }
+    .lesson-questions {
+      margin: 20px 0;
+      padding: 15px;
+      background: rgba(62, 180, 137, 0.1);
+      border-left: 3px solid #3EB489;
+    }
+    .lesson-questions h3 {
+      color: #3EB489;
+      margin-bottom: 10px;
+    }
+    .lesson-questions ol {
+      padding-left: 20px;
+    }
+    .lesson-questions li {
+      margin-bottom: 8px;
+      color: #ccc;
+    }
+    .lesson-quiz {
+      margin-top: 30px;
+      padding: 20px;
+      background: rgba(62, 180, 137, 0.15);
+      border-radius: 8px;
+    }
+    .lesson-quiz h3 {
+      color: #3EB489;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+    .question-answer {
+      margin-top: 15px;
+      padding: 15px;
+      background: rgba(62, 180, 137, 0.1);
+      border-radius: 5px;
+    }
+    .question-answer h4 {
+      color: #3EB489;
+      margin-bottom: 8px;
+    }
+    .question-answer p {
+      color: #ccc;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+   <nav>
+    <div class="logo">Investra</div>
+    <ul>
+      <li><a href="home.html">Home</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="Learning.html">Learning</a></li>
+      <li><a href="portfolio2.html">Virtual Stocks</a></li>
+      <li><a href="research.html">Services</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+      <li><a href="contact.html">Contact</a></li>
+       
+   
+    </ul>
+    <div class="actions">
+          <button class="btn"><a href="help.html" style="color: #3EB489;text-decoration: none;">Help Center</a></button>
+      <button class="btn"><a href="index.html" style="color: #3EB489;text-decoration: none;">Sign Out</a></button>
+   
+    </div>
+  </nav>
+
+  <div class="main">
+    <div class="course-container">
+      <div class="course-image">
+        <img src="images/adam-smigielski-K5mPtONmpHM-unsplash.jpg" alt="IPOs and How Companies Get Listed" />
+      </div>
+      <div class="course-details">
+        <div>
+          <h1>IPOs and How Companies Get Listed</h1>
+          <div class="course-info">
+            <p><strong>Time Spent:</strong> 3 Hours</p>
+            <p><strong>Lessons:</strong> 6</p>
+            <p><strong>Level:</strong> Beginner to Intermediate</p>
+            <p><strong>Format:</strong> Lessons & Interactive Exercises</p>
+            <p><strong>Language:</strong> English</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="navbar">
+      <button onclick="showLesson('intro')">Introduction to IPOs</button>
+      <button onclick="showLesson('listing')">The Listing Process</button>
+      <button onclick="showLesson('evaluation')">Evaluating IPOs</button>
+      <button onclick="showLesson('risks')">Risks of IPOs</button>
+      <button onclick="showLesson('post-ipo')">Post-IPO Performance</button>
+      <button onclick="showLesson('practical')">Practical IPO Analysis</button>
+    </div>
+    
+    <div id="content" class="content">
+      <h2>Welcome to the "IPOs and How Companies Get Listed" Course!</h2>
+      <p>Please select a lesson from the buttons above to begin your journey into understanding IPOs and company listings.</p>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.2 });
+
+      document.querySelectorAll('.course-container, .faq-item, .whiteboard').forEach(element => {
+        observer.observe(element);
+      });
+
+      const faqItems = document.querySelectorAll('.faq-item');
+      faqItems.forEach(item => {
+        item.addEventListener('click', () => {
+          item.classList.toggle('active');
+        });
+      });
+    });
+
+    function showLesson(key) {
+      const lesson = lessons[key];
+      const contentDiv = document.getElementById('content');
+
+      let optionsHtml = lesson.quiz.options.map(opt => 
+        `<li><button onclick="checkAnswer('${opt.replace(/'/g, "\\'")}', '${lesson.quiz.answer.replace(/'/g, "\\'")}')">${opt}</button></li>`
+      ).join('');
+
+      let answersHtml = lesson.questions.map((q, i) => `
+        <div class="question-answer">
+          <h4>${q}</h4>
+          <p>${lesson.answers[i]}</p>
+        </div>
+      `).join('');
+
+      contentDiv.innerHTML = `
+        <h2>${lesson.title}</h2>
+        <p>${lesson.content}</p>
+        
+        <div class="lesson-questions">
+          <h3>Key Questions and Answers:</h3>
+          ${answersHtml}
+        </div>
+        
+        <button onclick="openModal('${lesson.notes.replace(/'/g, "\\'")}')" class="course-btn">Show Detailed Notes</button>
+        
+        <div class="lesson-quiz">
+          <h3>Quick Check</h3>
+          <p>${lesson.quiz.question}</p>
+          <ul class="quiz-options">${optionsHtml}</ul>
+          <div id="result"></div>
+        </div>
+      `;
+    }
+
+    function checkAnswer(selected, correct) {
+      const resultDiv = document.getElementById('result');
+      if (selected === correct) {
+        resultDiv.innerHTML = `<p class="correct">Correct! Well done.</p>`;
+      } else {
+        resultDiv.innerHTML = `<p class="incorrect">Incorrect. The correct answer is: ${correct}</p>`;
+      }
+    }
+
+    function openModal(notes) {
+      const modal = document.getElementById('notesModal');
+      document.getElementById('notesContent').innerHTML = `
+        <h3>Detailed Lesson Notes</h3>
+        <p>${notes}</p>
+      `;
+      modal.style.display = "flex";
+    }
+
+    function closeModal() {
+      document.getElementById('notesModal').style.display = "none";
+    }
+
+    const lessons = {
+      'intro': {
+        title: "Lesson 1: Introduction to IPOs",
+        content: "Learn what an IPO is, why companies go public, and the basics of investing in IPOs.",
+        notes: "An Initial Public Offering (IPO) is when a private company offers shares to the public for the first time, becoming a publicly traded company. Companies go public to raise capital for growth, pay debts, or allow early investors to exit. IPOs are listed on stock exchanges like NYSE or NASDAQ. Investors buy IPO shares through brokers, often at a set price before trading begins. IPOs can offer high growth potential but are riskier due to limited historical data. Find IPO details in prospectuses (S-1 filings) or financial news.",
+        questions: [
+          "What is an IPO?",
+          "Why do companies choose to go public?",
+          "Where are IPO shares listed?",
+          "How can investors participate in an IPO?",
+          "Where can IPO information be found?"
+        ],
+        answers: [
+          "An IPO is when a private company offers shares to the public, becoming publicly traded.",
+          "Companies go public to raise capital, pay debts, or allow early investors to sell shares.",
+          "IPO shares are listed on stock exchanges like the NYSE or NASDAQ.",
+          "Investors can buy IPO shares through brokers, often at a pre-set price before trading starts.",
+          "IPO information is in S-1 filings (prospectuses) and financial news websites."
+        ],
+        quiz: {
+          question: "What is the main purpose of an IPO?",
+          options: ["Reduce company taxes", "Raise capital for the company", "Increase employee salaries"],
+          answer: "Raise capital for the company"
+        }
+      },
+      'listing': {
+        title: "Lesson 2: The IPO Listing Process",
+        content: "Understand the steps a company takes to get listed on a stock exchange through an IPO.",
+        notes: "The IPO process includes: 1) Hiring underwriters (investment banks like Goldman Sachs), 2) Filing an S-1 prospectus with the SEC, detailing financials and risks, 3) Setting the IPO price based on demand, 4) Conducting a roadshow to attract investors, 5) Listing shares on an exchange (e.g., NYSE) and starting trading. The process takes 6-12 months and involves regulatory compliance. Underwriters help determine share price and allocation. Investors can review S-1 filings on the SEC’s EDGAR database or company websites for details.",
+        questions: [
+          "What is the role of underwriters in an IPO?",
+          "What information is included in an S-1 prospectus?",
+          "What happens during an IPO roadshow?",
+          "How long does the IPO process typically take?",
+          "Where can S-1 filings be accessed?"
+        ],
+        answers: [
+          "Underwriters, like investment banks, help set the IPO price, market shares, and ensure regulatory compliance.",
+          "The S-1 prospectus includes financial statements, business model, risks, and management details.",
+          "A roadshow involves company executives pitching to institutional investors to build demand for shares.",
+          "The IPO process typically takes 6 to 12 months from planning to listing.",
+          "S-1 filings are available on the SEC’s EDGAR database or company investor relations websites."
+        ],
+        quiz: {
+          question: "Which document details a company’s financials and risks for an IPO?",
+          options: ["10-K report", "S-1 prospectus", "Earnings report"],
+          answer: "S-1 prospectus"
+        }
+      },
+      'evaluation': {
+        title: "Lesson 3: Evaluating IPO Investments",
+        content: "Learn how to assess an IPO’s investment potential using financial and qualitative factors.",
+        notes: "Evaluating an IPO involves: 1) Reviewing financials (revenue growth, profitability, debt) in the S-1 filing, 2) Assessing qualitative factors (management quality, competitive advantage, industry trends), 3) Comparing valuation to peers (e.g., P/E or P/S ratios), 4) Checking underwriter reputation, 5) Understanding use of proceeds (e.g., growth vs. debt repayment). Sources include S-1 filings, analyst reports, and financial news. Look for companies with strong fundamentals and clear growth plans, but beware of hype-driven overvaluation.",
+        questions: [
+          "What financial metrics are key in IPO evaluation?",
+          "What qualitative factors should be considered?",
+          "Why compare an IPO to its peers?",
+          "What does the use of proceeds reveal?",
+          "Where can IPO evaluation data be sourced?"
+        ],
+        answers: [
+          "Key metrics include revenue growth, profitability margins, and debt levels from the S-1 filing.",
+          "Qualitative factors include management experience, competitive advantages, and industry growth trends.",
+          "Comparing to peers shows if the IPO’s valuation (e.g., P/S ratio) is reasonable within the industry.",
+          "Use of proceeds shows if funds are for growth (positive) or debt repayment (less ideal).",
+          "Data comes from S-1 filings, analyst reports, financial news, and industry publications."
+        ],
+        quiz: {
+          question: "Which factor is critical when evaluating an IPO?",
+          options: ["Stock exchange location", "Revenue growth", "Company age"],
+          answer: "Revenue growth"
+        }
+      },
+      'risks': {
+        title: "Lesson 4: Risks of Investing in IPOs",
+        content: "Explore the risks associated with IPOs and how to identify them before investing.",
+        notes: "IPO risks include: 1) Limited historical data (less financial transparency), 2) High volatility (price swings post-IPO), 3) Overvaluation (hype-driven pricing), 4) Lock-up period expirations (insider selling pressure), 5) Operational risks (unproven business models). Review the S-1’s risk factors section for company-specific issues like lawsuits or competition. Check financials for high debt or losses. Mitigate risks by focusing on IPOs with strong fundamentals and reputable underwriters. Diversify to reduce exposure to any single IPO.",
+        questions: [
+          "What is a common risk of IPO investing?",
+          "Why do lock-up periods matter?",
+          "How can overvaluation affect IPO investors?",
+          "Where are company-specific risks disclosed?",
+          "How can investors mitigate IPO risks?"
+        ],
+        answers: [
+          "A common risk is limited historical data, making it hard to assess performance.",
+          "Lock-up periods restrict insider selling; their expiration can lead to price drops if insiders sell.",
+          "Overvaluation due to hype can cause price declines if the company underperforms post-IPO.",
+          "Company-specific risks are disclosed in the S-1 filing’s risk factors section.",
+          "Mitigate risks by diversifying, choosing IPOs with strong fundamentals, and researching thoroughly."
+        ],
+        quiz: {
+          question: "Which risk involves a lack of financial transparency?",
+          options: ["Lock-up period expiration", "Limited historical data", "Overvaluation"],
+          answer: "Limited historical data"
+        }
+      },
+      'post-ipo': {
+        title: "Lesson 5: Post-IPO Performance Analysis",
+        content: "Understand how to analyze a company’s performance after its IPO to make informed investment decisions.",
+        notes: "Post-IPO analysis involves: 1) Monitoring earnings reports (EPS, revenue growth), 2) Reviewing stock price stability (volatility post-lock-up), 3) Assessing management execution (delivering on S-1 promises), 4) Checking analyst ratings and news, 5) Comparing to peers for valuation. Many IPOs experience volatility in the first year due to market adjustments. Use 10-Q filings, earnings calls, and financial websites for data. Strong post-IPO performance often comes from consistent earnings and clear growth strategies.",
+        questions: [
+          "What should be monitored in post-IPO analysis?",
+          "Why is stock price volatility common post-IPO?",
+          "How does management execution impact performance?",
+          "Where can post-IPO data be accessed?",
+          "What indicates strong post-IPO performance?"
+        ],
+        answers: [
+          "Monitor earnings reports (EPS, revenue), stock price stability, and management execution.",
+          "Volatility is common due to market adjustments, lock-up expirations, and initial hype fading.",
+          "Management execution, like meeting growth goals, builds investor confidence and supports prices.",
+          "Post-IPO data is in 10-Q filings, earnings calls, analyst reports, and financial websites.",
+          "Strong performance includes consistent earnings growth and alignment with S-1 goals."
+        ],
+        quiz: {
+          question: "What is a key factor in post-IPO performance?",
+          options: ["Consistent earnings growth", "Company headquarters location", "Initial IPO price"],
+          answer: "Consistent earnings growth"
+        }
+      },
+      'practical': {
+        title: "Lesson 6: Practical IPO Analysis",
+        content: "Apply IPO analysis techniques to evaluate real-world companies going public.",
+        notes: "Practical IPO analysis includes: 1) Selecting an upcoming IPO and reviewing its S-1 filing, 2) Analyzing financials (revenue, losses, debt), 3) Evaluating qualitative factors (management, industry growth), 4) Assessing risks (overvaluation, competition), 5) Comparing to peers and monitoring post-IPO performance. For example, analyzing Airbnb’s IPO would involve checking its revenue growth, competitive position in travel, and risks like regulation. Document findings in an investment journal. Use SEC filings, news, and analyst reports for comprehensive analysis.",
+        questions: [
+          "What is the first step in practical IPO analysis?",
+          "Why analyze financials in an IPO?",
+          "How do qualitative factors influence IPO decisions?",
+          "What role does peer comparison play?",
+          "How does an investment journal help?"
+        ],
+        answers: [
+          "The first step is selecting an IPO and reviewing its S-1 filing for financials and risks.",
+          "Financials show revenue growth, profitability, and debt, indicating investment potential.",
+          "Qualitative factors like management and industry trends reveal long-term growth prospects.",
+          "Peer comparison shows if the IPO’s valuation is reasonable relative to similar companies.",
+          "An investment journal tracks analysis, helping refine strategies and identify patterns."
+        ],
+        quiz: {
+          question: "What is a key step in practical IPO analysis?",
+          options: ["Ignoring risks", "Reviewing S-1 filing", "Focusing only on stock price"],
+          answer: "Reviewing S-1 filing"
+        }
+      }
+    };
+
+    // Show first lesson by default
+    showLesson('intro');
+  </script>
+
+  <!-- Notes Modal -->
+  <div id="notesModal" class="modal">
+    <div class="modal-content">
+      <div id="notesContent"></div>
+      <button class="close-modal" onclick="closeModal()">Close Notes</button>
+    </div>
+  </div>
+</body>
+</html>

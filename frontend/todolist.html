@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+ <title>Investra</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      height: 100vh;
+      display: flex;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(20, 20, 20, 0.8)),
+        url('images/joshua-harvey-8LCiq0PuPBI-unsplash\ \(1\).jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #3EB489;
+      overflow: hidden;
+    }
+
+    .sidebar {
+      width: 220px;
+      background: rgba(10, 10, 10, 0.85);
+      height: 100vh;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.7);
+    }
+
+    .sidebar h2 {
+      color: #3EB489;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .sidebar ul {
+      list-style: none;
+    }
+
+    .sidebar li {
+      padding: 12px;
+      margin-bottom: 15px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .sidebar li:hover,
+    .sidebar li.active {
+      color: #3EB489;
+    }
+
+    .sidebar li a {
+      text-decoration: none;
+      color: #3EB489;
+    }
+
+    .main {
+      flex: 1;
+      padding: 30px;
+      overflow-y: auto;
+      background: transparent;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+    }
+
+    header h1 {
+      font-size: 30px;
+    }
+
+    .back-button {
+      background-color: transparent;
+      border: 1px solid #3EB489;
+      color: #3EB489;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .back-button:hover {
+      background-color: #3EB489;
+      color: #000;
+    }
+
+    .todo-container {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(0, 255, 128, 0.2);
+    }
+
+    .todo-container h2 {
+      margin-bottom: 20px;
+    }
+
+    .todo-input {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .todo-input input {
+      flex: 1;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      background: #111;
+      color: #3EB489;
+      border: 1px solid #3EB489;
+    }
+
+    .todo-input button {
+      background: #3EB489;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 8px;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    ul.todo-list {
+      list-style: none;
+    }
+
+    ul.todo-list li {
+      background: #111;
+      border: 1px solid #3EB489;
+      padding: 10px 15px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #3EB489;
+    }
+
+    ul.todo-list li span {
+      flex: 1;
+    }
+
+    ul.todo-list li button {
+      background: transparent;
+      color: red;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #333;
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+  </style>
+</head>
+<body>
+
+
+  <div class="main">
+    <header>
+      <h1>To-Do List</h1>
+      <button class="back-button" onclick="location.href='dashboard.html'">← Back to Dashboard</button>
+    </header>
+
+    <div class="todo-container">
+      <h2>Your Tasks</h2>
+      <div class="todo-input">
+        <input type="text" id="taskInput" placeholder="Enter a new task..." />
+        <button onclick="addTask()">Add</button>
+      </div>
+      <ul id="taskList" class="todo-list"></ul>
+    </div>
+  </div>
+
+  <script>
+    let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+    function renderTasks() {
+      const taskList = document.getElementById("taskList");
+      taskList.innerHTML = "";
+      tasks.forEach((task, index) => {
+        const li = document.createElement("li");
+        li.innerHTML = `<span>${task}</span> <button onclick="deleteTask(${index})">🗑</button>`;
+        taskList.appendChild(li);
+      });
+    }
+
+    function addTask() {
+      const taskInput = document.getElementById("taskInput");
+      const taskText = taskInput.value.trim();
+      if (taskText !== "") {
+        tasks.push(taskText);
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+        taskInput.value = "";
+        renderTasks();
+      }
+    }
+
+    function deleteTask(index) {
+      tasks.splice(index, 1);
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+      renderTasks();
+    }
+
+    renderTasks();
+
+    function logout() {
+      alert("You have been logged out!");
+      // Add your logout logic here
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Investra</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Montserrat', Arial, sans-serif;
+            background-image: url('images/piotr-krajewski-j2nAoA1opbA-unsplash.jpg');
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+            position: relative;
+            color: white;
+            overflow-x: hidden;
+        }
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 0;
+        }
+        .container {
+            padding: 36px;
+            max-width: 1080px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        .corner-buttons {
+            position: fixed;
+            z-index: 2;
+        }
+        .top-left {
+            top: 606px;
+            left: 18px;
+        }
+        .corner-btn {
+            background-color: transparent;
+            color: #d3d8d4;
+            border: 1px solid #d3d8d4;
+            padding: 5px 10px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .logo {
+            font-size: 34px;
+            color: #3EB489;
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            margin-bottom: 18px;
+            text-align: left;
+            animation: logoFade 1.5s ease-in-out infinite alternate;
+        }
+        @keyframes logoFade {
+            from { opacity: 0.8; }
+            to { opacity: 1; }
+        }
+        .logo::before {
+            content: "⚮";
+            margin-right: 5px;
+            animation: spin 4s infinite linear;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        h1 {
+            font-size: 50px;
+            font-weight: 700;
+            margin: 0;
+            color: #ffffff;
+            line-height: 1.1;
+            text-align: left;
+            max-width: 720px;
+            letter-spacing: -1px;
+        }
+        p.subtitle {
+            font-size: 16px;
+            font-weight: 400;
+            margin: 18px 0 24px 0;
+            text-align: left;
+            max-width: 540px;
+            opacity: 0.7;
+            line-height: 1;
+        }
+        .values {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            max-width: 1080px;
+        }
+        .value-card {
+            background-color: rgba(26, 60, 52, 0.7);
+            border: 1px solid #d3d8d4;
+            border-radius: 12px;
+            padding: 18px;
+            text-align: left;
+        }
+        .value-card h3 {
+            font-size: 16px;
+            font-weight: 700;
+            margin: 0 0 9px 0;
+            color: #00ff99;
+            letter-spacing: 0.5px;
+        }
+        .value-card p {
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1.6;
+            margin: 0;
+            opacity: 0.7;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="corner-buttons top-left">
+        <button class="corner-btn"><a href="index.html" style="text-decoration: none;color: white;">Back</a></button>
+    </div>
+    <div class="container">
+        <div class="logo">Investra</div>
+        <h1>Our experienced and professional multi-county legal team</h1>
+        <p class="subtitle">Our experienced legal team serves multiple counties with professionalism and dedication.</p>
+        <div class="values">
+            <div class="value-card">
+                <h3>01 Individual Approach</h3>
+                <p>We prioritize each client's unique needs, crafting tailored strategies to achieve their goals and address their specific legal concerns.</p>
+            </div>
+            <div class="value-card">
+                <h3>02 Expertise and Experience</h3>
+                <p>Our team combines deep knowledge with years of experience across various legal areas, ensuring professionalism and skill in handling even the most complex legal matters.</p>
+            </div>
+            <div class="value-card">
+                <h3>03 Transparency and Honesty</h3>
+                <p>We prioritize each client's unique needs, crafting tailored strategies to achieve their goals and address their specific legal concerns.</p>
+            </div>
+            <div class="value-card">
+                <h3>04 Client Success Focus</h3>
+                <p>We are dedicated to delivering tangible results for our clients. Through our expertise and personalized approach, we aim to achieve successful outcomes and ensure client satisfaction.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
